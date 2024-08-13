@@ -20,6 +20,8 @@ private:
     float            m_Ratio;               // 실제 Resolution 대비 Output Image 비율
 
 public:
+    ImVec2 GetSpriteLT() { return m_MouseLT; }
+    ImVec2 GetSpriteRB() { return m_MouseRB; }
     void SetAtlasTex(Ptr<CTexture> _Tex);
 
 private:

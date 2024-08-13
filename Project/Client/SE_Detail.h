@@ -5,11 +5,19 @@ class SE_Detail :
     public SE_Sub
 {
 private:
-    Ptr<CTexture>   m_AtlasTex;
+    Ptr<CTexture>          m_AtlasTex;
+
+    Ptr<CSprite>           m_CurSprite;
+    vector<Ptr<CSprite>>   m_vecAddSprite;
+
+    int                    m_CurIndex;
+    ImVec2                 m_Background;
 
 private:
     void Atlas();
     void AtlasInfo();
+    void SelectSpriteInfo();
+    void SpriteList();
 
 public:
     void SetAtlasTex(Ptr<CTexture> _Tex);

@@ -159,6 +159,7 @@
     <ClInclude Include="CTestLevelMgr.h" />
     <ClInclude Include="EditorUI.h" />
     <ClInclude Include="FlipBookComUI.h" />
+    <ClInclude Include="FlipBookEditor.h" />
     <ClInclude Include="FlipBookUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GraphicShaderUI.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="CTestLevelMgr.cpp" />
     <ClCompile Include="EditorUI.cpp" />
     <ClCompile Include="FlipBookComUI.cpp" />
+    <ClCompile Include="FlipBookEditor.cpp" />
     <ClCompile Include="FlipBookUI.cpp" />
     <ClCompile Include="GraphicShaderUI.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />

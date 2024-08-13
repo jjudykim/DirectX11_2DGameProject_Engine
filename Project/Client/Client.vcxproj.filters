@@ -132,6 +132,9 @@
     <Filter Include="EditorUI\08. SpriteEditor\SE_Sub\SE_AtlasView">
       <UniqueIdentifier>{72033451-2afd-4af4-9775-525ecda1b55d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\09. FlipBookEditor">
+      <UniqueIdentifier>{f1e450d1-d0b3-4db8-a3a7-e18fff3f6be2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -286,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>Manager\01. EditorMgr\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipBookEditor.h">
+      <Filter>EditorUI\09. FlipBookEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,6 +453,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>Manager\01. EditorMgr\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipBookEditor.cpp">
+      <Filter>EditorUI\09. FlipBookEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
