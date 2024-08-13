@@ -14,7 +14,6 @@ void TransformUI::Update()
 {
 	Title();
 
-
 	CTransform* pTrans = GetTargetObject()->Transform();
 
 	Vec3 vPos = pTrans->GetRelativePos();

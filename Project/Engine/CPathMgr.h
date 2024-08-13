@@ -14,7 +14,7 @@ public:
     void Render();
 
 private:
-    void GetParentPath(_Inout_ wchar_t* _Buffer);
+    void GetParentPath(wchar_t* _Buffer);
 
 public:
     const wstring& GetContentPath() { return m_Content; }

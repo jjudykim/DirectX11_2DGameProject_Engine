@@ -9,6 +9,7 @@ private:
     vector<string>    m_vecList;
     int               m_SelectedIdx;
     string            m_SelectedName;
+    bool              m_ShowNameOnly;
 
     EditorUI*         m_UI;
     DELEGATE_1        m_MemFunc;
@@ -23,6 +24,7 @@ public:
     }
 
 public:
+    void SetShowNameOnly(bool _Show) { m_ShowNameOnly = _Show; }
     string GetSelectName() { return m_SelectedName; }
 
 public:

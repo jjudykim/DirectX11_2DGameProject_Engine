@@ -26,6 +26,13 @@ public:
 
 public:
     Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }
+    Ptr<CFlipBook> GetCurFlipBook() { return m_CurFlipBook; }
+    const vector<Ptr<CFlipBook>>& GetVecFlipBook() { return m_vecFlipBook; }
+    float GetFPS() { return m_FPS; }
+    bool GetRepeat() { return m_Repeat; }
+
+    void SetCurFlipBook(Ptr<CFlipBook> _FlipBook) { m_CurFlipBook = _FlipBook; }
+    void SetRepeat(bool _Repeat) { m_Repeat = _Repeat; }
 
 public:
     void AddFlipBook(int _Idx, Ptr<CFlipBook> _FliPBook);

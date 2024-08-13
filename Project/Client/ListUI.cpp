@@ -5,6 +5,7 @@ ListUI::ListUI()
 	: m_SelectedIdx(-1)
 	, m_UI(nullptr)
 	, m_MemFunc(nullptr)
+	, m_ShowNameOnly(false)
 {
 }
 
@@ -26,6 +27,13 @@ void ListUI::Update()
 		{
 			Flag |= ImGuiTreeNodeFlags_Selected;
 		}
+
+		// NameOnly
+		//if (m_ShowNameOnly)
+		//{
+		//	path Path = m_vecList[i];
+		//	m_vecList[i] = Path.stem().string();
+		//}
 
 		if (ImGui::TreeNodeEx(szID, Flag))
 		{
