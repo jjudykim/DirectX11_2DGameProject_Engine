@@ -120,6 +120,7 @@ void SE_Detail::SelectSpriteInfo()
 	{
 		SpriteLT = ImVec2(0, 0);
 		SpriteRB = ImVec2(0, 0);
+		m_Background = ImVec2(0, 0);
 		m_IsSelectedSprite = false;
 	}
 	else
@@ -236,10 +237,12 @@ void SE_Detail::SelectSpriteInfo()
 		// Sprite Image
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 0.7f);
-		ImVec2 SpriteLTUV = ImVec2(SpriteLT.x / m_AtlasResolution.x, SpriteLT.y / m_AtlasResolution.y);
-		ImVec2 SpriteRBUV = ImVec2(SpriteRB.x / m_AtlasResolution.x, SpriteRB.y / m_AtlasResolution.y);
+		ImVec2 StartPos = ImVec2((SpriteLT.x + (SpriteSize.x / 2.f)) - (m_Background.x / 2.f), (SpriteLT.y + (SpriteSize.y / 2.f)) - (m_Background.y / 2.f));
+		ImVec2 StartUV = ImVec2(StartPos.x / m_AtlasResolution.x, StartPos.y / m_AtlasResolution.y);
+		ImVec2 EndPos = ImVec2((SpriteRB.x - (SpriteSize.x / 2.f)) + (m_Background.x / 2.f), (SpriteRB.y - (SpriteSize.y / 2.f)) + (m_Background.y / 2.f));
+		ImVec2 EndUV = ImVec2(EndPos.x / m_AtlasResolution.x, EndPos.y / m_AtlasResolution.y);
 		ImGui::SetCursorPosX((ImGui::GetWindowSize().x - crop.x) * 0.5f);
-		ImGui::Image(m_AtlasTex->GetSRV().Get(), crop, SpriteLTUV, SpriteRBUV, tint_col, border_col);
+		ImGui::Image(m_AtlasTex->GetSRV().Get(), crop, StartUV, EndUV, tint_col, border_col);
 	}
 	
 	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) - 100.f);
@@ -311,6 +314,19 @@ void SE_Detail::SpriteList()
 				
 		}
 		ImGui::EndListBox();
+	}
+
+	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) + 5.f);
+	if (ImGui::Button("Register Sprites", ImVec2(100.f, 18.f)))
+	{
+		wstring ContentPath = CPathMgr::GetInst()->GetContentPath();
+
+		for (size_t i = 0; i < m_vecAddSprite.size(); ++i)
+		{	
+			wstring FilePath = ContentPath;
+			FilePath += L"sprite\\" + m_vecAddSprite[i]->GetName() + L".sprite";
+			m_vecAddSprite[i]->Save(FilePath);
+		}
 	}
 }
 

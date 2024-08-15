@@ -119,9 +119,9 @@ void CTestLevelMgr::CreateTestLevel()
 	//pObject->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.01f);
 	//pObject->MeshRender()->GetMaterial()->SetScalarParam(INT_1, 1);
 
-	Ptr<CFlipBook> pFlipBook = CAssetMgr::GetInst()->FindAsset<CFlipBook>(L"animation\\Scary_Idle.flip");
-	pPlayer->FlipBookComponent()->AddFlipBook(5, pFlipBook);
-	pPlayer->FlipBookComponent()->Play(5, 10, true);
+	//Ptr<CFlipBook> pFlipBook = CAssetMgr::GetInst()->FindAsset<CFlipBook>(L"animation\\Scary_Idle.flip");
+	//pPlayer->FlipBookComponent()->AddFlipBook(5, pFlipBook);
+	//pPlayer->FlipBookComponent()->Play(5, 10, true);
 
 	pLevel->AddObject(3, pPlayer);
 
