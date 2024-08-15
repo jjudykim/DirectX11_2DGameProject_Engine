@@ -6,11 +6,13 @@ class SE_Detail :
 {
 private:
     Ptr<CTexture>          m_AtlasTex;
+    Vec2                   m_AtlasResolution;
 
     Ptr<CSprite>           m_CurSprite;
     vector<Ptr<CSprite>>   m_vecAddSprite;
 
     int                    m_CurIndex;
+    bool                   m_IsSelectedSprite;
     ImVec2                 m_Background;
 
 private:
@@ -18,6 +20,11 @@ private:
     void AtlasInfo();
     void SelectSpriteInfo();
     void SpriteList();
+    
+    bool IsChangedSelectSprite(Ptr<CSprite> _NewSprite);
+    bool IsChangedSelectSprite(ImVec2 _SpriteLT, ImVec2 _SpriteRB);
+    bool IsAddedSprite(UINT _ID);
+    void CalcBackgroundSize();
 
 public:
     void SetAtlasTex(Ptr<CTexture> _Tex);
