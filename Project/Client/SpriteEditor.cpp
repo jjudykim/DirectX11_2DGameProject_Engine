@@ -26,8 +26,6 @@ void SpriteEditor::Init()
 
 	m_AtlasView->m_Owner = this;
 	m_Detail->m_Owner = this;
-
-	m_Detail->SetAtlasTex(CAssetMgr::GetInst()->Load<CTexture>(L"texture\\Scary_Idle.png", L"texture\\Scary_Idle.png"));
 }
 
 void SpriteEditor::Update()

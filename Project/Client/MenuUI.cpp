@@ -147,11 +147,19 @@ void MenuUI::Assets()
 		}
 
 		EditorUI* pSpriteEditor = CEditorMgr::GetInst()->FindEditorUI("SpriteEditor");
-		bool IsActive = pSpriteEditor->IsActive();
+		EditorUI* pFlipBookEditor = CEditorMgr::GetInst()->FindEditorUI("FlipBookEditor");
 
-		if (ImGui::MenuItem("Sprite Editor", nullptr, &IsActive))
+		bool SE_IsActive = pSpriteEditor->IsActive();
+		bool FE_IsActive = pFlipBookEditor->IsActive();
+
+		if (ImGui::MenuItem("Sprite Editor", nullptr, &SE_IsActive))
 		{
-			CEditorMgr::GetInst()->FindEditorUI("SpriteEditor")->SetActive(IsActive);
+			CEditorMgr::GetInst()->FindEditorUI("SpriteEditor")->SetActive(SE_IsActive);
+		}
+
+		if (ImGui::MenuItem("FlipBook Editor", nullptr, &FE_IsActive))
+		{
+			CEditorMgr::GetInst()->FindEditorUI("FlipBookEditor")->SetActive(FE_IsActive);
 		}
 
 		ImGui::EndMenu();

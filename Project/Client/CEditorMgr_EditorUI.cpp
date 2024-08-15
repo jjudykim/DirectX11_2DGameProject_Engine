@@ -13,9 +13,17 @@
 #include "Outliner.h"
 #include "ListUI.h"
 #include "MenuUI.h"
+
+// Sprite Editor 
 #include "SpriteEditor.h"
 #include "SE_AtlasView.h"
 #include "SE_Detail.h"
+
+// FlipBook Editor
+#include "FlipBookEditor.h"
+#include "FE_FBViewer.h"
+#include "FE_FBDetail.h"
+#include "FE_SpriteList.h"
 
 void CEditorMgr::InitImGui()
 {
@@ -138,6 +146,31 @@ void CEditorMgr::CreateEditorUI()
     pUI = new SpriteEditor;
     pUI->Init();
     pUI->SetName("SpriteEditor");
+    pUI->SetActive(false);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // FE_FBViewer
+    pUI = new FE_FBViewer;
+    pUI->Init();
+    pUI->SetName("FE_FBViewer");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // FE_FBDetail
+    pUI = new FE_FBDetail;
+    pUI->Init();
+    pUI->SetName("FE_FBDetail");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // FE_SpriteList
+    pUI = new FE_SpriteList;
+    pUI->Init();
+    pUI->SetName("FE_SpriteList");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // FlipBook Editor
+    pUI = new FlipBookEditor;
+    pUI->Init();
+    pUI->SetName("FlipBookEditor");
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }

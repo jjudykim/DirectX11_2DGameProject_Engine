@@ -50,7 +50,7 @@ int CFlipBook::Load(const wstring& _FilePath)
 
 	for (size_t i = 0; i < SpriteCount; ++i)
 	{
-		LoadAssetRef(m_vecSprite[i], File);
+		//LoadAssetRef(m_vecSprite[i], File);
 	}
 
 	fclose(File);

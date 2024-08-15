@@ -16,6 +16,7 @@ static char BufferSpriteName[255] = "";
 SE_Detail::SE_Detail()
 	: m_Background(ImVec2(0, 0))
 	, m_IsSelectedSprite(false)
+	, m_IsRegistedSprite(false)
 	, m_CurIndex(0)
 {
 }
@@ -169,16 +170,21 @@ void SE_Detail::SelectSpriteInfo()
 	//        Sprite Name
 	// ==========================
 	// Temporary Sprite Name Set
-	path Path = m_AtlasTex.Get()->GetKey();
-	string strSpriteName = Path.stem().string();
-	strSpriteName += "_" + std::to_string(m_vecAddSprite.size());
+	string strSpriteName;
 
-	if (m_CurSprite != nullptr && IsAddedSprite(m_CurSprite->GetID()))
+	if (m_CurSprite != nullptr)
 	{
-		strSpriteName = string(m_CurSprite->GetName().begin(), m_CurSprite->GetName().end());
-		strcpy_s(BufferSpriteName, strSpriteName.c_str());
-	}
+		path Path = m_AtlasTex.Get()->GetKey();
+		strSpriteName = Path.stem().string();
+		strSpriteName += "_" + std::to_string(m_vecAddSprite.size());
 
+		if (IsAddedSprite(m_CurSprite->GetID()))
+		{
+			strSpriteName = string(m_CurSprite->GetName().begin(), m_CurSprite->GetName().end());
+			strcpy_s(BufferSpriteName, strSpriteName.c_str());
+		}
+	}
+	
 	ImGui::Text("Sprite Name");
 	ImGui::SameLine(100);
 	ImGui::InputTextWithHint("##SpriteName", (char*)strSpriteName.c_str(), BufferSpriteName, 255);
@@ -317,15 +323,42 @@ void SE_Detail::SpriteList()
 	}
 
 	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) + 5.f);
-	if (ImGui::Button("Register Sprites", ImVec2(100.f, 18.f)))
+	if (m_vecAddSprite.size() > 0)
 	{
-		wstring ContentPath = CPathMgr::GetInst()->GetContentPath();
+		if (ImGui::Button("Register Sprites", ImVec2(150.f, 20.f)))
+		{
+			wstring ContentPath = CPathMgr::GetInst()->GetContentPath();
 
-		for (size_t i = 0; i < m_vecAddSprite.size(); ++i)
-		{	
-			wstring FilePath = ContentPath;
-			FilePath += L"sprite\\" + m_vecAddSprite[i]->GetName() + L".sprite";
-			m_vecAddSprite[i]->Save(FilePath);
+			for (size_t i = 0; i < m_vecAddSprite.size(); ++i)
+			{
+				wstring FilePath = ContentPath;
+				FilePath += L"sprite\\" + m_vecAddSprite[i]->GetName() + L".sprite";
+				m_vecAddSprite[i]->Save(FilePath);
+			}
+			
+			m_IsRegistedSprite = true;
+		}
+	}
+
+	if (m_IsRegistedSprite)
+	{
+		ImGui::OpenPopup("All Sprites Registered");
+
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+		if (ImGui::BeginPopupModal("All Sprites Registered", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("All sprites are registered in the \"Content\"");
+			ImGui::Separator();
+
+			if (ImGui::Button("OK", ImVec2(120, 0)))
+			{ 
+				ImGui::CloseCurrentPopup(); 
+				m_vecAddSprite.clear();
+				m_IsRegistedSprite = false;
+			}
+			ImGui::EndPopup();
 		}
 	}
 }

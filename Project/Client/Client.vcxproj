@@ -158,6 +158,10 @@
     <ClInclude Include="Content.h" />
     <ClInclude Include="CTestLevelMgr.h" />
     <ClInclude Include="EditorUI.h" />
+    <ClInclude Include="FE_FBDetail.h" />
+    <ClInclude Include="FE_FBViewer.h" />
+    <ClInclude Include="FE_SpriteList.h" />
+    <ClInclude Include="FE_Sub.h" />
     <ClInclude Include="FlipBookComUI.h" />
     <ClInclude Include="FlipBookEditor.h" />
     <ClInclude Include="FlipBookUI.h" />
@@ -213,6 +217,10 @@
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="CTestLevelMgr.cpp" />
     <ClCompile Include="EditorUI.cpp" />
+    <ClCompile Include="FE_FBDetail.cpp" />
+    <ClCompile Include="FE_FBViewer.cpp" />
+    <ClCompile Include="FE_SpriteList.cpp" />
+    <ClCompile Include="FE_Sub.cpp" />
     <ClCompile Include="FlipBookComUI.cpp" />
     <ClCompile Include="FlipBookEditor.cpp" />
     <ClCompile Include="FlipBookUI.cpp" />

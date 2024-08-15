@@ -135,6 +135,18 @@
     <Filter Include="EditorUI\09. FlipBookEditor">
       <UniqueIdentifier>{f1e450d1-d0b3-4db8-a3a7-e18fff3f6be2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\09. FlipBookEditor\FE_Sub">
+      <UniqueIdentifier>{27da8511-6aa4-4421-a866-e007f4249ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI\09. FlipBookEditor\FE_Sub\FE_FBViewer">
+      <UniqueIdentifier>{d73a41fc-4159-47fd-94e9-c2792e3fcc58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI\09. FlipBookEditor\FE_Sub\FE_FBDetail">
+      <UniqueIdentifier>{a1a393bb-8beb-4804-b6cb-73902a70216f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI\09. FlipBookEditor\FE_Sub\FE_SpriteList">
+      <UniqueIdentifier>{b18b34ff-d37a-4b2c-b3ed-64ecba278f40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -292,6 +304,18 @@
     </ClInclude>
     <ClInclude Include="FlipBookEditor.h">
       <Filter>EditorUI\09. FlipBookEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="FE_Sub.h">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="FE_FBViewer.h">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_FBViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="FE_FBDetail.h">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_FBDetail</Filter>
+    </ClInclude>
+    <ClInclude Include="FE_SpriteList.h">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_SpriteList</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -456,6 +480,18 @@
     </ClCompile>
     <ClCompile Include="FlipBookEditor.cpp">
       <Filter>EditorUI\09. FlipBookEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="FE_Sub.cpp">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="FE_FBViewer.cpp">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_FBViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="FE_FBDetail.cpp">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_FBDetail</Filter>
+    </ClCompile>
+    <ClCompile Include="FE_SpriteList.cpp">
+      <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_SpriteList</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

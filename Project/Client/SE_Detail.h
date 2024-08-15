@@ -13,6 +13,7 @@ private:
 
     int                    m_CurIndex;
     bool                   m_IsSelectedSprite;
+    bool                   m_IsRegistedSprite;
     ImVec2                 m_Background;
 
 private:
