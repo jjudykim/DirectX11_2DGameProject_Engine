@@ -7,14 +7,18 @@ class FE_FBDetail :
 private:
     Ptr<CFlipBook>     m_CurFlipBook;
     Ptr<CSprite>       m_CurSprite;
+    Ptr<CTexture>      m_AtlasTex;
 
+    string             m_CurFlipBookName;
+    string             m_CurSpriteName;
     int                m_FPS;
+    Vec2               m_Offset;
     bool               m_Repeat;
     int                m_CurSpriteIndex;
     int                m_MaxSpriteIndex;
 
     bool               m_Mode[2];      // 0 : CreateMode / 1 : EditMode
-    bool               m_EditMode;          
+    bool               m_IsActive;
 
 public:
     virtual void Init() override;
@@ -24,17 +28,24 @@ public:
     int GetCurSpriteIndex() { return m_CurSpriteIndex; }
     Ptr<CFlipBook> GetCurFlipBook() { return m_CurFlipBook; }
     Ptr<CSprite> GetCurSprite() { return m_CurSprite; }
+    Ptr<CTexture> GetAtlasTex() { return m_AtlasTex; }
     bool* GetCurMode() { return m_Mode; }
 
-    void SetCurSpriteIndex(int _SpriteIndex) { m_CurSpriteIndex = _SpriteIndex; }
-    void SetCurSprite(Ptr<CSprite> _Sprite) { m_CurSprite = _Sprite; }
+    void SetCurSprite(Ptr<CSprite> _Sprite)
+    { 
+        m_CurSprite = _Sprite;
+        SetSpriteData();
+    }
 
 private:
     void SetFlipBookData();
+    void SetSpriteData();
+
     void SelectMode();
-    void FlipBookPlay();
     void FlipBookInfo();
     void SpriteInfo();
+    void SaveFlipBook();
+    void FlipBookPlay();
 
 private:
     void SelectFlipBook(DWORD_PTR _AssetName);

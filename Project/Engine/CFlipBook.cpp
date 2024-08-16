@@ -19,7 +19,7 @@ void CFlipBook::FinalTick()
 
 int CFlipBook::Save(const wstring& _FilePath)
 {
-	// FlipBook 본체 Save
+	// FlipBook Save
 	FILE* File = nullptr;
 	_wfopen_s(&File, _FilePath.c_str(), L"wb");
 
@@ -30,16 +30,6 @@ int CFlipBook::Save(const wstring& _FilePath)
 
 	size_t SpriteCount = m_vecSprite.size();
 	fwrite(&SpriteCount, sizeof(size_t), 1, File);
-
-	fclose(File);
-
-	// Sprite 저장
-	File = nullptr;
-	wstring SpritePath = CPathMgr::GetInst()->GetParentPath(_FilePath);
-	_wfopen_s(&File, SpritePath.c_str(), L"wb");
-
-	if (File == nullptr)
-		return E_FAIL;
 
 	for (size_t i = 0; i < SpriteCount; ++i)
 	{
@@ -53,7 +43,7 @@ int CFlipBook::Save(const wstring& _FilePath)
 
 int CFlipBook::Load(const wstring& _FilePath)
 {
-	// FlipBook 본체 Load
+	// FlipBook Load
 	FILE* File = nullptr;
 	_wfopen_s(&File, _FilePath.c_str(), L"rb");
 
@@ -65,16 +55,6 @@ int CFlipBook::Load(const wstring& _FilePath)
 	size_t SpriteCount = 0;
 	fread(&SpriteCount, sizeof(size_t), 1, File);
 	m_vecSprite.resize(SpriteCount);
-
-	fclose(File);
-
-	// Sprite Load
-	File = nullptr;
-	wstring SpritePath = CPathMgr::GetInst()->GetParentPath(_FilePath);
-	_wfopen_s(&File, SpritePath.c_str(), L"rb");
-
-	if (File == nullptr)
-		return E_FAIL;
 
 	for (size_t i = 0; i < SpriteCount; ++i)
 	{

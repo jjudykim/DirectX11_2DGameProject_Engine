@@ -2,6 +2,8 @@
 #include "FE_SpriteList.h"
 
 #include "TreeUI.h"
+#include "ListUI.h"
+#include "CEditorMgr.h"
 #include "FE_FBDetail.h"
 
 FE_SpriteList::FE_SpriteList()
@@ -16,6 +18,9 @@ FE_SpriteList::~FE_SpriteList()
 
 void FE_SpriteList::Init()
 {
+	m_vecAddedSprite.clear();
+	m_ListIndex = 0;
+	m_IsActive = false;
 }
 
 void FE_SpriteList::Update()
@@ -55,31 +60,50 @@ void FE_SpriteList::ShowList()
 		ImGui::EndListBox();
 	}
 
-	if (ImGui::BeginDragDropTarget())
+	if (m_IsActive)
 	{
-		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
-		if (payload)
+		if (ImGui::BeginDragDropTarget())
 		{
-			TreeNode** ppNode = (TreeNode**)payload->Data;
-			TreeNode* pNode = *ppNode;
-
-			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
-			if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+			if (payload)
 			{
-				m_vecAddedSprite.push_back((CSprite*)pAsset.Get());
-			}
-		}
-		ImGui::EndDragDropTarget();
-	}
+				TreeNode** ppNode = (TreeNode**)payload->Data;
+				TreeNode* pNode = *ppNode;
 
+				Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+				if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+				{
+					m_vecAddedSprite.push_back((CSprite*)pAsset.Get());
+					GetDetail()->SetCurSprite(m_vecAddedSprite[m_vecAddedSprite.size() - 1]);
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+	}
 	
 	ImGui::SameLine(ImGui::GetWindowSize().x - 30.f);
 	ImGui::BeginGroup();
 	if (ImGui::ArrowButton("##up", ImGuiDir_Up))
 	{
+		if (m_ListIndex > 0)
+		{
+			auto temp = m_vecAddedSprite[m_ListIndex - 1];
+			m_vecAddedSprite[m_ListIndex - 1] = m_vecAddedSprite[m_ListIndex];
+			m_vecAddedSprite[m_ListIndex] = temp;
+
+			m_ListIndex = m_ListIndex - 1;
+		}
 	}
 	if (ImGui::ArrowButton("##down", ImGuiDir_Down))
 	{
+		if (m_ListIndex < m_vecAddedSprite.size() - 1)
+		{
+			auto temp = m_vecAddedSprite[m_ListIndex + 1];
+			m_vecAddedSprite[m_ListIndex + 1] = m_vecAddedSprite[m_ListIndex];
+			m_vecAddedSprite[m_ListIndex] = temp;
+
+			m_ListIndex = m_ListIndex + 1;
+		}
 	}
 	ImGui::EndGroup();
 
@@ -87,15 +111,54 @@ void FE_SpriteList::ShowList()
 	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) - 100.f);
 	if (ImGui::Button("Add", ImVec2(100.f, 18.f)))
 	{
+		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("ListUI");
+		pListUI->SetShowNameOnly(true);
+		pListUI->SetName("Sprite");
+
+		vector<string> vecSpriteNames;
+		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecSpriteNames);
+		pListUI->AddList(vecSpriteNames);
+		pListUI->AddDelegate(this, (DELEGATE_1)&FE_SpriteList::SelectSprite);
+		pListUI->SetActive(true);
 	}
 
 	ImGui::SameLine(0.f, 5.f);
 	if (ImGui::Button("Delete", ImVec2(100.f, 18.f)))
 	{
+		vector<Ptr<CSprite>>::iterator iter = m_vecAddedSprite.begin();
+		m_vecAddedSprite.erase(iter + m_ListIndex);
 	}
 
 	if (!m_IsActive)
 		ImGui::EndDisabled();
+}
+
+void FE_SpriteList::SelectSprite(DWORD_PTR _ListUI)
+{
+	ListUI* pListUI = (ListUI*)_ListUI;
+	string strName = pListUI->GetSelectName();
+
+	if (strName == "None")
+	{
+		return;
+	}
+
+	wstring strAssetName = wstring(strName.begin(), strName.end());
+	Ptr<CSprite> pSprite = CAssetMgr::GetInst()->FindAsset<CSprite>(strAssetName);
+
+	assert(pSprite.Get());
+
+	m_vecAddedSprite.push_back(pSprite);
+}
+
+void FE_SpriteList::SetSpriteToList(vector<Ptr<CSprite>>& _vecSprite)
+{
+	m_vecAddedSprite.clear();
+
+	for (size_t i = 0; i < _vecSprite.size(); ++i)
+	{
+		m_vecAddedSprite.push_back(_vecSprite[i]);
+	}
 }
 
 

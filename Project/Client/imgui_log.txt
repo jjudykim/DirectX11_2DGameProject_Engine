@@ -1,0 +1,246 @@
+(?)
+[ Copy "Hello, world!" to clipboard ]
+### Window options ###
+### Widgets ###
+### Layout & Scrolling ###
+### Popups & Modal windows ###
+### Tables & Columns ###
+### Inputs & Focus ### ### MESH ###
+    > CircleMesh
+    > CircleMesh_Debug
+    > RectMesh
+    > RectMesh_Debug
+###    MESH_DATA ###
+### MATERIAL ###
+    > AnalogTVMtrl
+    > DebugShapeMtrl
+    > DistortionMtrl
+    > GrayFilterMtrl
+    > MeltingMtrl
+    > RippleMtrl
+    > Std2DAlphaBlendMtrl
+    > Std2DMtrl
+    > Std2DOneOneMtrl
+    > TileMapMtrl
+    > Default Material 0
+    > Default Material 1
+    > std2d
+### PREFAB ###
+    > MissilePref
+    > Missile
+### TEXTURE ###
+    > DepthStencilTex
+    > PlayerTex
+    > PostProcessTex
+    > RenderTargetTex
+    > Scary_Idle
+    > Scary_Idle_0
+    > Scary_Idle_1
+    > Scary_Idle_10
+    > Scary_Idle_2
+    > Scary_Idle_3
+    > Scary_Idle_4
+    > Scary_Idle_5
+    > Scary_Idle_6
+    > Scary_Idle_7
+    > Scary_Idle_8
+    > Scary_Idle_9
+    > TILE
+    > TilemapEx1
+    > TilemapEx2
+    > Zombi_Attack_Atlas_0
+    > cuchilla
+    > noise_01
+    > noise_02
+    > noise_03
+###    SOUND ###
+### GRAPHIC_SHADER ###
+    > AnalogTVShader
+    > DebugShapeShader
+    > DistortionShader
+    > GrayFilterShader
+    > MeltingShader
+    > RippleShader
+    > Std2DAlphaBlendShader
+    > Std2DOneOneShader
+    > Std2DShader
+    > TileMapShader
+###    COMPUTE_SHADER ###
+### SPRITE ###
+    > Scary_Idle_0
+    > Scary_Idle_1
+    > Scary_Idle_10
+    > Scary_Idle_2
+    > Scary_Idle_3
+    > Scary_Idle_4
+    > Scary_Idle_5
+    > Scary_Idle_6
+    > Scary_Idle_7
+    > Scary_Idle_8
+    > Scary_Idle_9
+###    FLIPBOOK ###
+File Level GameObject Assets
+(?)
+[ Copy "Hello, world!" to clipboard ]
+### Window options ###
+### Widgets ###
+### Layout & Scrolling ###
+### Popups & Modal windows ###
+### Tables & Columns ###
+### Inputs & Focus ### ### MESH ###
+    > CircleMesh
+    > CircleMesh_Debug
+    > RectMesh
+    > RectMesh_Debug
+###    MESH_DATA ###
+### MATERIAL ###
+    > AnalogTVMtrl
+    > DebugShapeMtrl
+    > DistortionMtrl
+    > GrayFilterMtrl
+    > MeltingMtrl
+    > RippleMtrl
+    > Std2DAlphaBlendMtrl
+    > Std2DMtrl
+    > Std2DOneOneMtrl
+    > TileMapMtrl
+    > Default Material 0
+    > Default Material 1
+    > std2d
+### PREFAB ###
+    > MissilePref
+    > Missile
+### TEXTURE ###
+    > DepthStencilTex
+    > PlayerTex
+    > PostProcessTex
+    > RenderTargetTex
+    > Scary_Idle
+    > Scary_Idle_0
+    > Scary_Idle_1
+    > Scary_Idle_10
+    > Scary_Idle_2
+    > Scary_Idle_3
+    > Scary_Idle_4
+    > Scary_Idle_5
+    > Scary_Idle_6
+    > Scary_Idle_7
+    > Scary_Idle_8
+    > Scary_Idle_9
+    > TILE
+    > TilemapEx1
+    > TilemapEx2
+    > Zombi_Attack_Atlas_0
+    > cuchilla
+    > noise_01
+    > noise_02
+    > noise_03
+###    SOUND ###
+### GRAPHIC_SHADER ###
+    > AnalogTVShader
+    > DebugShapeShader
+    > DistortionShader
+    > GrayFilterShader
+    > MeltingShader
+    > RippleShader
+    > Std2DAlphaBlendShader
+    > Std2DOneOneShader
+    > Std2DShader
+    > TileMapShader
+###    COMPUTE_SHADER ###
+### SPRITE ###
+    > Scary_Idle_0
+    > Scary_Idle_1
+    > Scary_Idle_10
+    > Scary_Idle_2
+    > Scary_Idle_3
+    > Scary_Idle_4
+    > Scary_Idle_5
+    > Scary_Idle_6
+    > Scary_Idle_7
+    > Scary_Idle_8
+    > Scary_Idle_9
+###    FLIPBOOK ###
+File Level GameObject Assets
+(?)
+[ Copy "Hello, world!" to clipboard ]
+### Window options ###
+### Widgets ###
+### Layout & Scrolling ###
+### Popups & Modal windows ###
+### Tables & Columns ###
+### Inputs & Focus ### ### MESH ###
+    > CircleMesh
+    > CircleMesh_Debug
+    > RectMesh
+    > RectMesh_Debug
+###    MESH_DATA ###
+### MATERIAL ###
+    > AnalogTVMtrl
+    > DebugShapeMtrl
+    > DistortionMtrl
+    > GrayFilterMtrl
+    > MeltingMtrl
+    > RippleMtrl
+    > Std2DAlphaBlendMtrl
+    > Std2DMtrl
+    > Std2DOneOneMtrl
+    > TileMapMtrl
+    > Default Material 0
+    > Default Material 1
+    > std2d
+### PREFAB ###
+    > MissilePref
+    > Missile
+### TEXTURE ###
+    > DepthStencilTex
+    > PlayerTex
+    > PostProcessTex
+    > RenderTargetTex
+    > Scary_Idle
+    > Scary_Idle_0
+    > Scary_Idle_1
+    > Scary_Idle_10
+    > Scary_Idle_2
+    > Scary_Idle_3
+    > Scary_Idle_4
+    > Scary_Idle_5
+    > Scary_Idle_6
+    > Scary_Idle_7
+    > Scary_Idle_8
+    > Scary_Idle_9
+    > TILE
+    > TilemapEx1
+    > TilemapEx2
+    > Zombi_Attack_Atlas_0
+    > cuchilla
+    > noise_01
+    > noise_02
+    > noise_03
+###    SOUND ###
+### GRAPHIC_SHADER ###
+    > AnalogTVShader
+    > DebugShapeShader
+    > DistortionShader
+    > GrayFilterShader
+    > MeltingShader
+    > RippleShader
+    > Std2DAlphaBlendShader
+    > Std2DOneOneShader
+    > Std2DShader
+    > TileMapShader
+###    COMPUTE_SHADER ###
+### SPRITE ###
+    > Scary_Idle_0
+    > Scary_Idle_1
+    > Scary_Idle_10
+    > Scary_Idle_2
+    > Scary_Idle_3
+    > Scary_Idle_4
+    > Scary_Idle_5
+    > Scary_Idle_6
+    > Scary_Idle_7
+    > Scary_Idle_8
+    > Scary_Idle_9
+###    FLIPBOOK ###
+File Level GameObject Assets
