@@ -299,7 +299,7 @@ void SE_Detail::SelectSpriteInfo()
 
 void SE_Detail::SpriteList()
 {
-	if (ImGui::BeginListBox("##AddedSpriteList", ImVec2(-FLT_MIN, 8 * ImGui::GetTextLineHeightWithSpacing())))
+	if (ImGui::BeginListBox("##SE_AddedSpriteList", ImVec2(-FLT_MIN, 8 * ImGui::GetTextLineHeightWithSpacing())))
 	{
 		for (size_t i = 0; i < m_vecAddSprite.size(); i++)
 		{

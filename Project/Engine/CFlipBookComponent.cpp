@@ -18,7 +18,6 @@ CFlipBookComponent::CFlipBookComponent(CFlipBookComponent& _Origin)
 	, m_vecFlipBook(_Origin.m_vecFlipBook)
 	, m_CurFlipBook(_Origin.m_CurFlipBook)
 	, m_CurFrmIdx(0)
-	, m_FPS(_Origin.m_FPS)
 	, m_AccTime(0.f)
 	, m_Repeat(_Origin.m_Repeat)
 	, m_Finish(false)
@@ -31,7 +30,7 @@ CFlipBookComponent::CFlipBookComponent(CFlipBookComponent& _Origin)
 			if (m_CurFlipBook == m_vecFlipBook[FlipBookIdx])
 				break;
 		}
-		Play(FlipBookIdx, m_FPS, m_Repeat);
+		Play(FlipBookIdx, m_Repeat);
 	}
 }
 
@@ -51,7 +50,7 @@ void CFlipBookComponent::FinalTick()
 
 	if (m_CurFlipBook != nullptr)
 	{
-		float MaxTime = 1.f / m_FPS;
+		float MaxTime = 1.f / m_CurFlipBook->GetFPS();
 
 		m_AccTime += DT;
 
@@ -89,7 +88,6 @@ void CFlipBookComponent::SaveToFile(FILE* _File)
 
 	// Current Frame Index / FPS / Time / Repeat
 	fwrite(&m_CurFrmIdx, sizeof(int), 1, _File);
-	fwrite(&m_FPS, sizeof(float), 1, _File);
 	fwrite(&m_AccTime, sizeof(float), 1, _File);
 	fwrite(&m_Repeat, sizeof(bool), 1, _File);
 }
@@ -114,7 +112,6 @@ void CFlipBookComponent::LoadFromFile(FILE* _File)
 
 	// Current Frame Index / FPS / Time / Repeat
 	fread(&m_CurFrmIdx, sizeof(int), 1, _File);
-	fread(&m_FPS, sizeof(float), 1, _File);
 	fread(&m_AccTime, sizeof(float), 1, _File);
 	fread(&m_Repeat, sizeof(bool), 1, _File);
 }
@@ -140,7 +137,7 @@ Ptr<CFlipBook> CFlipBookComponent::FindFlipBook(const wstring& _Key)
 	return nullptr;
 }
 
-void CFlipBookComponent::Play(int _FlipBookIdx, float _FPS, bool _Repeat)
+void CFlipBookComponent::Play(int _FlipBookIdx, bool _Repeat)
 {
 	m_CurFlipBook = m_vecFlipBook[_FlipBookIdx];
 
@@ -151,7 +148,6 @@ void CFlipBookComponent::Play(int _FlipBookIdx, float _FPS, bool _Repeat)
 
 	m_CurFrmIdx = 0;
 	m_AccTime = 0.f;
-	m_FPS = _FPS;
 	m_Repeat = _Repeat;
 }
 

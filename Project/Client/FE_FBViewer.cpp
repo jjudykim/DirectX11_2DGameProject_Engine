@@ -16,7 +16,43 @@ void FE_FBViewer::Init()
 
 void FE_FBViewer::Update()
 {
+	if (m_CurSprite == nullptr)
+	{
+
+	}
+	else
+	{
+	}
+
+	SetImage();
 	DrawGrid();
+}
+
+void FE_FBViewer::SetImage()
+{
+	// Viewer Frame
+	if (m_CurSprite != nullptr)
+	{
+		ImVec2 crop = ImVec2(m_CurSprite->GetBackgroundUV().x * m_AtlasTex->Width(), m_CurSprite->GetBackgroundUV().y * m_AtlasTex->Height());
+
+		if (m_ViewerSize.x != crop.x || m_ViewerSize.y != crop.y)
+		{
+			float ratio = crop.x / m_ViewerSize.x;
+			ratio = 1 / ratio;
+
+			crop.x *= ratio;
+			crop.y *= ratio;
+
+			ImVec2 StartUV = ImVec2(m_CurSprite->GetLeftTopUV().x, m_CurSprite->GetLeftTopUV().y);
+			ImVec2 EndUV = ImVec2(m_CurSprite->GetLeftTopUV().x + m_CurSprite->GetSliceUV().x
+				, m_CurSprite->GetLeftTopUV().y + m_CurSprite->GetSliceUV().y);
+
+			//ImGui::Image(m_AtlasTex->GetSRV().Get(), crop, StartUV, EndUV, tint_col, border_col);
+		}
+	}
+	
+
+	
 }
 
 void FE_FBViewer::DrawGrid()

@@ -59,7 +59,7 @@ void CEditorMgr::Tick()
 
 void CEditorMgr::ShortCut()
 {
-	if (KEY_TAP(KEY::I))
+	if (KEY_PRESSED(KEY::CTRL) && KEY_TAP(KEY::I))
 	{
 		EditorUI* pUI = FindEditorUI("Inspector");
 

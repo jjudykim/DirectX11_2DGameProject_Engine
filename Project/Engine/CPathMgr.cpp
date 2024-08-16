@@ -49,3 +49,20 @@ wstring CPathMgr::GetRelativePath(const wstring& _FilePath)
 
 	return _FilePath.substr(FindPos + m_Content.length(), _FilePath.length());
 }
+
+wstring CPathMgr::GetParentPath(const wstring& _FilePath)
+{
+	wchar_t* Buffer = (wchar_t*)_FilePath.c_str();
+	size_t len = wcslen(Buffer);
+
+	for (size_t i = len - 1; 0 < i; --i)
+	{
+		if (L'\\' == Buffer[i])
+		{
+			Buffer[i] = L'\0';
+			break;
+		}
+	}
+
+	return wstring(Buffer);
+}

@@ -12,7 +12,6 @@ private:
     Ptr<CFlipBook>              m_CurFlipBook;      // 현재 재생중인 FlipBook
     Ptr<CSprite>                m_CurFrmSprite;     // 현재 재생중인 FlipBook이 재생중인 Sprite
     int                         m_CurFrmIdx;        // 현재 재생중인 FlipBook이 재생중인 Sprite의 Index
-    float                       m_FPS;              // 현재 재생중인 FlipBook의 초당 프레임 수
 
     float                       m_AccTime;          // 누적 시간값 체크
     bool                        m_Repeat;           // 재생 반복 여부
@@ -28,7 +27,6 @@ public:
     Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }
     Ptr<CFlipBook> GetCurFlipBook() { return m_CurFlipBook; }
     const vector<Ptr<CFlipBook>>& GetVecFlipBook() { return m_vecFlipBook; }
-    float GetFPS() { return m_FPS; }
     bool GetRepeat() { return m_Repeat; }
 
     void SetCurFlipBook(Ptr<CFlipBook> _FlipBook) { m_CurFlipBook = _FlipBook; }
@@ -37,7 +35,7 @@ public:
 public:
     void AddFlipBook(int _Idx, Ptr<CFlipBook> _FliPBook);
     Ptr<CFlipBook> FindFlipBook(const wstring& _Key);
-    void Play(int _FlipBookIdx, float _FPS, bool _Repeat);
+    void Play(int _FlipBookIdx, bool _Repeat);
     
 public:
     void Reset();

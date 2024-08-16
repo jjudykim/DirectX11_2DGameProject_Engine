@@ -8,10 +8,12 @@ class CFlipBook :
 {
 private:
     vector<Ptr<CSprite>>      m_vecSprite;
+    float                     m_FPS;              // 현재 재생중인 FlipBook의 초당 프레임 수
 
 public:
     void AddSprite(Ptr<CSprite> _Sprite) { m_vecSprite.push_back(_Sprite); }
     Ptr<CSprite> GetSprite(int _Idx) { return m_vecSprite[_Idx]; }
+    float GetFPS() { return m_FPS; }
     int GetMaxFrameCount() { return (int)m_vecSprite.size(); }
 
 public:

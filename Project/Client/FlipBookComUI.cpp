@@ -157,7 +157,7 @@ void FlipBookComUI::Update()
 
 	// FPS
 	ImGui::Text("FPS");
-	float FPS = m_FBCom->GetFPS();
+	float FPS = m_CurFB->GetFPS();
 	ImGui::SameLine(120);
 	ImGui::SetNextItemWidth(120);
 	ImGui::InputFloat("##FlipBookFPS", &FPS, 0, 0, "%.2f", ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
@@ -198,7 +198,7 @@ void FlipBookComUI::SelectFlipBook(DWORD_PTR _ListUI)
 
 void FlipBookComUI::ShowFlipBookSprite(Ptr<CFlipBook> _CurFlipBook, int _CurIndex)
 {
-	float MaxTime = 1.f / m_FBCom->GetFPS();
+	float MaxTime = 1.f / m_CurFB->GetFPS();
 	if (MaxTime < m_AccTime)
 	{
 		m_AccTime -= MaxTime;
