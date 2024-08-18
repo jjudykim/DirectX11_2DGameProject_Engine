@@ -43,7 +43,7 @@ void FlipBookComUI::Update()
 
 	ImGui::Text("Current FlipBook");
 	ImGui::SameLine(120);
-	ImGui::SetNextItemWidth(230.f);
+	ImGui::SetNextItemWidth(200.f);
 	string Key;
 	if (m_CurFB.Get() == nullptr)
 		Key = "None";

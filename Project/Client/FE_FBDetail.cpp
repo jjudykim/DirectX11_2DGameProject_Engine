@@ -185,7 +185,13 @@ void FE_FBDetail::FlipBookPlay()
 
 			if (m_MaxSpriteIndex <= m_CurSpriteIndex)
 			{
-				m_CurSpriteIndex = 0;
+				if (m_Repeat)
+					m_CurSpriteIndex = 0;
+				else
+				{
+					m_IsPlaying = false;
+					m_CurSpriteIndex = 0;
+				}
 			}
 
 			GetSpriteList()->SetCurSpriteIndex(m_CurSpriteIndex);
@@ -194,7 +200,6 @@ void FE_FBDetail::FlipBookPlay()
 
 		m_AccTime += EngineDT;
 	}
-	
 }
 
 void FE_FBDetail::SelectFlipBook(DWORD_PTR _ListUI)
@@ -204,8 +209,9 @@ void FE_FBDetail::SelectFlipBook(DWORD_PTR _ListUI)
 
 	if (strName == "None")
 	{
-		m_Mode[1] = false;
-		m_CurFlipBook = nullptr;
+		GetViewer()->Init();
+		GetSpriteList()->Init();
+		Init();
 		return;
 	}
 
@@ -388,6 +394,7 @@ void FE_FBDetail::SaveFlipBook()
 					Path += L".flip";
 					m_CurFlipBook->Save(Path);
 					
+					GetViewer()->Init();
 					GetSpriteList()->Init();
 					Init();
 

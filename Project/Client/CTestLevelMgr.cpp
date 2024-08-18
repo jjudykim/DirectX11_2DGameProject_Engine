@@ -169,19 +169,19 @@ void CTestLevelMgr::CreateTestLevel()
 
 
 	// PostProcess Object
-	CGameObject* pPostProcessObj = new CGameObject;
-	pPostProcessObj->SetName(L"PostProcess");
-	pPostProcessObj->AddComponent(new CTransform);
-	pPostProcessObj->AddComponent(new CMeshRender);
-
-	pPostProcessObj->Transform()->SetRelativePos(150.f, 150.f, 1.f);
-	pPostProcessObj->Transform()->SetRelativeScale(500.f, 500.f, 1.f);
-
-	pPostProcessObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pPostProcessObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"RippleMtrl"));
-
-	pLevel->AddObject(0, pPostProcessObj);
-
+	//CGameObject* pPostProcessObj = new CGameObject;
+	//pPostProcessObj->SetName(L"PostProcess");
+	//pPostProcessObj->AddComponent(new CTransform);
+	//pPostProcessObj->AddComponent(new CMeshRender);
+	//
+	//pPostProcessObj->Transform()->SetRelativePos(150.f, 150.f, 1.f);
+	//pPostProcessObj->Transform()->SetRelativeScale(500.f, 500.f, 1.f);
+	//
+	//pPostProcessObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pPostProcessObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"RippleMtrl"));
+	//
+	//pLevel->AddObject(0, pPostProcessObj);
+	//
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 
 
