@@ -19,6 +19,8 @@ private:
 
     bool               m_Mode[2];      // 0 : CreateMode / 1 : EditMode
     bool               m_IsActive;
+    bool               m_IsPlaying;
+    float              m_AccTime;
 
 public:
     virtual void Init() override;

@@ -183,7 +183,9 @@ void CEditorMgr::ImGuiProgress()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
     ImGui::StyleColorsClassic();
+    
     ImGuiStyle& style = ImGui::GetStyle();
+    ImGui::SetNextWindowBgAlpha(255);
     style.FrameRounding = 3.0f;
     style.GrabRounding = style.FrameRounding;
 

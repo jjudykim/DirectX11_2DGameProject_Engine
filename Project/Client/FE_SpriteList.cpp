@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "FE_SpriteList.h"
 
+#include "FE_FBViewer.h"
+
 #include "TreeUI.h"
 #include "ListUI.h"
 #include "CEditorMgr.h"
@@ -20,6 +22,7 @@ void FE_SpriteList::Init()
 {
 	m_vecAddedSprite.clear();
 	m_ListIndex = 0;
+	m_PrevIndex = -1;
 	m_IsActive = false;
 }
 
@@ -54,7 +57,12 @@ void FE_SpriteList::ShowList()
 			if (is_selected)
 			{
 				ImGui::SetItemDefaultFocus();
-				GetDetail()->SetCurSprite(m_vecAddedSprite[m_ListIndex]);
+				if (m_PrevIndex != m_ListIndex)
+				{
+					GetDetail()->SetCurSprite(m_vecAddedSprite[m_ListIndex]);
+					GetViewer()->SetCurSprite(m_vecAddedSprite[m_ListIndex]);
+					m_PrevIndex = m_ListIndex;
+				}
 			}
 		}
 		ImGui::EndListBox();
@@ -92,17 +100,21 @@ void FE_SpriteList::ShowList()
 			m_vecAddedSprite[m_ListIndex] = temp;
 
 			m_ListIndex = m_ListIndex - 1;
+
+			GetViewer()->SetCurSprite(m_vecAddedSprite[m_ListIndex]);
 		}
 	}
 	if (ImGui::ArrowButton("##down", ImGuiDir_Down))
 	{
-		if (m_ListIndex < m_vecAddedSprite.size() - 1)
+		if (m_ListIndex < m_vecAddedSprite.size() - 1 && 0 < m_vecAddedSprite.size())
 		{
 			auto temp = m_vecAddedSprite[m_ListIndex + 1];
 			m_vecAddedSprite[m_ListIndex + 1] = m_vecAddedSprite[m_ListIndex];
 			m_vecAddedSprite[m_ListIndex] = temp;
 
 			m_ListIndex = m_ListIndex + 1;
+
+			GetViewer()->SetCurSprite(m_vecAddedSprite[m_ListIndex]);
 		}
 	}
 	ImGui::EndGroup();

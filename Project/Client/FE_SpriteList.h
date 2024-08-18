@@ -8,6 +8,7 @@ private:
     vector<Ptr<CSprite>> m_vecAddedSprite;
 
     int                  m_ListIndex;
+    int                  m_PrevIndex;
     bool                 m_IsActive;
 
 

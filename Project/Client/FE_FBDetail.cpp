@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "FE_FBDetail.h"
 
+#include "FE_FBViewer.h"
 #include "FE_SpriteList.h"
 #include <Engine/CAssetMgr.h>
 #include "CEditorMgr.h"
@@ -126,8 +127,9 @@ void FE_FBDetail::SelectMode()
 		ImGui::SameLine(ImGui::GetWindowSize().x - 90.f);
 		if (ImGui::Button("Cancel", ImVec2(80.f, 18.f)))
 		{
-			m_CurFlipBook = nullptr;
-			m_Mode[0] = false;
+			GetViewer()->Init();
+			GetSpriteList()->Init();
+			Init();
 		}
 	}
 	else if (m_Mode[1])
@@ -137,8 +139,9 @@ void FE_FBDetail::SelectMode()
 		ImGui::SameLine(ImGui::GetWindowSize().x - 90.f);
 		if (ImGui::Button("Cancel", ImVec2(80.f, 18.f)))
 		{
-			m_CurFlipBook = nullptr;
-			m_Mode[1] = false;
+			GetViewer()->Init();
+			GetSpriteList()->Init();
+			Init();
 		}
 	}
 	else
@@ -158,16 +161,40 @@ void FE_FBDetail::FlipBookPlay()
 	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) - 105.f);
 	if (ImGui::Button("Play", ImVec2(100.f, 22.f)))
 	{
-		// Play FlipBook
+		m_IsPlaying = true;
 	}
 	ImGui::SameLine(0.f, 10.f);
 	if (ImGui::Button("Stop", ImVec2(100.f, 22.f)))
 	{
-		// Stop FlipBook
+		m_IsPlaying = false;
+		m_CurSpriteIndex = 0;
+		GetSpriteList()->SetCurSpriteIndex(m_CurSpriteIndex);
+		GetViewer()->SetCurSprite(m_CurSprite);
 	}
 
 	if (!m_IsActive)
 		ImGui::EndDisabled();
+
+	if (m_IsPlaying)
+	{
+		float MaxTime = 1.f / m_FPS;
+		if (MaxTime < m_AccTime)
+		{
+			m_AccTime -= MaxTime;
+			++m_CurSpriteIndex;
+
+			if (m_MaxSpriteIndex <= m_CurSpriteIndex)
+			{
+				m_CurSpriteIndex = 0;
+			}
+
+			GetSpriteList()->SetCurSpriteIndex(m_CurSpriteIndex);
+			GetViewer()->SetCurSprite(m_CurSprite);
+		}
+
+		m_AccTime += EngineDT;
+	}
+	
 }
 
 void FE_FBDetail::SelectFlipBook(DWORD_PTR _ListUI)
@@ -218,7 +245,7 @@ void FE_FBDetail::FlipBookInfo()
 	ImGui::Text("/");
 	ImGui::SameLine();
 	ImGui::Text(std::to_string(m_MaxSpriteIndex).c_str());
-	ImGui::SameLine(0.f, 77.f);
+	ImGui::SameLine(257.f);
 
 	int leftIndex = m_CurSpriteIndex;
 	if (m_MaxSpriteIndex < 1 || leftIndex == 0)
@@ -229,6 +256,7 @@ void FE_FBDetail::FlipBookInfo()
 			m_CurSpriteIndex--;
 
 		GetSpriteList()->SetCurSpriteIndex(m_CurSpriteIndex);
+		GetViewer()->SetCurSprite(m_CurSprite);
 	}
 	if (m_MaxSpriteIndex < 1 || leftIndex == 0)
 		ImGui::EndDisabled();
@@ -245,6 +273,7 @@ void FE_FBDetail::FlipBookInfo()
 			m_CurSpriteIndex = m_MaxSpriteIndex - 1;
 
 		GetSpriteList()->SetCurSpriteIndex(m_CurSpriteIndex);
+		GetViewer()->SetCurSprite(m_CurSprite);
 	}
 	if (index == m_MaxSpriteIndex - 1)
 		ImGui::EndDisabled();
@@ -292,11 +321,16 @@ void FE_FBDetail::SpriteInfo()
 	ImGui::SetNextItemWidth(180);
 	ImGui::InputFloat2("##CurSpriteSize", size, "%.2f");
 
-	float offset[2] = { m_Offset.x, m_Offset.y };
 	ImGui::Text("Offset");
 	ImGui::SameLine(120);
-	ImGui::SetNextItemWidth(180);
-	ImGui::InputFloat2("##CurSpriteOffset", offset, "%.2f");
+	ImGui::SetNextItemWidth(85);
+	if (ImGui::InputFloat("##CurSpriteOffsetX", &m_Offset.x, 1.0f, 0.0f, "%.2f"))
+		m_CurSprite->SetOffset(m_Offset);
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(85);
+	if (ImGui::InputFloat("##CurSpriteOffsetY", &m_Offset.y, 1.0f, 0.0f, "%.2f"))
+		m_CurSprite->SetOffset(m_Offset);
+	
 
 	ImGui::Text("");
 
