@@ -182,6 +182,10 @@ void CEditorMgr::ImGuiProgress()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGui::StyleColorsClassic();
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.FrameRounding = 3.0f;
+    style.GrabRounding = style.FrameRounding;
 
     // ParamUI ID Reset
     ParamUI::ResetID();
