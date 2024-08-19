@@ -38,7 +38,7 @@ void CTestLevelMgr::CreateTestLevel()
 	CLevel* pLevel = new CLevel;
 
 	// Level 지정
-	//ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
 	pLevel->GetLayer(0)->SetName(L"Default");
 	pLevel->GetLayer(1)->SetName(L"Background");
@@ -56,8 +56,9 @@ void CTestLevelMgr::CreateTestLevel()
 	CamObj->AddComponent(new CCamera);
 	CamObj->AddComponent(new CCameraMoveScript);
 
-	CamObj->Camera()->SetPriority(0);
+	CamObj->Transform()->SetRelativePos(0, 0, -150.f);
 
+	CamObj->Camera()->SetPriority(0);
 	CamObj->Camera()->SetLayerAll();
 	CamObj->Camera()->SetLayer(31, false);
 	CamObj->Camera()->SetFar(10000.f);
@@ -119,9 +120,9 @@ void CTestLevelMgr::CreateTestLevel()
 	//pObject->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.01f);
 	//pObject->MeshRender()->GetMaterial()->SetScalarParam(INT_1, 1);
 
-	//Ptr<CFlipBook> pFlipBook = CAssetMgr::GetInst()->FindAsset<CFlipBook>(L"animation\\Scary_Idle.flip");
-	//pPlayer->FlipBookComponent()->AddFlipBook(5, pFlipBook);
-	//pPlayer->FlipBookComponent()->Play(5, 10, true);
+	Ptr<CFlipBook> pFlipBook = CAssetMgr::GetInst()->FindAsset<CFlipBook>(L"animation\\Caballos_Idle.flip");
+	pPlayer->FlipBookComponent()->AddFlipBook(5, pFlipBook);
+	pPlayer->FlipBookComponent()->Play(5, true);
 
 	pLevel->AddObject(3, pPlayer);
 
@@ -130,42 +131,42 @@ void CTestLevelMgr::CreateTestLevel()
 	//pLevel->AddObject(3, pClonePlayer);
 
 	// Monster Object
-	CGameObject* pMonster = new CGameObject;
-	pMonster->SetName(L"Monster");
-	pMonster->AddComponent(new CTransform);
-	pMonster->AddComponent(new CMeshRender);
-	pMonster->AddComponent(new CCollider2D);
-
-	pMonster->Transform()->SetRelativePos(-400.f, 0.f, 100.f);
-	pMonster->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
-
-	pMonster->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	pMonster->Collider2D()->SetScale(Vec3(1.2f, 1.2f, 1.f));
-
-	pMonster->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pAlphaBlendMtrl->SetTexParam(TEX_0, pMonsterTexture);
-	pMonster->MeshRender()->SetMaterial(pAlphaBlendMtrl);
-
-	pLevel->AddObject(4, pMonster);
+	//CGameObject* pMonster = new CGameObject;
+	//pMonster->SetName(L"Monster");
+	//pMonster->AddComponent(new CTransform);
+	//pMonster->AddComponent(new CMeshRender);
+	//pMonster->AddComponent(new CCollider2D);
+	//
+	//pMonster->Transform()->SetRelativePos(-400.f, 0.f, 100.f);
+	//pMonster->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
+	//
+	//pMonster->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
+	//pMonster->Collider2D()->SetScale(Vec3(1.2f, 1.2f, 1.f));
+	//
+	//pMonster->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	//pAlphaBlendMtrl->SetTexParam(TEX_0, pMonsterTexture);
+	//pMonster->MeshRender()->SetMaterial(pAlphaBlendMtrl);
+	//
+	//pLevel->AddObject(4, pMonster);
 
 
 	// TileMap Object
-	CGameObject* pTileMapObj = new CGameObject;
-	pTileMapObj->SetName(L"TileMap");
-
-	pTileMapObj->AddComponent(new CTransform);
-	pTileMapObj->AddComponent(new CTileMap);
-
-	pTileMapObj->Transform()->SetRelativePos(Vec3(0.f, 200.f, 200.f));
-	pTileMapObj->TileMap()->SetRowCol(20, 20);
-	pTileMapObj->TileMap()->SetTileSize(Vec2(20.f, 20.f));
-	pTileMapObj->TileMap()->SetTileInfo(3);
-
-	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\TilemapEx2.bmp");
-	pTileMapObj->TileMap()->SetAtlasTexture(pTileAtlas);
-	pTileMapObj->TileMap()->SetAtlasTileSize(Vec2(20.f, 20.f));
-
-	pLevel->AddObject(2, pTileMapObj);
+	//CGameObject* pTileMapObj = new CGameObject;
+	//pTileMapObj->SetName(L"TileMap");
+	//
+	//pTileMapObj->AddComponent(new CTransform);
+	//pTileMapObj->AddComponent(new CTileMap);
+	//
+	//pTileMapObj->Transform()->SetRelativePos(Vec3(0.f, 200.f, 200.f));
+	//pTileMapObj->TileMap()->SetRowCol(20, 20);
+	//pTileMapObj->TileMap()->SetTileSize(Vec2(20.f, 20.f));
+	//pTileMapObj->TileMap()->SetTileInfo(3);
+	//
+	//Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\TilemapEx2.bmp");
+	//pTileMapObj->TileMap()->SetAtlasTexture(pTileAtlas);
+	//pTileMapObj->TileMap()->SetAtlasTileSize(Vec2(20.f, 20.f));
+	//
+	//pLevel->AddObject(2, pTileMapObj);
 
 
 	// PostProcess Object
@@ -181,9 +182,6 @@ void CTestLevelMgr::CreateTestLevel()
 	//pPostProcessObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"RippleMtrl"));
 	//
 	//pLevel->AddObject(0, pPostProcessObj);
-	//
-	ChangeLevel(pLevel, LEVEL_STATE::STOP);
-
 
 	// Collision 지정
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4);   // Player vs Monster

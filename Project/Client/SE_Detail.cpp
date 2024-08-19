@@ -27,6 +27,18 @@ SE_Detail::~SE_Detail()
 
 void SE_Detail::Init()
 {
+	m_AtlasTex = nullptr;
+	m_AtlasResolution = Vec2(0, 0);
+
+	m_SpriteBundleName = "";
+	m_SpriteName = "";
+	m_CurSprite = nullptr;
+	m_vecAddSprite.clear();
+
+	m_CurIndex = 0;
+	m_IsSelectedSprite = false;
+	m_IsRegistedSprite = false;
+	m_Background = ImVec2(0, 0);
 }
 
 void SE_Detail::Update()
@@ -34,7 +46,6 @@ void SE_Detail::Update()
 	AtlasInfo();
 	SpriteBundleInfo();
 	SelectSpriteInfo();
-	ImGui::SeparatorText("Added Sprite List");
 	SpriteList();
 }
 
@@ -209,25 +220,36 @@ void SE_Detail::SelectSpriteInfo()
 	//        Sprite Name
 	// ==========================
 	// Temporary Sprite Name Set
-	string strSpriteName;
 
 	if (m_CurSprite != nullptr)
 	{
-		path Path = m_AtlasTex.Get()->GetKey();
-		strSpriteName = Path.stem().string();
-		strSpriteName += "_" + std::to_string(m_vecAddSprite.size());
+		string Name = string(m_CurSprite->GetName().begin(), m_CurSprite->GetName().end());
+
+		if (Name == "")
+		{
+			path Path = m_AtlasTex.Get()->GetKey();
+			m_SpriteName = Path.stem().string();
+			if (m_vecAddSprite.size() < 10)
+				m_SpriteName += "_0" + std::to_string(m_vecAddSprite.size());
+			else
+				m_SpriteName += "_" + std::to_string(m_vecAddSprite.size());
+		}
+		else
+		{
+			m_SpriteName = Name;
+		}
 
 		if (IsAddedSprite(m_CurSprite->GetID()))
 		{
-			strSpriteName = string(m_CurSprite->GetName().begin(), m_CurSprite->GetName().end());
-			strcpy_s(BufferForName, strSpriteName.c_str());
+			m_SpriteName = Name;
+			strcpy_s(BufferForName, m_SpriteName.c_str());
 		}
 	}
 
 	ImGui::Text("Sprite Name");
 	ImGui::SameLine(120);
 	ImGui::SetNextItemWidth(180);
-	ImGui::InputTextWithHint("##SpriteName", (char*)strSpriteName.c_str(), BufferForName, 255, ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputTextWithHint("##SpriteName", (char*)m_SpriteName.c_str(), BufferForName, 255);
 
 
 	// ==========================
@@ -281,29 +303,23 @@ void SE_Detail::SelectSpriteInfo()
 	}
 	else
 	{
+		ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
 		ImGui::Image(nullptr, frameSize, StartUV, EndUV, tint_col, border_col);
 	}
 	
 	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) - 100.f);
 	if (ImGui::Button("Add", ImVec2(100.f, 18.f)))
 	{
-		if (m_CurSprite != nullptr)
-		{
-			if (!IsAddedSprite(m_CurSprite->GetID()))
-			{
-				m_CurSprite->SetName(wstring(strSpriteName.begin(), strSpriteName.end()));
-				m_CurSprite->SetBundleName(wstring(m_SpriteBundleName.begin(), m_SpriteBundleName.end()));
-				strcpy_s(BufferForName, strSpriteName.c_str());
-
-				m_vecAddSprite.push_back(m_CurSprite);
-				m_CurSprite = nullptr;
-			}
-			else
-			{
-				// 이미 등록된 Sprite라는 Message
-			}
-		}
+		strcpy_s(BufferForName, m_SpriteName.c_str());
+		ButtonAdd();
 	}
+
+	if (ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey::ImGuiKey_A))
+	{
+		strcpy_s(BufferForName, m_SpriteName.c_str());
+		ButtonAdd();
+	}
+
 	ImGui::SameLine();
 	ImGui::SetCursorPosX((ImGui::GetWindowSize().x * 0.5f) + 5.f);
 	if (ImGui::Button("Delete", ImVec2(100.f, 18.f)))
@@ -323,8 +339,28 @@ void SE_Detail::SelectSpriteInfo()
 	ImGui::Text("");
 }
 
+void SE_Detail::ButtonAdd()
+{
+	if (m_CurSprite != nullptr)
+	{
+		if (!IsAddedSprite(m_CurSprite->GetID()))
+		{
+			m_CurSprite->SetName(wstring(BufferForName, BufferForName + std::strlen(BufferForName)));
+			m_CurSprite->SetBundleName(wstring(m_SpriteBundleName.begin(), m_SpriteBundleName.end()));
+
+			m_vecAddSprite.push_back(m_CurSprite);
+		}
+		else
+		{
+			// 이미 등록된 Sprite라는 Message
+		}
+	}
+}
+
 void SE_Detail::SpriteList()
 {
+	ImGui::SeparatorText("Added Sprite List");
+
 	if (ImGui::BeginListBox("##SE_AddedSpriteList", ImVec2(-FLT_MIN, 8 * ImGui::GetTextLineHeightWithSpacing())))
 	{
 		for (size_t i = 0; i < m_vecAddSprite.size(); i++)

@@ -13,18 +13,26 @@ private:
     vector<TreeNode*>    m_vecChildNode;
 
     bool                 m_Frame;
+    bool                 m_Category;
     bool                 m_Selected;
 
 public:
     void SetName(const string& _Name) { m_Name = _Name; }
     void SetFrame(bool _Frame) { m_Frame = _Frame; }
+    void SetCategory(bool _Category) { m_Category = _Category; }
 
     const string& GetName() { return m_Name; }
+    const vector<TreeNode*>& GetChildNode() { return m_vecChildNode; }
     bool IsFrame() { return m_Frame; }
+    bool IsCategory() { return m_Category; }
     DWORD_PTR GetData() { return m_Data; }
 
 public:
-    void AddChildNode(TreeNode* _Node) { m_vecChildNode.push_back(_Node); }
+    void AddChildNode(TreeNode* _Node)
+    { 
+        _Node->m_ParentNode = this;
+        m_vecChildNode.push_back(_Node); 
+    }
     void DragCheck();
     void DropCheck();
 
@@ -43,10 +51,10 @@ class TreeUI :
     public EditorUI
 {
 private:
-    TreeNode* m_Root;
-    TreeNode* m_SelectedNode;
-    TreeNode* m_DraggedNode;
-    TreeNode* m_DroppedNode;
+    TreeNode*     m_Root;
+    TreeNode*     m_SelectedNode;
+    TreeNode*     m_DraggedNode;
+    TreeNode*     m_DroppedNode;
 
     UINT          m_NodeID;
     bool          m_ShowRoot;
@@ -69,6 +77,7 @@ private:
 
 public:
     TreeNode* AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Data = 0);
+    TreeNode* AddNodeByDir(TreeNode* _Parent, const string& _Name, map<string, TreeNode*>& _mapDirNode, Ptr<CAsset> _Data = nullptr);
     void SetSelectedNode(TreeNode* _Node);
     void Clear();
 

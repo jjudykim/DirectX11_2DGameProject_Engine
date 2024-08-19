@@ -9,6 +9,7 @@ private:
     Vec2                   m_AtlasResolution;
 
     string                 m_SpriteBundleName;
+    string                 m_SpriteName;
     Ptr<CSprite>           m_CurSprite;
     vector<Ptr<CSprite>>   m_vecAddSprite;
 
@@ -22,6 +23,7 @@ private:
     void SpriteBundleInfo();
     void SelectSpriteInfo();
     void SpriteList();
+    void ButtonAdd();
     
     bool IsChangedSelectSprite(Ptr<CSprite> _NewSprite);
     bool IsChangedSelectSprite(ImVec2 _SpriteLT, ImVec2 _SpriteRB);

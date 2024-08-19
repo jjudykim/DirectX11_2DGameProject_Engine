@@ -84,6 +84,20 @@ void FE_SpriteList::ShowList()
 					m_vecAddedSprite.push_back((CSprite*)pAsset.Get());
 					GetDetail()->SetCurSprite(m_vecAddedSprite[m_vecAddedSprite.size() - 1]);
 				}
+				else
+				{
+					const char* bundle = reinterpret_cast<const char*>(pNode->GetData());
+					if (bundle[0] != '\0')
+					{
+						const vector<TreeNode*>& vecChildNode = pNode->GetChildNode();
+
+						for (size_t i = 0; i < vecChildNode.size(); ++i)
+						{
+							pAsset = (CAsset*)vecChildNode[i]->GetData();
+							m_vecAddedSprite.push_back((CSprite*)pAsset.Get());
+						}
+					}
+				}
 			}
 			ImGui::EndDragDropTarget();
 		}

@@ -21,8 +21,8 @@ void SpriteEditor::Init()
 	m_AtlasView = (SE_AtlasView*)CEditorMgr::GetInst()->FindEditorUI("SE_AtlasView");
 	m_Detail = (SE_Detail*)CEditorMgr::GetInst()->FindEditorUI("SE_Detail");
 
-	m_AtlasView->SetMove(false);
-	m_Detail->SetMove(false);
+	m_AtlasView->SetMove(true);
+	m_Detail->SetMove(true);
 
 	m_AtlasView->m_Owner = this;
 	m_Detail->m_Owner = this;

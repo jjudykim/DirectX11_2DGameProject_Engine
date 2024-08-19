@@ -113,7 +113,7 @@ void CRenderMgr::RenderStart()
 	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
 
 	// TargetClear
-	float color[4] = { 0.6f, 0.6f, 0.6f, 1.f };
+	float color[4] = { 0.f, 0.f, 0.f, 1.0f };
 	CONTEXT->ClearRenderTargetView(pRTTex->GetRTV().Get(), color);
 	CONTEXT->ClearDepthStencilView(pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 

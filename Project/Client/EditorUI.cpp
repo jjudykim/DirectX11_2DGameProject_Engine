@@ -81,12 +81,7 @@ void EditorUI::Tick()
 			ImGui::OpenPopup(m_FullName.c_str());
 
 			if (ImGui::BeginPopupModal(m_FullName.c_str(), &bActive))
-			{
-				if (m_Active != bActive)
-				{
-					SetActive(bActive);
-				}
-				
+			{	
 				Update();
 
 				for (size_t i = 0; i < m_vecChildUI.size(); ++i)
@@ -97,6 +92,13 @@ void EditorUI::Tick()
 						ImGui::Separator();
 				}
 				ImGui::EndPopup();
+			}
+			else
+			{
+				if (m_Active != bActive)
+				{
+					SetActive(bActive);
+				}
 			}
 		}
 	}

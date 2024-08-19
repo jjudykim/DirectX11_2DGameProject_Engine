@@ -11,6 +11,7 @@ TreeNode::TreeNode(UINT _ID)
 	, m_ID(_ID)
 	, m_Data(0)
 	, m_Frame(false)
+	, m_Category(false)
 	, m_Selected(false)
 {
 }
@@ -182,12 +183,6 @@ TreeNode* TreeUI::AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Dat
 	pNode->SetName(_Name);
 	pNode->m_Data = _Data;
 
-	//Ptr<CAsset> temp = (CAsset*)pNode->m_Data;
-	//if (temp != nullptr && temp->GetAssetType() == ASSET_TYPE::SPRITE)
-	//{
-	//	int i = 0;
-	//}
-	//
 	if (_Parent == nullptr)
 	{
 		assert(!m_Root);
@@ -200,6 +195,45 @@ TreeNode* TreeUI::AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Dat
 	}
 
 	return pNode;
+}
+
+TreeNode* TreeUI::AddNodeByDir(TreeNode* _Parent, const string& _Name, map<string, TreeNode*>& _mapDirNode, Ptr<CAsset> _Data)
+{
+	TreeNode* pNewNode = new TreeNode(m_NodeID++);
+	pNewNode->m_Owner = this;
+	pNewNode->SetName(_Name);
+	pNewNode->m_Data = (DWORD_PTR)_Data.Get();
+
+	// Directory Name의 Node 생성 / 찾기
+	Ptr<CSprite> spr = dynamic_cast<CSprite*>(_Data.Get());
+	wstring name = spr->GetBundleName();
+
+	if (spr != nullptr)
+	{
+		TreeNode* pDirNode;
+		string strBundle = string(spr->GetBundleName().begin(), spr->GetBundleName().end());
+		
+		auto dirNode = _mapDirNode.find(strBundle);
+		if (dirNode != _mapDirNode.end())
+		{
+			pDirNode = dirNode->second;
+			pDirNode->AddChildNode(pNewNode);
+		}
+		else
+		{
+			pDirNode = new TreeNode(m_NodeID++);
+			pDirNode->m_Owner = this;
+			pDirNode->SetName(strBundle);
+			pDirNode->SetCategory(true);
+			pDirNode->m_Data = (DWORD_PTR)strBundle.c_str();
+			_Parent->AddChildNode(pDirNode);
+
+			_mapDirNode.insert(make_pair(strBundle, pDirNode));
+			pDirNode->AddChildNode(pNewNode);
+		}
+	}
+
+	return pNewNode;
 }
 
 void TreeUI::SetSelectedNode(TreeNode* _Node)

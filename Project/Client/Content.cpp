@@ -58,10 +58,22 @@ void Content::RenewContent()
 		pNode->SetFrame(true);
 
 		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
-
-		for (const auto& pair : mapAsset)
+		
+		if (i == (UINT)ASSET_TYPE::SPRITE)
 		{
-			m_Tree->AddNode(pNode, string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get());
+			map<string, TreeNode*> mapDirNode = {};
+
+			for (const auto& pair : mapAsset)
+			{
+				m_Tree->AddNodeByDir(pNode, string(pair.first.begin(), pair.first.end()), mapDirNode, pair.second.Get());
+			}
+		}
+		else
+		{
+			for (const auto& pair : mapAsset)
+			{
+				m_Tree->AddNode(pNode, string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get());
+			}
 		}
 	}
 }
@@ -70,6 +82,9 @@ void Content::AssetClicked(DWORD_PTR _Param)
 {
 	TreeNode* pNode = (TreeNode*)_Param;
 	if (pNode->IsFrame())
+		return;
+
+	if (pNode->IsCategory())
 		return;
 
 	Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();

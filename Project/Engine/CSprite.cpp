@@ -65,6 +65,12 @@ int CSprite::Save(const wstring& _FilePath)
 	fwrite(&m_BackgroundUV, sizeof(Vec2), 1, File);
 	fwrite(&m_OffsetUV, sizeof(Vec2), 1, File);
 
+	// Bundle Name
+	size_t length = m_BundleName.size();
+	fwrite(&length, sizeof(length), 1, File);
+
+	fwrite(m_BundleName.c_str(), sizeof(wchar_t), length, File);
+
 	fclose(File);
 
 	return S_OK;
@@ -87,6 +93,14 @@ int CSprite::Load(const wstring& _FilePath)
 	fread(&m_SliceUV, sizeof(Vec2), 1, File);
 	fread(&m_BackgroundUV, sizeof(Vec2), 1, File);
 	fread(&m_OffsetUV, sizeof(Vec2), 1, File);
+
+	// Bundle Name
+	size_t length;
+	std::fread(&length, sizeof(length), 1, File);
+	
+	wstring bundleName(length, L'\0');
+	fread(&bundleName[0], sizeof(wchar_t), length, File);
+	m_BundleName = bundleName;
 
 	fclose(File);
 
