@@ -8,6 +8,7 @@ private:
     Ptr<CTexture>          m_AtlasTex;
     Vec2                   m_AtlasResolution;
 
+    string                 m_SpriteBundleName;
     Ptr<CSprite>           m_CurSprite;
     vector<Ptr<CSprite>>   m_vecAddSprite;
 
@@ -17,8 +18,8 @@ private:
     ImVec2                 m_Background;
 
 private:
-    void Atlas();
     void AtlasInfo();
+    void SpriteBundleInfo();
     void SelectSpriteInfo();
     void SpriteList();
     
@@ -29,6 +30,7 @@ private:
 
 public:
     void SetAtlasTex(Ptr<CTexture> _Tex);
+    void SetSelectedSprite(bool _b) { m_IsSelectedSprite = false; }
 
 public:
     virtual void Init() override;

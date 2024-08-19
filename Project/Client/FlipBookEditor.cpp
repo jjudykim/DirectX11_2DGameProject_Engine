@@ -24,9 +24,9 @@ void FlipBookEditor::Init()
 	m_Detail = (FE_FBDetail*)CEditorMgr::GetInst()->FindEditorUI("FE_FBDetail");
 	m_SpriteList = (FE_SpriteList*)CEditorMgr::GetInst()->FindEditorUI("FE_SpriteList");
 
-	m_Viewer->SetMove(false);
-	m_Detail->SetMove(false);
-	m_SpriteList->SetMove(false);
+	m_Viewer->SetMove(true);
+	m_Detail->SetMove(true);
+	m_SpriteList->SetMove(true);
 
 	m_Viewer->m_Owner = this;
 	m_Detail->m_Owner = this;

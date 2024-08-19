@@ -26,7 +26,11 @@ using namespace std::filesystem;
 // DirectXTex
 #include <DirectXTex/DirectXTex.h>
 
-#pragma comment(lib, "DirectXTex//DirectXTex.lib")
+#ifdef _DEBUG
+#pragma comment(lib, "DirectxTex//DirectXTex_debug.lib")
+#else
+#pragma comment(lib, "DirectxTex//DirectXTex.lib")
+#endif
 
 
 // string

@@ -105,6 +105,7 @@ void SE_AtlasView::SelectCheck()
 			&& 0.f <= vPixelPos.y && vPixelPos.y < m_AtlasTex->Height())
 		{
 			CalcSpriteSize(vPixelPos);
+			GetDetail()->SetSelectedSprite(false);
 		}
 	}
 }
@@ -199,4 +200,3 @@ bool SE_AtlasView::IsPixelOk(Vec2 _PixelPos)
 
 	return true;
 }
-

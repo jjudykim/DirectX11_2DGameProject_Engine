@@ -182,6 +182,12 @@ TreeNode* TreeUI::AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Dat
 	pNode->SetName(_Name);
 	pNode->m_Data = _Data;
 
+	//Ptr<CAsset> temp = (CAsset*)pNode->m_Data;
+	//if (temp != nullptr && temp->GetAssetType() == ASSET_TYPE::SPRITE)
+	//{
+	//	int i = 0;
+	//}
+	//
 	if (_Parent == nullptr)
 	{
 		assert(!m_Root);

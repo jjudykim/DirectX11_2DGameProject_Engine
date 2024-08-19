@@ -56,8 +56,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
 #ifdef _DEBUG
-    // CEditorMgr 초기화
-    CEditorMgr::GetInst()->Init();
+  // CEditorMgr 초기화
+  CEditorMgr::GetInst()->Init();
 #endif
 
     // Test용 레벨 초기상태
@@ -85,7 +85,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CEngine::GetInst()->Progress();
 
 #ifdef _DEBUG
-            CEditorMgr::GetInst()->Tick();
+          CEditorMgr::GetInst()->Tick();
 #endif
             CDevice::GetInst()->Present();
         }
