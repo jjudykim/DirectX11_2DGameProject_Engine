@@ -52,25 +52,25 @@ void CEditorCameraScript::OrthoGraphicMove()
 	Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	if (KEY_PRESSED(KEY::W))
-	{
-		vPos.y += EngineDT * Speed;
-	}
-	
-	if (KEY_PRESSED(KEY::S))
-	{
-		vPos.y -= EngineDT * Speed;
-	}
-	
-	if (KEY_PRESSED(KEY::A))
-	{
-		vPos.x -= EngineDT * Speed;
-	}
-	
-	if (KEY_PRESSED(KEY::D))
-	{
-		vPos.x += EngineDT * Speed;
-	}
+	//if (KEY_PRESSED(KEY::W))
+	//{
+	//	vPos.y += EngineDT * Speed;
+	//}
+	//
+	//if (KEY_PRESSED(KEY::S))
+	//{
+	//	vPos.y -= EngineDT * Speed;
+	//}
+	//
+	//if (KEY_PRESSED(KEY::A))
+	//{
+	//	vPos.x -= EngineDT * Speed;
+	//}
+	//
+	//if (KEY_PRESSED(KEY::D))
+	//{
+	//	vPos.x += EngineDT * Speed;
+	//}
 
 	Transform()->SetRelativePos(vPos);
 }
@@ -93,7 +93,7 @@ void CEditorCameraScript::PerspectiveMove()
 	{
 		vPos += vFront * EngineDT * Speed;
 	}
-
+	
 	if (KEY_PRESSED(KEY::S))
 	{
 		vPos -= vFront * EngineDT * Speed;

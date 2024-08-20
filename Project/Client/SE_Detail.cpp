@@ -336,6 +336,7 @@ void SE_Detail::SelectSpriteInfo()
 		}
 	}
 
+	ImGui::TextDisabled("* Add ShrotCut : Ctrl + A");
 	ImGui::Text("");
 }
 

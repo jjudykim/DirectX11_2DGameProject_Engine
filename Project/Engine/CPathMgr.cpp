@@ -15,12 +15,14 @@ void CPathMgr::Init()
 {
 	// 실행 경로 얻어내기
 	wchar_t szBuffer[256] = {};
-	GetCurrentDirectory(256, szBuffer);
+	//GetCurrentDirectory(256, szBuffer);
+	GetModuleFileName(NULL, szBuffer, 256);
+	
 	GetParentPath(szBuffer);
 	GetParentPath(szBuffer);
 
 	m_Content = szBuffer;
-	m_Content += L"\\OutputFile\\content\\";
+	m_Content += L"\\content\\";
 }
 
 void CPathMgr::Render()
