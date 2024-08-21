@@ -87,9 +87,6 @@ void FE_FBViewer::SetImage()
 		m_EndUV = ImVec2(1.0f, 1.0f);
 		ImGui::Image(ImTextureID(0), m_ViewerSize, m_StartUV, m_EndUV, tint_col, m_FrameColor);
 	}
-	
-
-	
 }
 
 void FE_FBViewer::DrawGrid()
