@@ -4,8 +4,19 @@
 class Collider2DUI :
     public ComponentUI
 {
+private:
+    CCollider2D*     m_ColliderCom;
+    ImVec4           m_Scale;
+    ImVec4           m_Offset;
+
+    bool             m_Independent;
+
 public:
+    virtual void Init() override;
     virtual void Update() override;
+
+private:
+    void ApplyColliderDetail();
 
 public:
     Collider2DUI();

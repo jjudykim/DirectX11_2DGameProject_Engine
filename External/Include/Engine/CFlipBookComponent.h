@@ -29,8 +29,8 @@ public:
     const vector<Ptr<CFlipBook>>& GetVecFlipBook() { return m_vecFlipBook; }
     bool GetRepeat() { return m_Repeat; }
 
-    void SetCurFlipBook(Ptr<CFlipBook> _FlipBook) { m_CurFlipBook = _FlipBook; }
     void EraseFlipBook(int _index) { m_vecFlipBook.erase(m_vecFlipBook.begin() + _index); }
+    void SetCurFlipBook(Ptr<CFlipBook> _FlipBook) { m_CurFlipBook = _FlipBook; }
     void SetRepeat(bool _Repeat) { m_Repeat = _Repeat; }
 
 public:
