@@ -54,6 +54,20 @@ enum class COMPONENT_TYPE
 extern const char* COMPONENT_TYPE_STRING[(UINT)COMPONENT_TYPE::END];
 const char* ToString(COMPONENT_TYPE _Type);
 
+enum class LAYER_TYPE
+{
+	DEFAULT,
+	BACKGROUND,
+	MONSTER,
+	PLAYER,
+	PLAYER_PROJECTTILE,
+	MONSTER_PROJECTTILE,
+
+	END = MAX_LAYER,
+};
+extern const char* LAYER_TYPE_STRING[(UINT)LAYER_TYPE::END];
+const char* ToString(LAYER_TYPE _Type);
+
 enum DIR
 {
 	RIGHT,

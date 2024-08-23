@@ -5,6 +5,7 @@ class MenuUI :
     public EditorUI
 {
 private:
+    bool             m_Popup;
 
 public:
     virtual void Tick() override;
@@ -20,6 +21,7 @@ private:
     void AddScript();
 
     wstring GetAssetKey(ASSET_TYPE _Type, const wstring& _Format);
+   
 
 public:
     MenuUI();

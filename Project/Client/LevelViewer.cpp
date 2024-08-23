@@ -90,9 +90,8 @@ void LevelViewer::ViewerButton()
 			{
 				wstring path = filename.lpstrFile;
 				CLevelSaveLoad::SaveLevel(path, CLevelMgr::GetInst()->GetCurrentLevel());
+				m_LevelEditMode = false;
 			}
-
-			m_LevelEditMode = false;
 		}
 	}
 	else
@@ -131,9 +130,8 @@ void LevelViewer::ViewerButton()
 					wstring path = filename.lpstrFile;
 					CLevelSaveLoad::SaveLevel(path, m_CurLevel);
 					ChangeLevel(m_CurLevel, LEVEL_STATE::STOP);
+					m_LevelEditMode = true;
 				}
-
-				m_LevelEditMode = true;
 			}
 				
 		}
@@ -170,9 +168,9 @@ void LevelViewer::ViewerButton()
 				// Inspector 의 타겟정보를 nullptr 로 되돌리기
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
-			}
 
-			m_LevelEditMode = true;
+				m_LevelEditMode = true;
+			}
 		}
 	}
 }

@@ -12,6 +12,13 @@ CLevel::CLevel()
 	for (int i = 0; i < MAX_LAYER; ++i)
 	{
 		m_Layer[i] = new CLayer(i);
+		string layerName;
+
+		if (ToString((LAYER_TYPE)i))
+		{
+			layerName = ToString((LAYER_TYPE)i);
+			m_Layer[i]->SetName(wstring(layerName.begin(), layerName.end()));
+		}
 	}
 }
 

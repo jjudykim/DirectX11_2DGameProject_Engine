@@ -130,7 +130,6 @@ void CRenderMgr::RenderStart()
 
 	if (vecLight2DInfo.size() == 0)
 		vecLight2DInfo.push_back(tLightInfo{});
-		//m_Light2DBuffer->Create(sizeof(tLightInfo), 1, SB_TYPE::SRV_ONLY, true);
 
 	if (m_Light2DBuffer->GetElementCount() < vecLight2DInfo.size())
 	{

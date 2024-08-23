@@ -15,6 +15,7 @@
 #include "CLevelSaveLoad.h"
 
 MenuUI::MenuUI()
+	: m_Popup(false)
 {
 }
 
@@ -31,6 +32,38 @@ void MenuUI::Tick()
 	{
 		Update();
 		ImGui::EndMainMenuBar();
+	}
+
+	if (m_Popup)
+		ImGui::OpenPopup("New Object");
+
+	// Create Object Modal
+	if (ImGui::BeginPopupModal("New Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		static char name[256] = "";
+		static int selectItem = 0;
+		ImGui::SeparatorText("Create New GameObject");
+
+		ImGui::Text("Object Name");
+		ImGui::SameLine(100.f);
+		ImGui::InputText("##ObjectName", name, 256);
+
+		ImGui::Text("Layer");
+		ImGui::SameLine(100.f);
+
+		ImGui::Combo("##LayerCombo", &selectItem, LAYER_TYPE_STRING, IM_ARRAYSIZE(LAYER_TYPE_STRING));
+
+		if (ImGui::Button("Create", ImVec2(80.f, 18.f)))
+		{
+			CGameObject* pObject = new CGameObject;
+			wchar_t wstrName[256];
+			MultiByteToWideChar(CP_UTF8, 0, name, -1, wstrName, 256);
+			pObject->SetName(wstrName);
+			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(selectItem, pObject);
+			m_Popup = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
 	}
 }
 
@@ -175,8 +208,9 @@ void MenuUI::GameObject()
 	{
 		if (ImGui::MenuItem("Create Empty Object"))
 		{
+			m_Popup = true;
 		}
-
+			
 		if (ImGui::BeginMenu("Add Component"))
 		{
 			ImGui::MenuItem("MeshRender");

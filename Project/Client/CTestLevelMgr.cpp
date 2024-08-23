@@ -47,6 +47,13 @@ void CTestLevelMgr::CreateTestLevel()
 	pLevel->GetLayer(4)->SetName(L"Monster");
 	pLevel->GetLayer(5)->SetName(L"PlayerProjectile");
 	pLevel->GetLayer(6)->SetName(L"MonsterProjectile");
+	pLevel->GetLayer(7)->SetName(L"");
+	pLevel->GetLayer(8)->SetName(L"");
+	pLevel->GetLayer(9)->SetName(L"");
+	pLevel->GetLayer(10)->SetName(L"");
+	pLevel->GetLayer(11)->SetName(L"");
+	pLevel->GetLayer(12)->SetName(L"");
+	pLevel->GetLayer(13)->SetName(L"");
 
 
 	// Camera Object
