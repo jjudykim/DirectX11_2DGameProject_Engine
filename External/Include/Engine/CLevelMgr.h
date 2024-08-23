@@ -10,8 +10,8 @@ class CLevelMgr :
     SINGLE(CLevelMgr);
 
 private:
-    CLevel*  m_CurLevel;
-    bool     m_LevelChanged;
+    CLevel*            m_CurLevel;
+    bool               m_LevelChanged;
 
 public:
     CLevel* GetCurrentLevel() { return m_CurLevel; }

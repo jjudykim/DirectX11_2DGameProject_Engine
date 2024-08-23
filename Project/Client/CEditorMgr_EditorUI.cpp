@@ -8,6 +8,7 @@
 
 #include "ParamUI.h"
 
+#include "LevelViewer.h"
 #include "Inspector.h"
 #include "Content.h"
 #include "Outliner.h"
@@ -99,6 +100,12 @@ void CEditorMgr::ObserveContent()
 void CEditorMgr::CreateEditorUI()
 {
     EditorUI* pUI = nullptr;
+
+    // Level Viewer
+    pUI = new LevelViewer;
+    pUI->Init();
+    pUI->SetName("Level Viewer");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // Content
     pUI = new Content;

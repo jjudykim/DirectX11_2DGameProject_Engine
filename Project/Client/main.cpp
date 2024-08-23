@@ -61,7 +61,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #endif
 
     // Test용 레벨 초기상태
-    CTestLevelMgr::CreateTestLevel();
+    //CTestLevelMgr::CreateTestLevel();
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
     MSG msg = {};

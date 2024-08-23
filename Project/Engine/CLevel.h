@@ -10,6 +10,7 @@ class CLevel :
 private:
     CLayer*        m_Layer[MAX_LAYER];
     LEVEL_STATE    m_State;
+    wstring        m_LevelTitle;
 
 public:
     void AddObject(int LayerIdx, CGameObject* _Object, bool _bMoveChild = false);
@@ -17,8 +18,11 @@ public:
     CGameObject* FindObjectByName(const wstring& _Name);
 
 public:
+    void SetLevelTitle(const wstring& _Name) { m_LevelTitle = _Name; }
+
     CLayer* GetLayer(int _LayerIdx) { return m_Layer[_LayerIdx]; }
     LEVEL_STATE GetState() { return m_State; }
+    const wstring& GetLevelTitle() { return m_LevelTitle; }
     
 
 private:

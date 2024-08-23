@@ -147,6 +147,9 @@
     <Filter Include="EditorUI\09. FlipBookEditor\FE_Sub\FE_SpriteList">
       <UniqueIdentifier>{b18b34ff-d37a-4b2c-b3ed-64ecba278f40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\00. Level Viewer">
+      <UniqueIdentifier>{cd293184-9704-42f5-8e1f-6b1afe1869f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="FE_SpriteList.h">
       <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_SpriteList</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelViewer.h">
+      <Filter>EditorUI\00. Level Viewer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -492,6 +498,9 @@
     </ClCompile>
     <ClCompile Include="FE_SpriteList.cpp">
       <Filter>EditorUI\09. FlipBookEditor\FE_Sub\FE_SpriteList</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelViewer.cpp">
+      <Filter>EditorUI\00. Level Viewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

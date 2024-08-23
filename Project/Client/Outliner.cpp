@@ -32,7 +32,7 @@ Outliner::Outliner()
 	// 외부 Node Drop Delegate 등록
 	m_Tree->AddDropDelegate(this, (DELEGATE_2)&Outliner::DroppedFromOuter);
 
-	// // Popup Delegate 등록
+	// Popup Delegate 등록
 	m_Tree->AddPopupDelegate(this, (DELEGATE_1)&Outliner::PopupMenu);         
 
 	m_Tree->SetDropPayLoadName("ContentTree");
@@ -51,6 +51,20 @@ void Outliner::Update()
 		RenewLevel();
 }
 
+void Outliner::ObjectViewer(CLevel* _Level, class TreeNode* _RootNode)
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		CLayer* pLayer = _Level->GetLayer(i);
+		const vector<CGameObject*>& vecObjects = pLayer->GetParentObjects();
+
+		for (size_t i = 0; i < vecObjects.size(); ++i)
+		{
+			AddGameObject(_RootNode, vecObjects[i]);
+		}
+	}
+}
+
 void Outliner::RenewLevel()
 {
 	// 모든 Tree 내용 삭제
@@ -58,22 +72,13 @@ void Outliner::RenewLevel()
 
 	// RootNode 생성
 	TreeNode* pRootNode = m_Tree->AddNode(nullptr, "Root", 0);
-	
+
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	
+
 	if (pLevel == nullptr)
 		return;
 
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		CLayer* pLayer = pLevel->GetLayer(i);
-		const vector<CGameObject*>& vecObjects = pLayer->GetParentObjects();
-
-		for (size_t i = 0; i < vecObjects.size(); ++i)
-		{
-			AddGameObject(pRootNode, vecObjects[i]);
-		}
-	}
+	ObjectViewer(pLevel, pRootNode);
 }
 
 void Outliner::AddGameObject(TreeNode* pNode, CGameObject* _Object)

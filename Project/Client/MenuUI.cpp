@@ -48,10 +48,68 @@ void MenuUI::File()
 	{
 		if (ImGui::MenuItem("Level Save"))
 		{
+			WCHAR szSelect[256] = {};
+
+			OPENFILENAME filename = {};
+
+			filename.lStructSize = sizeof(filename);
+			filename.hwndOwner = nullptr;
+			filename.lpstrFile = szSelect;
+			filename.lpstrFile[0] = '\0';
+			filename.nMaxFile = sizeof(szSelect);
+			filename.lpstrFilter = L"Level\0*.lv";
+			filename.nFilterIndex = 1;
+			filename.lpstrFileTitle = NULL;
+			filename.nMaxFileTitle = 0;
+
+			// 탐색창 초기 위치 지정
+			wstring strInitPath = CPathMgr::GetInst()->GetContentPath();
+			strInitPath += L"level\\";
+			filename.lpstrInitialDir = strInitPath.c_str();
+
+			filename.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+			if (GetSaveFileName(&filename))
+			{
+				wstring path = filename.lpstrFile;
+				CLevelSaveLoad::SaveLevel(path, CLevelMgr::GetInst()->GetCurrentLevel());
+			}
+
 		}
 
 		if (ImGui::MenuItem("Level Load"))
 		{
+			wchar_t szSelect[256] = {};
+
+			OPENFILENAME filename = {};
+
+			filename.lStructSize = sizeof(filename);
+			filename.hwndOwner = nullptr;
+			filename.lpstrFile = szSelect;
+			filename.lpstrFile[0] = '\0';
+			filename.nMaxFile = sizeof(szSelect);
+			filename.lpstrFilter = L"Level\0*.lv";
+			filename.nFilterIndex = 1;
+			filename.lpstrFileTitle = NULL;
+			filename.nMaxFileTitle = 0;
+
+			// 탐색창 초기 위치 지정
+			wstring strInitPath = CPathMgr::GetInst()->GetContentPath();
+			strInitPath += L"level\\";
+			filename.lpstrInitialDir = strInitPath.c_str();
+
+			filename.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+			if (GetOpenFileName(&filename))
+			{
+				wstring path = filename.lpstrFile;
+				CLevel* pLevel = CLevelSaveLoad::LoadLevel(path);
+				ChangeLevel(pLevel, LEVEL_STATE::STOP);
+
+				// Inspector 의 타겟정보를 nullptr 로 되돌리기
+				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+				pInspector->SetTargetObject(nullptr);
+			}
 		}
 
 		ImGui::EndMenu();

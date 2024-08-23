@@ -22,9 +22,8 @@ void CLevelSaveLoad::SaveLevel(const wstring& _FilePath, CLevel* _Level)
 	// Layer
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		CLayer* pLayer = _Level->GetLayer(i);
-
 		// Layer Name
+		CLayer* pLayer = _Level->GetLayer(i);
 		SaveWString(pLayer->GetName(), File);
 
 		// GameObject - Parents Count 
