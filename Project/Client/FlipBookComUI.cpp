@@ -28,13 +28,13 @@ FlipBookComUI::~FlipBookComUI()
 void FlipBookComUI::Init()
 {
 	m_FBCom = GetTargetObject()->FlipBookComponent();
-	m_CurFB = m_FBCom->GetCurFlipBook();
-	m_SelectFB = nullptr;
-	if (m_CurSprite != nullptr)
-		m_CurSprite = m_CurFB->GetSprite(0);
+	if (m_FBCom == nullptr) return;
 
+	m_CurFB = m_FBCom->GetVecFlipBook()[0];
+	m_FBCom->SetCurFlipBook(m_CurFB);
+	m_CurSprite = m_CurFB->GetSprite(0);
+	m_SelectFB = nullptr;
 	m_UIHeight = 0;
-	
 	m_AccTime = 0;
 
 	const vector<Ptr<CFlipBook>>& vecFlipBook = m_FBCom->GetVecFlipBook();
@@ -43,7 +43,7 @@ void FlipBookComUI::Init()
 		if (vecFlipBook[i].Get() == nullptr)
 			continue;
 
-		if (vecFlipBook[i]->GetKey() == m_CurFB->GetKey())
+		if (m_CurFB != nullptr && vecFlipBook[i]->GetKey() == m_CurFB->GetKey())
 		{
 			m_ListIdx = i;
 			break;

@@ -52,15 +52,21 @@ void CRenderMgr::Init()
 void CRenderMgr::Tick()
 {
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	if (pCurLevel == nullptr)
-		return;
-
-	RenderStart();
 
 	// 렌더타겟 지정
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
 	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+
+	if (pCurLevel == nullptr)
+	{
+		float color[4] = { 0.f, 0.f, 0.f, 1.0f };
+		CONTEXT->ClearRenderTargetView(pRTTex->GetRTV().Get(), color);
+		CONTEXT->ClearDepthStencilView(pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+		return;
+	}
+		
+	RenderStart();
 
 	// Level이 Play 상태인 경우, Level 내에 있는 카메라 시점으로 렌더링
 	if (pCurLevel->GetState() == PLAY)

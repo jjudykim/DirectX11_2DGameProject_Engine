@@ -59,55 +59,58 @@ void* CMaterial::GetScalarParam(SCALAR_PARAM _Param)
 	return nullptr;
 }
 
+void CMaterial::Binding(int _index)
+{
+	if (!m_Shader)
+		return;
+
+	m_Const.iArr[0] = _index;
+
+	for (int i = 0; i < TEX_PARAM::END; ++i)
+	{
+		if (m_arrSprite[i] == nullptr)
+		{
+			m_Const.btex[i] = 0;
+			CTexture::Clear(i);
+			continue;
+		}
+
+		m_Const.btex[i] = 1;
+
+		if (i == _index)
+		{
+			m_arrSprite[i]->BindingAtTexRegister(i);
+		}
+	}
+
+	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+	pCB->SetData(&m_Const);
+	pCB->Binding();
+
+	m_Shader->Binding();
+}
+
 void CMaterial::Binding()
 {
 	if (!m_Shader)
 		return;
 
-	if (m_UseSpriteAsTex)
+	for (int i = 0; i < TEX_PARAM::END; ++i)
 	{
-		int index = m_Const.iArr[0];
-
-		for (int i = 0; i < TEX_PARAM::END; ++i)
+		if (m_arrTex[i] == nullptr)
 		{
-			if (m_arrSprite[i] == nullptr)
-			{
-				m_Const.btex[i] = 0;
-				CTexture::Clear(i);
-				continue;
-			}
-		
-			m_Const.btex[i] = 1;
-
-			if (i == index)
-			{
-				m_arrSprite[i]->BindingAtTexRegister(i);
-			}
+			m_Const.btex[i] = 0;
+			CTexture::Clear(i);
+			continue;
 		}
 
-		CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
-		pCB->SetData(&m_Const);
-		pCB->Binding();
+		m_Const.btex[i] = 1;
+		m_arrTex[i]->Binding(i);
 	}
-	else
-	{
-		for (int i = 0; i < TEX_PARAM::END; ++i)
-		{
-			if (m_arrTex[i] == nullptr)
-			{
-				m_Const.btex[i] = 0;
-				CTexture::Clear(i);
-				continue;
-			}
-			 
-			m_Const.btex[i] = 1;
-			m_arrTex[i]->Binding(i);
-		}
 
-		CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
-		pCB->SetData(&m_Const);
-		pCB->Binding();
-	}
+	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+	pCB->SetData(&m_Const);
+	pCB->Binding();
 
 	m_Shader->Binding();
 }

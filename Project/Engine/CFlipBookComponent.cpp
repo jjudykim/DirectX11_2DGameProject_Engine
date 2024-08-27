@@ -106,9 +106,13 @@ void CFlipBookComponent::LoadFromFile(FILE* _File)
 
 	// Currenet FlipBook Info
 	LoadAssetRef(m_CurFlipBook, _File);
+	if (m_CurFlipBook == nullptr)
+		m_CurFlipBook = m_vecFlipBook[0];
 	
 	// Current Sprite Info
 	LoadAssetRef(m_CurFrmSprite, _File);
+	if (m_CurFrmSprite == nullptr)
+		m_CurFrmSprite = m_CurFlipBook->GetSprite(0);
 
 	// Current Frame Index / FPS / Time / Repeat
 	fread(&m_CurFrmIdx, sizeof(int), 1, _File);

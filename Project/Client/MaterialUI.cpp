@@ -97,75 +97,6 @@ void MaterialUI::ShaderParameter()
 	const vector<tScalarParam>& vecScalarParam = pShader->GetScalarParam();
 	const vector<tTexParam>& vecTexParam = pShader->GetTexParam();
 
-	// Scalar Parameter 대응
-	//for (size_t i = 0; i < vecScalarParam.size(); ++i)
-	//{
-	//	switch (vecScalarParam[i].ParamType)
-	//	{
-	//	case INT_0:
-	//	case INT_1:
-	//	case INT_2:
-	//	case INT_3:
-	//	{
-	//		int data = *((int*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-	//		if (ParamUI::InputInt(&data, vecScalarParam[i].strDesc))
-	//		{
-	//			pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
-	//			SaveMaterialToFile();
-	//		}
-	//	}
-	//		break;
-	//	case FLOAT_0:
-	//	case FLOAT_1:
-	//	case FLOAT_2:
-	//	case FLOAT_3:
-	//	{
-	//		float data = *((float*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-	//		if (ParamUI::DragFloat(&data, 0.1f, vecScalarParam[i].strDesc))
-	//		{
-	//			pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
-	//			SaveMaterialToFile();
-	//		}
-	//	}
-	//		break;
-	//	case VEC2_0:
-	//	case VEC2_1:
-	//	case VEC2_2:
-	//	case VEC2_3:
-	//	{
-	//		Vec2 data = *((Vec2*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-	//		if (ParamUI::DragVec2(&data, 0.1f, vecScalarParam[i].strDesc))
-	//		{
-	//			pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
-	//			SaveMaterialToFile();
-	//		}
-	//	}
-	//		break;
-	//	case VEC4_0:
-	//	case VEC4_1:
-	//	case VEC4_2:
-	//	case VEC4_3:
-	//	{
-	//		Vec4 data = *((Vec4*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-	//		if (ParamUI::DragVec4(&data, 0.1f, vecScalarParam[i].strDesc))
-	//		{
-	//			pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
-	//			SaveMaterialToFile();
-	//		}
-	//	}
-	//		break;
-	//	case MAT_0:
-	//	case MAT_1:
-	//	case MAT_2:
-	//	case MAT_3:
-	//	{
-	//		Matrix data = *((Matrix*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-	//		SaveMaterialToFile();
-	//	}
-	//		break;
-	//	}
-	//}
-
 	if (ImGui::BeginListBox("##TexParamList", ImVec2(-FLT_MIN, 150.f)))
 	{
 		for (size_t i = 0; i < vecTexParam.size(); i++)
@@ -198,6 +129,8 @@ void MaterialUI::ShaderParameter()
 		}
 		ImGui::EndListBox();
 	}
+
+	
 
 	// Texture Parameter 대응
 	if (!m_UseSprite)

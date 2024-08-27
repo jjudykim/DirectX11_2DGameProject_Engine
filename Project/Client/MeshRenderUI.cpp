@@ -20,18 +20,29 @@ MeshRenderUI::~MeshRenderUI()
 {
 }
 
+void MeshRenderUI::Init()
+{
+	m_MeshRender = GetTargetObject()->MeshRender();
+	m_UseFlipBook = GetTargetObject()->GetComponent(COMPONENT_TYPE::FLIPBOOKCOMPONENT) != nullptr;
+	m_UseSprite = m_MeshRender->GetUseSpriteAsTex();
+	m_ParamIdx = m_MeshRender->GetParamIndex();
+}
+
 void MeshRenderUI::Update()
 {
+	if (m_MeshRender == nullptr)
+		Init();
+
+	if (m_MeshRender->GetID() != GetTargetObject()->MeshRender()->GetID())
+		Init();
+
 	m_UIHeight = 0;
 
 	Title();
 	m_UIHeight += (int)ImGui::GetItemRectSize().y;
 
-	CMeshRender* pMeshRender = GetTargetObject()->MeshRender();
-	m_MeshRender = pMeshRender;
-
 	// Mesh Á¤º¸
-	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
+	Ptr<CMesh> pMesh = m_MeshRender->GetMesh();
 
 	string MeshName;
 
@@ -98,7 +109,7 @@ void MeshRenderUI::Update()
 			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
 			if (ASSET_TYPE::MATERIAL == pAsset->GetAssetType())
 			{
-				pMeshRender->SetMaterial((CMaterial*)pAsset.Get());
+				m_MeshRender->SetMaterial((CMaterial*)pAsset.Get());
 			}
 		}
 		ImGui::EndDragDropTarget();
@@ -118,21 +129,28 @@ void MeshRenderUI::Update()
 	}
 	m_UIHeight += (int)ImGui::GetItemRectSize().y;
 
+	if (m_UseFlipBook)
+	{
+		m_UIHeight += 30.f;
+		SetChildSize(ImVec2(0.f, (float)m_UIHeight));
+		return;
+	}
+
 	// Use Sprite As Texture
 	ImGui::Text("Use Sprite as Texture?");
-	if (pMtrl != nullptr)
-		m_UseSprite = pMtrl->GetUseSpriteAsTex();
+	m_UseSprite = m_MeshRender->GetUseSpriteAsTex();
 	ImGui::SameLine(0.f, 10.f);
 	ImGui::Checkbox("##UseSprite", &m_UseSprite);
-	if (pMtrl != nullptr)
-		pMtrl->SetUseSpriteAsTex(m_UseSprite);
+	m_MeshRender->SetUseSpriteAsTex(m_UseSprite);
+	if (m_MeshRender->GetMaterial() != nullptr)
+		m_MeshRender->GetMaterial()->SetUseSpriteAsTex(m_UseSprite);
 
 	m_UIHeight += (int)ImGui::GetItemRectSize().y;
 
 	// Shader Parameter
 	ShaderParameter();
 
-	m_UIHeight += 50.f;
+	m_UIHeight += 100.f;
 	SetChildSize(ImVec2(0.f, (float)m_UIHeight));
 }
 
@@ -202,14 +220,10 @@ void MeshRenderUI::ShaderParameter()
 		case INT_2:
 		case INT_3:
 		{
-			int data = *((int*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
+			int data = m_MeshRender->GetParamIndex();
 			if (ParamUI::InputInt(&data, vecScalarParam[i].strDesc))
 			{
-				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
-				
-				if (!pMtrl->IsEngineAsset())
-					pMtrl->Save(pMtrl->GetRelativePath());
-				
+				m_MeshRender->SetParamIdx(data);
 				m_UIHeight += (int)ImGui::GetItemRectSize().y;
 			}
 		}

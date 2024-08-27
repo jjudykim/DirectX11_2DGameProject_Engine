@@ -10,11 +10,13 @@ private:
     TEX_PARAM           m_SelectTexParam;
 
     bool                m_UseSprite;
+    bool                m_UseFlipBook;
     
     int                 m_ParamIdx;
     UINT                m_UIHeight;
 
 private:
+    virtual void Init() override;
     virtual void Update() override;
 
 public:
