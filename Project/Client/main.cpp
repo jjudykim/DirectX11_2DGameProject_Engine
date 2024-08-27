@@ -81,7 +81,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
         else
-        {
+        { 
             CEngine::GetInst()->Progress();
 
 #ifdef _DEBUG

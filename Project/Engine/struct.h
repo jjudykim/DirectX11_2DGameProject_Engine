@@ -72,7 +72,7 @@ struct tMtrlConst
 	 Vec2    v2Arr[4];
 	 Vec4    v4Arr[4];
 	 Matrix  matArr[4];
-	 int	 btex[TEX_PARAM::END + 2];
+	 int	 btex[TEX_PARAM::END];
 };
 
 struct tSpriteInfo

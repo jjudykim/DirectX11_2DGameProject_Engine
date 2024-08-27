@@ -180,7 +180,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 	// Shader »ý¼º
 	Ptr<CGraphicShader> pShader = nullptr;
 
-
 	// Std2DShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
@@ -190,10 +189,14 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
-	
-	pShader->AddScalarParam(INT_0, "Test Parameter0");
-	pShader->AddScalarParam(INT_3, "Test Parameter3");
-	pShader->AddTexParam(TEX_0, "OutputTexture");
+
+	// Current Tex Param
+	pShader->AddScalarParam(INT_0, "Current Tex Param Index");
+
+	for (UINT i = 0; i < 16; ++i)
+	{
+		pShader->AddTexParam((TEX_PARAM)i, "Texture" + std::to_string(i + 1));
+	}
 
 	AddAsset(L"Std2DShader", pShader);
 

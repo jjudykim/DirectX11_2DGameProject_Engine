@@ -261,7 +261,14 @@ void SE_Detail::SelectSpriteInfo()
 	ImGui::Text("Position");
 	ImGui::SameLine(120);
 	ImGui::SetNextItemWidth(180.f);
-	ImGui::InputFloat2("##SpritePos", pos, "%.2f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputFloat2("##SpritePos", pos, "%.2f");
+	if (pos[0] != SpriteLT.x || pos[1] != SpriteLT.y)
+	{
+		pos[0] = SpriteLT.x;
+		pos[1] = SpriteLT.y;
+		GetAtlasView()->SetMouseLT(ImVec2(pos[0], pos[1]));
+	}
+	
 	// --------------------------
 	//  2. Size
 	// --------------------------
@@ -269,7 +276,13 @@ void SE_Detail::SelectSpriteInfo()
 	ImGui::Text("Size");
 	ImGui::SameLine(120);
 	ImGui::SetNextItemWidth(180.f);
-	ImGui::InputFloat2("##SpriteSize", size, "%.2f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputFloat2("##SpriteSize", size, "%.2f");
+	if (size[0] != SpriteSize.x || size[1] != SpriteSize.y)
+	{
+		size[0] = SpriteSize.x;
+		size[1] = SpriteSize.y;
+		GetAtlasView()->SetMouseRB(ImVec2(pos[0] + size[0], pos[1] + size[1]));
+	}
 	// --------------------------
 	//  3. Image
 	// --------------------------
@@ -503,8 +516,28 @@ void SE_Detail::CalcBackgroundSize()
 			m_Background = ImVec2(700.f, 700.f);
 		else if (vSpriteSize.x < 800.f && vSpriteSize.y < 800.f)
 			m_Background = ImVec2(800.f, 800.f);
-		else
+		else if (vSpriteSize.x < 1000.f && vSpriteSize.y < 1000.f)
 			m_Background = ImVec2(1000.f, 1000.f);
+		else if (vSpriteSize.x < 1200.f && vSpriteSize.y < 1200.f)
+			m_Background = ImVec2(1200.f, 1200.f);
+		else if (vSpriteSize.x < 1400.f && vSpriteSize.y < 1400.f)
+			m_Background = ImVec2(1400.f, 1400.f);
+		else if (vSpriteSize.x < 1600.f && vSpriteSize.y < 1600.f)
+			m_Background = ImVec2(1600.f, 1600.f);
+		else if (vSpriteSize.x < 1800.f && vSpriteSize.y < 1800.f)
+			m_Background = ImVec2(1800.f, 1800.f);
+		else if (vSpriteSize.x < 2000.f && vSpriteSize.y < 2000.f)
+			m_Background = ImVec2(2000.f, 2000.f);
+		else if (vSpriteSize.x < 2500.f && vSpriteSize.y < 2500.f)
+			m_Background = ImVec2(2500.f, 2500.f);
+		else if (vSpriteSize.x < 3000.f && vSpriteSize.y < 3000.f)
+			m_Background = ImVec2(3000.f, 3000.f);
+		else if (vSpriteSize.x < 3500.f && vSpriteSize.y < 3500.f)
+			m_Background = ImVec2(3500.f, 3500.f);
+		else if (vSpriteSize.x < 4000.f && vSpriteSize.y < 4000.f)
+			m_Background = ImVec2(4000.f, 4000.f);
+		else
+			m_Background = ImVec2(5000.f, 5000.f);
 	}
 }
 

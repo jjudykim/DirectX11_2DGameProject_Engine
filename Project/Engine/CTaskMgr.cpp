@@ -82,7 +82,8 @@ void CTaskMgr::ExecuteTask()
 			LEVEL_STATE NextState = (LEVEL_STATE)task.Param_1;
 
 			CLevelMgr::GetInst()->ChangeLevel(pLevel);
-			pLevel->ChangeState(NextState);
+			if (pLevel != nullptr)
+				pLevel->ChangeState(NextState);
 		}
 		break;
 

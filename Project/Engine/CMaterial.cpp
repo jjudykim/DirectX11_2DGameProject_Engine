@@ -6,6 +6,7 @@
 
 CMaterial::CMaterial(bool _IsEngine)
 	: CAsset(ASSET_TYPE::MATERIAL)
+	, m_UseSpriteAsTex(false)
 {
 	if (_IsEngine)
 	{
@@ -63,22 +64,50 @@ void CMaterial::Binding()
 	if (!m_Shader)
 		return;
 
-	for (int i = 0; i < TEX_PARAM::END; ++i)
+	if (m_UseSpriteAsTex)
 	{
-		if (m_arrTex[i] == nullptr)
+		int index = m_Const.iArr[0];
+
+		for (int i = 0; i < TEX_PARAM::END; ++i)
 		{
-			m_Const.btex[i] = 0;
-			CTexture::Clear(i);
-			continue;
+			if (m_arrSprite[i] == nullptr)
+			{
+				m_Const.btex[i] = 0;
+				CTexture::Clear(i);
+				continue;
+			}
+		
+			m_Const.btex[i] = 1;
+
+			if (i == index)
+			{
+				m_arrSprite[i]->BindingAtTexRegister(i);
+			}
 		}
 
-		m_Const.btex[i] = 1;
-		m_arrTex[i]->Binding(i);
+		CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+		pCB->SetData(&m_Const);
+		pCB->Binding();
 	}
+	else
+	{
+		for (int i = 0; i < TEX_PARAM::END; ++i)
+		{
+			if (m_arrTex[i] == nullptr)
+			{
+				m_Const.btex[i] = 0;
+				CTexture::Clear(i);
+				continue;
+			}
+			 
+			m_Const.btex[i] = 1;
+			m_arrTex[i]->Binding(i);
+		}
 
-	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
-	pCB->SetData(&m_Const);
-	pCB->Binding();
+		CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+		pCB->SetData(&m_Const);
+		pCB->Binding();
+	}
 
 	m_Shader->Binding();
 }
@@ -102,11 +131,21 @@ int CMaterial::Save(const wstring& _RelativePath)
 	// 상수 데이터 정보
 	fwrite(&m_Const, sizeof(tMtrlConst), 1, File);
 
-	for (UINT i = 0; i < TEX_PARAM::END; ++i)
-	{
-		SaveAssetRef(m_arrTex[i], File);
-	}
+	// 스프라이트 활용 정보
+	fwrite(&m_UseSpriteAsTex, sizeof(bool), 1, File);
 
+	// 참조 텍스쳐 정보
+	if (m_UseSpriteAsTex)
+	{
+		for(UINT i = 0; i < TEX_PARAM::END; ++i)
+			SaveAssetRef(m_arrSprite[i], File);
+	}
+	else
+	{
+		for (UINT i = 0; i < TEX_PARAM::END; ++i)
+			SaveAssetRef(m_arrTex[i], File);
+	}
+	
 	fclose(File);
 
 	return S_OK;
@@ -126,11 +165,22 @@ int CMaterial::Load(const wstring& _FilePath)
 	// 상수 데이터 정보
 	fread(&m_Const, sizeof(tMtrlConst), 1, File);
 
-	for (UINT i = 0; i < TEX_PARAM::END; ++i)
-	{
-		LoadAssetRef(m_arrTex[i], File);
-	}
+	// 스프라이트 활용 정보
+	fread(&m_UseSpriteAsTex, sizeof(bool), 1, File);
 
+	if (m_UseSpriteAsTex)
+	{
+		for(UINT i = 0; i < TEX_PARAM::END; ++i)
+			LoadAssetRef(m_arrSprite[i], File);
+	}
+	else
+	{
+		for (UINT i = 0; i < TEX_PARAM::END; ++i)
+		{
+			LoadAssetRef(m_arrTex[i], File);
+		}
+	}
+	
 	fclose(File);
 
 	return S_OK;

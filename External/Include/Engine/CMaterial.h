@@ -3,6 +3,7 @@
 
 #include "Ptr.h"
 #include "CTexture.h"
+#include "CSprite.h"
 
 class CMaterial :
     public CAsset
@@ -13,13 +14,20 @@ private:
     tMtrlConst              m_Const;
     Ptr<CTexture>           m_arrTex[TEX_PARAM::END];
 
+    bool                    m_UseSpriteAsTex;                 // Sprite를 Texture로써 사용할지에 대한 여부
+    Ptr<CSprite>            m_arrSprite[TEX_PARAM::END];
+
 public:
     template<typename T>
     void SetScalarParam(SCALAR_PARAM _Param, const T& Data);
     void SetTexParam(TEX_PARAM _Param, Ptr<CTexture> _Tex) { m_arrTex[_Param] = _Tex; }
+    void SetUseSpriteAsTex(bool _Use) { m_UseSpriteAsTex = _Use; }
+    void SetSprite(TEX_PARAM _Param, Ptr<CSprite> _Sprite) { m_arrSprite[_Param] = _Sprite; }
 
     void* GetScalarParam(SCALAR_PARAM _Param);
     Ptr<CTexture> GetTexParam(TEX_PARAM _Param) { return m_arrTex[(UINT)_Param]; }
+    bool GetUseSpriteAsTex() { return m_UseSpriteAsTex; }
+    Ptr<CSprite> GetSprite(TEX_PARAM _Param) { return m_arrSprite[(UINT)_Param]; }
 
 public:
     void SetShader(Ptr<CGraphicShader> _Shader) { m_Shader = _Shader; }

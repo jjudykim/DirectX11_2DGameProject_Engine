@@ -120,7 +120,7 @@ void CFlipBookComponent::AddFlipBook(int _Idx, Ptr<CFlipBook> _FlipBook)
 {
 	if (m_vecFlipBook.size() <= _Idx)
 	{
-		m_vecFlipBook.resize(_Idx + 1);
+		m_vecFlipBook.resize(_Idx + 1, nullptr);
 	}
 
 	m_vecFlipBook[_Idx] = _FlipBook;
@@ -178,7 +178,7 @@ void CFlipBookComponent::Binding()
 
 		// FlipBook Sprite 아틀라스 텍스쳐 전용 레지스터 번호 t10에 바인딩
 		Ptr<CTexture> pAtlas = m_CurFrmSprite->GetAtlasTexture();
-		pAtlas->Binding(10);
+		pAtlas->Binding(20);
 	}
 	else
 	{

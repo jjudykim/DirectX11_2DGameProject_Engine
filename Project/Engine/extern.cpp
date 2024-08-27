@@ -44,36 +44,36 @@ const char* ToString(COMPONENT_TYPE _Type) { return COMPONENT_TYPE_STRING[(UINT)
 const char* LAYER_TYPE_STRING[MAX_LAYER] =
 {
 	"DEFAULT",                      // 0
-	"BACKGROUND",                   // 1
-	"MONSTER",                      // 2
-	"PLAYER",						// 3
-	"PLAYER_PROJECTTILE",           // 4
-	"MONSTER_PROJECTTILE",			// 5
-	"",								// 6
-	"",								// 7
-	"",                             // 8
-	"",								// 9
-	"",								// 10
-	"",								// 11
-	"",								// 12
-	"",								// 13
-	"",								// 14
-	"",								// 15
-	"",                             // 16
-	"",								// 17
-	"",								// 18
-	"",								// 19
-	"",                             // 20
-	"",                             // 21
-	"",                             // 22
-	"",                             // 23
+	"BACKGROUND0",                  // 1
+	"BACKGROUND1",                  // 2
+	"BACKGROUND2",					// 3
+	"BACKGROUND3",					// 4
+	"BACKGROUND_DECO",				// 5
+	"PLATFORM"						// 6
+	"ITEMBOX"						// 7
+	"LIGHT0",						// 8
+	"LIGHT1",						// 9
+	"LIGHT2",						// 10
+	"LIGHT3",						// 11
+	"MONSTER",						// 12
+	"DAMAGE_EFFECT",				// 13
+	"WEAPON_EFFECT",				// 14
+	"PLAYER",                       // 15
+	"PLAYERWEAPON",                 // 16
+	"PLAYER_PROJECTTILE",           // 17
+	"MONSTER_PROJECTTILE",			// 18
+	"FOREGROUND",					// 19
+	"POSTPROCESS",					// 20
+	"UI",                           // 21
+	"",								// 22
+	"",								// 23
 	"",                             // 24
-	"",                             // 25
-	"",                             // 26
-	"",                             // 27
-	"",                             // 28
-	"",                             // 29
-	"",                             // 30
-	""                              // 31
+	"",								// 25
+	"",								// 26
+	"",								// 27
+	"",								// 28
+	"",								// 29
+	"",								// 30
+	""   							// 31
 };
 const char* ToString(LAYER_TYPE _Type) { return LAYER_TYPE_STRING[(UINT)_Type]; }

@@ -95,7 +95,7 @@ void SE_AtlasView::SelectCheck()
 	ImGui::InputFloat2("PixelPos", PixelPos);
 
 	// Left Mouse Click Check
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) //KEY_RELEASED(KEY::LBTN)
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsKeyDown(ImGuiKey::ImGuiKey_LeftCtrl)) //KEY_RELEASED(KEY::LBTN)
 	{
 		Vec2 vPixelPos = Vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
 		ImVec2 vDiff = ImVec2(vPixelPos.x - m_ImageRectMin.x, vPixelPos.y - m_ImageRectMin.y);
@@ -119,6 +119,17 @@ void SE_AtlasView::DrawSelectRect()
 										, ImGui::GetColorU32(ImVec4(1.f, 1.f, 0.f, 1.f))
 										, 0.f, 0.f, 1.f);
 }
+
+void SE_AtlasView::DrawSelectRect(ImVec2 _LT, ImVec2 _RT)
+{
+	ImVec2 MouseLTPos = ImVec2(_LT.x * m_Ratio + m_ImageRectMin.x, _LT.y * m_Ratio + m_ImageRectMin.y);
+	ImVec2 MouseRBPos = ImVec2(_RT.x * m_Ratio + m_ImageRectMin.x, _RT.y * m_Ratio + m_ImageRectMin.y);
+
+	ImGui::GetWindowDrawList()->AddRect(MouseLTPos, MouseRBPos
+		, ImGui::GetColorU32(ImVec4(1.f, 1.f, 0.f, 1.f))
+		, 0.f, 0.f, 1.f);
+}
+
 
 void SE_AtlasView::CalcSpriteSize(Vec2 _PixelPos)
 {

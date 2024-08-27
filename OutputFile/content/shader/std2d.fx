@@ -33,7 +33,7 @@ VTX_OUT VS_Std2D(VTX_IN _in)
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
     
-    output.vWorldPos = mul(float4(_in.vPos, 1.f), matWorld);
+    output.vWorldPos = mul(float4(_in.vPos, 1.f), matWorld).xyz;
     
     return output;
 }
@@ -53,7 +53,15 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         if (LeftTopUV.x <= vSpriteUV.x && vSpriteUV.x <= LeftTopUV.x + SliceUV.x
             && LeftTopUV.y <= vSpriteUV.y && vSpriteUV.y <= LeftTopUV.y + SliceUV.y)
         {
-            vColor = g_AtalsTex.Sample(g_sam_0, vSpriteUV);
+            if (g_int_0)
+            {
+                vColor = SelectTexture(g_int_0, g_sam_0, vSpriteUV);
+                //vColor = OutputTex.Sample(g_sam_0, vSpriteUV);
+            }
+            else
+            {
+                vColor = g_AtalsTex.Sample(g_sam_0, vSpriteUV);
+            }
         }
         else
         {
@@ -65,7 +73,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
     {
         if (g_btex_0)
         {
-            vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+            vColor = SelectTexture(g_int_0, g_sam_0, _in.vUV);
         }
         else
         {
@@ -73,7 +81,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         }
     }
     
-    if (vColor.a < 0.5f)
+    if (vColor.a < 0.3f)
     {
         discard;
     }

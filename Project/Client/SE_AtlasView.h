@@ -21,13 +21,18 @@ private:
 
 public:
     ImVec2 GetSpriteLT() { return m_MouseLT; }
+    void   SetMouseLT(ImVec2 _LT) { m_MouseLT = _LT; }
     ImVec2 GetSpriteRB() { return m_MouseRB; }
+    void   SetMouseRB(ImVec2 _RB) { m_MouseRB = _RB; }
+
     void SetAtlasTex(Ptr<CTexture> _Tex);
+    void SetMouseLTRB(ImVec2 _LT, ImVec2 _RB);
 
 private:
     void WheelCheck();
     void SelectCheck();
     void DrawSelectRect();
+    void DrawSelectRect(ImVec2 _LT, ImVec2 _RT);
     void CalcSpriteSize(Vec2 _PixelPos);
     bool IsPixelOk(Vec2 _PixelPos);
 

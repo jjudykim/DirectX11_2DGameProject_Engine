@@ -53,15 +53,30 @@ void MenuUI::Tick()
 
 		ImGui::Combo("##LayerCombo", &selectItem, LAYER_TYPE_STRING, IM_ARRAYSIZE(LAYER_TYPE_STRING));
 
+		ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 200.f);
 		if (ImGui::Button("Create", ImVec2(80.f, 18.f)))
 		{
-			CGameObject* pObject = new CGameObject;
-			wchar_t wstrName[256];
-			MultiByteToWideChar(CP_UTF8, 0, name, -1, wstrName, 256);
-			pObject->SetName(wstrName);
-			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(selectItem, pObject);
+			if (strlen(name) == 0)
+			{
+				int i = 0;
+			}
+			else
+			{
+				CGameObject* pObject = new CGameObject;
+				wchar_t wstrName[256];
+				MultiByteToWideChar(CP_UTF8, 0, name, -1, wstrName, 256);
+				pObject->SetName(wstrName);
+				CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(selectItem, pObject);
+
+				memset(name, 0, 256);
+			}
 			m_Popup = false;
 			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine(0.f, 5.f);
+		if (ImGui::Button("Cancel", ImVec2(80.f, 18.f)))
+		{
+
 		}
 		ImGui::EndPopup();
 	}
@@ -213,9 +228,51 @@ void MenuUI::GameObject()
 			
 		if (ImGui::BeginMenu("Add Component"))
 		{
-			ImGui::MenuItem("MeshRender");
-			ImGui::MenuItem("Collider2D");
-			ImGui::MenuItem("Camera");
+			// TargetObject
+			Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+			CGameObject* pObject = pInspector->GetTargetObject();
+
+			if (ImGui::MenuItem("1. Transform"))
+				pObject->AddComponent(new CTransform);
+
+			if (ImGui::MenuItem("2. Collider2D"))
+			{
+				pObject->AddComponent(new CCollider2D);
+				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
+					pObject->AddComponent(new CTransform);
+			}
+				
+
+			if (ImGui::MenuItem("3. FlipBook"))
+				pObject->AddComponent(new CFlipBookComponent);
+
+			//if (ImGui::MenuItem("4. RigidBody"))
+			//	pObject->AddComponent(new CFlipBookComponent);
+
+			if (ImGui::MenuItem("5. Camera"))
+			{
+				pObject->AddComponent(new CCamera);
+				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
+					pObject->AddComponent(new CTransform);
+			}
+				
+
+			if (ImGui::MenuItem("6. Light2D"))
+			{
+				pObject->AddComponent(new CLight2D);
+				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
+					pObject->AddComponent(new CTransform);
+					
+			}
+				
+			
+			ImGui::SeparatorText("Render Component");
+
+			if (ImGui::MenuItem("MeshRender"))
+				pObject->AddComponent(new CMeshRender);
+
+			if (ImGui::MenuItem("TileMap"))
+				pObject->AddComponent(new CTileMap);
 
 			ImGui::EndMenu();
 		}

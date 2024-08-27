@@ -30,7 +30,8 @@ void FlipBookComUI::Init()
 	m_FBCom = GetTargetObject()->FlipBookComponent();
 	m_CurFB = m_FBCom->GetCurFlipBook();
 	m_SelectFB = nullptr;
-	m_CurSprite = m_CurFB->GetSprite(0);
+	if (m_CurSprite != nullptr)
+		m_CurSprite = m_CurFB->GetSprite(0);
 
 	m_UIHeight = 0;
 	

@@ -28,6 +28,27 @@ void LevelViewer::Update()
 	if (CLevelMgr::GetInst()->IsLevelChanged())
 		RenewLevel();
 
+	if (m_LevelEditMode)
+	{
+		ImGui::TextColored(ImVec4(0.3f, 0.5f, 0.7f, 1.f), "[Edit Mode]");
+		ImGui::SameLine(ImGui::GetWindowWidth() - 100.f);
+		if (ImGui::Button("Exit", ImVec2(50.f, 18.f)))
+		{
+			Inspector* inspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+			inspector->SetTargetObject(nullptr);
+			m_LevelEditMode = false;
+			m_CurLevel = nullptr;
+			m_LevelName = L"";
+			ChangeLevel(nullptr, LEVEL_STATE::STOP);
+		}
+	}
+	else
+	{
+		ImGui::BeginDisabled();
+		ImGui::Text("Create or Load Level!");
+		ImGui::EndDisabled();
+	}
+		
 	Viewer();
 }
 
@@ -66,13 +87,13 @@ void LevelViewer::ViewerButton()
 		if (ImGui::Button("Save", ImVec2(50.f, 18.f)))
 		{
 			WCHAR szSelect[256] = {};
+			wcscpy_s(szSelect, (m_LevelName + L".lv").c_str());
 
 			OPENFILENAME filename = {};
 
 			filename.lStructSize = sizeof(filename);
 			filename.hwndOwner = nullptr;
 			filename.lpstrFile = szSelect;
-			filename.lpstrFile[0] = '\0';
 			filename.nMaxFile = sizeof(szSelect);
 			filename.lpstrFilter = L"Level\0*.lv";
 			filename.nFilterIndex = 1;
@@ -90,7 +111,6 @@ void LevelViewer::ViewerButton()
 			{
 				wstring path = filename.lpstrFile;
 				CLevelSaveLoad::SaveLevel(path, CLevelMgr::GetInst()->GetCurrentLevel());
-				m_LevelEditMode = false;
 			}
 		}
 	}

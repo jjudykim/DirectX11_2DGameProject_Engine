@@ -26,6 +26,11 @@ public:
     Vec2 GetSliceUV() { return m_SliceUV; }
     Vec2 GetBackgroundUV() { return m_BackgroundUV; }
     Vec2 GetOffsetUV() { return m_OffsetUV; }
+    
+public:
+    void Binding();
+    void BindingAtTexRegister(UINT _RegisterNum);
+    static void Clear();
 
 public:
     void Create(Ptr<CTexture> _Atlas, Vec2 _LeftTopPixel, Vec2 _SlicePixel);

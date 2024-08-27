@@ -43,25 +43,25 @@ void CCameraMoveScript::OrthoGraphicMove()
 	Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	//if (KEY_PRESSED(KEY::W))
-	//{
-	//	vPos.y += DT * Speed;
-	//}
-	//
-	//if (KEY_PRESSED(KEY::S))
-	//{
-	//	vPos.y -= DT * Speed;
-	//}
-	//
-	//if (KEY_PRESSED(KEY::A))
-	//{
-	//	vPos.x -= DT * Speed;
-	//}
-	//
-	//if (KEY_PRESSED(KEY::D))
-	//{
-	//	vPos.x += DT * Speed;
-	//}
+	if (KEY_PRESSED(KEY::W))
+	{
+		vPos.y += DT * Speed;
+	}
+	
+	if (KEY_PRESSED(KEY::S))
+	{
+		vPos.y -= DT * Speed;
+	}
+	
+	if (KEY_PRESSED(KEY::A))
+	{
+		vPos.x -= DT * Speed;
+	}
+	
+	if (KEY_PRESSED(KEY::D))
+	{
+		vPos.x += DT * Speed;
+	}
 
 	Transform()->SetRelativePos(vPos);
 }
@@ -80,25 +80,25 @@ void CCameraMoveScript::PerspectiveMove()
 
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	//if (KEY_PRESSED(KEY::W))
-	//{
-	//	vPos += vFront * DT * Speed;
-	//}
-	//
-	//if (KEY_PRESSED(KEY::S))
-	//{
-	//	vPos -= vFront * DT * Speed;
-	//}
-	//
-	//if (KEY_PRESSED(KEY::A))
-	//{
-	//	vPos -= vRight * DT * Speed;
-	//}
-	//
-	//if (KEY_PRESSED(KEY::D))
-	//{
-	//	vPos += vRight * DT * Speed;
-	//}
+	if (KEY_PRESSED(KEY::W))
+	{
+		vPos += vFront * DT * Speed;
+	}
+	
+	if (KEY_PRESSED(KEY::S))
+	{
+		vPos -= vFront * DT * Speed;
+	}
+	
+	if (KEY_PRESSED(KEY::A))
+	{
+		vPos -= vRight * DT * Speed;
+	}
+	
+	if (KEY_PRESSED(KEY::D))
+	{
+		vPos += vRight * DT * Speed;
+	}
 
 	Transform()->SetRelativePos(vPos);
 

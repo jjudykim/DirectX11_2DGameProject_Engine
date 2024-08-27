@@ -9,7 +9,7 @@ class LevelViewer :
 private:
     CLevel*         m_CurLevel;
 
-    wstring          m_LevelName;
+    wstring         m_LevelName;
 
     bool            m_LevelEditMode;
 
@@ -19,7 +19,6 @@ public:
 public:
     void Viewer();
     void ViewerButton();
-    void FindLevelName();
     void RenewLevel();
 
 public:

@@ -27,6 +27,7 @@ void CMeshRender::Render()
 		FlipBookComponent()->Binding();
 	else
 		CFlipBookComponent::Clear();
+		
 
 	// 위치, 크기, 회전 상태정보 바인딩
 	GetOwner()->Transform()->Binding();

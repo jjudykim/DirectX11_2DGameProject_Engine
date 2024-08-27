@@ -5,7 +5,10 @@ class MaterialUI :
     public AssetUI
 {
 private:
-    TEX_PARAM  m_SelectTexParam;
+    TEX_PARAM     m_SelectTexParam;
+                  
+    int           m_ParamIdx;
+    bool          m_UseSprite;
 
 public:
     virtual void Update() override;
@@ -13,6 +16,7 @@ public:
 private:
     void ShaderParameter();
     void ChangeTexture(DWORD_PTR Param);
+    void ChangeSprite(DWORD_PTR Param);
 
 private:
     void SelectShader(DWORD_PTR _ListUI);

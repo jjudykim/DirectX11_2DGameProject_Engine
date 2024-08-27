@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "CSprite.h"
 
+#include "CDevice.h"
 #include "CAssetMgr.h"
 #include "CTexture.h"
+#include "CConstBuffer.h"
 
 CSprite::CSprite()
 	: CAsset(ASSET_TYPE::SPRITE)
@@ -35,6 +37,64 @@ void CSprite::SetOffset(Vec2 _Offset)
 {
 	Vec2 AtlasResolution = Vec2((float)m_Atlas->Width(), (float)m_Atlas->Height());
 	m_OffsetUV = _Offset / AtlasResolution;
+}
+
+void CSprite::Binding()
+{
+	tSpriteInfo tInfo = {};
+
+	if (this == nullptr)
+	{
+		Clear();
+		return;
+	}
+
+	tInfo.LeftTopUV     = m_LeftTopUV;
+	tInfo.SliceUV       = m_SliceUV;
+	tInfo.BackGroundUV  = m_BackgroundUV;
+	tInfo.OffsetUV      = m_OffsetUV;
+	tInfo.UseFlipBook   = 1;
+
+	static CConstBuffer* CB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::SPRITE);
+
+	CB->SetData(&tInfo);
+	CB->Binding();
+
+	// FlipBook Sprite 아틀라스 텍스쳐 전용 레지스터 번호 t10에 바인딩
+	m_Atlas->Binding(20);
+}
+
+void CSprite::BindingAtTexRegister(UINT _RegisterNum)
+{
+	tSpriteInfo tInfo = {};
+
+	if (this == nullptr)
+	{
+		Clear();
+		return;
+	}
+
+	tInfo.LeftTopUV = m_LeftTopUV;
+	tInfo.SliceUV = m_SliceUV;
+	tInfo.BackGroundUV = m_BackgroundUV;
+	tInfo.OffsetUV = m_OffsetUV;
+	tInfo.UseFlipBook = 1;
+
+	static CConstBuffer* CB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::SPRITE);
+
+	CB->SetData(&tInfo);
+	CB->Binding();
+
+	// FlipBook Sprite 아틀라스 텍스쳐 전용 레지스터 번호 t10에 바인딩
+	m_Atlas->Binding(_RegisterNum);
+}
+
+void CSprite::Clear()
+{
+	tSpriteInfo tInfo = {};
+	static CConstBuffer* CB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::SPRITE);
+	CB->SetData(&tInfo);
+	CB->Binding();
 }
 
 void CSprite::Create(Ptr<CTexture> _Atlas, Vec2 _LeftTopPixel, Vec2 _SlicePixel)
