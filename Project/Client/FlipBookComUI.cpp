@@ -59,6 +59,9 @@ void FlipBookComUI::Init()
 
 void FlipBookComUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	if (m_FBCom == nullptr)
 		Init();
 

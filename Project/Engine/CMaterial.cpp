@@ -95,6 +95,8 @@ void CMaterial::Binding()
 	if (!m_Shader)
 		return;
 
+	m_Const.iArr[0] = -1;
+
 	for (int i = 0; i < TEX_PARAM::END; ++i)
 	{
 		if (m_arrTex[i] == nullptr)

@@ -19,11 +19,14 @@ private:
     float            m_WheelScale;
     float            m_Ratio;               // 실제 Resolution 대비 Output Image 비율
 
+    bool             m_EditMousePos;        // Detail에서 Mouse 좌표를 직접 입력한 경우
+
 public:
     ImVec2 GetSpriteLT() { return m_MouseLT; }
     void   SetMouseLT(ImVec2 _LT) { m_MouseLT = _LT; }
     ImVec2 GetSpriteRB() { return m_MouseRB; }
     void   SetMouseRB(ImVec2 _RB) { m_MouseRB = _RB; }
+    void   IsEditMousePos(bool _edit) { m_EditMousePos = _edit; }
 
     void SetAtlasTex(Ptr<CTexture> _Tex);
     void SetMouseLTRB(ImVec2 _LT, ImVec2 _RB);

@@ -59,7 +59,7 @@ void CLayer::AddObject(CGameObject* _Object, bool _bChildMove)
 	// 1. 오브젝트가 다른 Layer의 소속인 경우
 	if (_Object->GetLayerIdx() != -1)
 	{
-		assert(_Object->GetLayerIdx() == m_LayerIdx);
+		assert(_Object->GetLayerIdx() != m_LayerIdx);
 
 		// 기존에 소속되어있던 레이어에서 빠져나와야 함
 		_Object->DisconnectWithLayer();

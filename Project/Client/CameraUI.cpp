@@ -20,6 +20,9 @@ CameraUI::~CameraUI()
 
 void CameraUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	Title();
 
 	CCamera* pCam = GetTargetObject()->Camera();

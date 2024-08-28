@@ -12,5 +12,8 @@ ParticleSystemUI::~ParticleSystemUI()
 
 void ParticleSystemUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	Title();
 }

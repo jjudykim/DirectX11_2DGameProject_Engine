@@ -12,5 +12,8 @@ TileMapUI::~TileMapUI()
 
 void TileMapUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	Title();
 }

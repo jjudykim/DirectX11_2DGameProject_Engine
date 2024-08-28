@@ -28,6 +28,9 @@ void Collider2DUI::Init()
 
 void Collider2DUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	if (m_ColliderCom == nullptr)
 		Init();
 

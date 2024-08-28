@@ -13,7 +13,7 @@ private:
     Vec3     m_WorldDir[3];
 
     Matrix   m_matWorld;               // 이동, 크기, 회전
-    bool     m_IndependentScale;       // 부모의 크기에 영향을 받지 않도록 하는 On/Off
+    bool     m_IndependentParent;       // 부모에 이동/크기/회전을 영향 받지 않도록 하는 On/Off
 
 public:
     virtual void FinalTick() override;
@@ -34,7 +34,7 @@ public:
 
     void SetWorldMatrix(const Matrix& matWorld) { m_matWorld = matWorld; }
 
-    void SetIndependentScale(bool _Set) { m_IndependentScale = _Set; }
+    void SetIndependentParent(bool _Set) { m_IndependentParent = _Set; }
 
     Vec3 GetRelativePos() { return m_RelativePos; }
     Vec3 GetWorldPos() { return m_matWorld.Translation(); }
@@ -48,7 +48,7 @@ public:
     Vec3 GetDir(DIR _Type) { return m_RelativeDir[_Type]; }
     const Matrix& GetWorldMat() { return m_matWorld; }
 
-    bool IsIndependentScale() { return m_IndependentScale; }
+    bool IsIndependentParent() { return m_IndependentParent; }
 
 public:
     CLONE(CTransform);

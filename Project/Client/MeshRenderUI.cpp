@@ -30,6 +30,9 @@ void MeshRenderUI::Init()
 
 void MeshRenderUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	if (m_MeshRender == nullptr)
 		Init();
 

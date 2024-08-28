@@ -40,8 +40,6 @@ void Inspector::Init()
 	if (m_TargetObject == nullptr)
 	{
 		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"Player"));
-		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"MainCamera"));
-		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"PointLight 1"));
 		return;
 	}
 }

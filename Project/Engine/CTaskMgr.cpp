@@ -64,6 +64,7 @@ void CTaskMgr::ExecuteTask()
 
 			pObject->m_Dead = true;
 			m_GC.push_back(pObject);
+			CLevelMgr::GetInst()->LevelChanged();
 		}
 		break;
 

@@ -53,10 +53,9 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         if (LeftTopUV.x <= vSpriteUV.x && vSpriteUV.x <= LeftTopUV.x + SliceUV.x
             && LeftTopUV.y <= vSpriteUV.y && vSpriteUV.y <= LeftTopUV.y + SliceUV.y)
         {
-            if (g_int_0)
+            if (g_int_0 > -1)
             {
                 vColor = SelectTexture(g_int_0, g_sam_0, vSpriteUV);
-                //vColor = OutputTex.Sample(g_sam_0, vSpriteUV);
             }
             else
             {

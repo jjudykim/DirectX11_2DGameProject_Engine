@@ -12,6 +12,9 @@ Light2DUI::~Light2DUI()
 
 void Light2DUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	Title();
 
 	CLight2D* pLight = GetTargetObject()->Light2D();

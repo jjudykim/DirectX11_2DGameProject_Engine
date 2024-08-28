@@ -24,7 +24,7 @@ Inspector::~Inspector()
 
 void Inspector::Update()
 {
-	if (m_TargetObject == nullptr)
+	if (m_TargetObject == nullptr || m_TargetObject->IsDead())
 	{
 		return;
 	}
@@ -37,7 +37,8 @@ void Inspector::Update()
 	string strObjectName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
 	ImGui::Text("ObjectName");
 	ImGui::SameLine(108);
-	ImGui::InputText("##ObjectName", (char*)strObjectName.c_str(), strObjectName.length(), ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputText("##ObjectName", (char*)strObjectName.c_str(), strObjectName.length());
+	m_TargetObject->SetName(wstring(strObjectName.begin(), strObjectName.end()));
 
 	// ===========
 	//    Layer
@@ -45,8 +46,9 @@ void Inspector::Update()
 	int LayerIdx = m_TargetObject->GetLayerIdx();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	CLayer* pLayer = pCurLevel->GetLayer(LayerIdx);
-	string LayerName = string(pLayer->GetName().begin(), pLayer->GetName().end());
+	string LayerName = LAYER_TYPE_STRING[LayerIdx];
 
+	int selectItem = LayerIdx;
 	char buffer[50] = {};
 
 	if (LayerName.empty())
@@ -56,9 +58,11 @@ void Inspector::Update()
 
 	ImGui::Text("Layer");
 	ImGui::SameLine(108);
-	ImGui::InputText("##LayerName", buffer, strlen(buffer), ImGuiInputTextFlags_ReadOnly);
-
-	// 추가 예정) Layer 교체 기능
+	ImGui::Combo("##LayerCombo", &selectItem, LAYER_TYPE_STRING, IM_ARRAYSIZE(LAYER_TYPE_STRING));
+	if (selectItem != LayerIdx)
+	{
+		pCurLevel->AddObject(selectItem, m_TargetObject, false);
+	}
 }
 
 void Inspector::SetTargetObject(CGameObject* _Object)

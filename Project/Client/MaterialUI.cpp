@@ -140,7 +140,9 @@ void MaterialUI::ShaderParameter()
 			Ptr<CTexture> pCurTex = pMtrl->GetTexParam(vecTexParam[m_ParamIdx].ParamType);
 
 			// Current Asset
-			string TexKey = string(pCurTex->GetKey().begin(), pCurTex->GetKey().end());
+			string TexKey;
+			if (pCurTex == nullptr) TexKey = "";
+			else TexKey = string(pCurTex->GetKey().begin(), pCurTex->GetKey().end());
 			ImGui::Text("Setted Asset");
 			ImGui::SameLine(0.f, 10.f);
 			ImGui::SetNextItemWidth(250.f);
@@ -156,10 +158,12 @@ void MaterialUI::ShaderParameter()
 	}
 	else
 	{
-		Ptr<CSprite> CurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
+		Ptr<CSprite> pCurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
 
 		// Current Asset
-		string TexKey = string(CurSprite->GetKey().begin(), CurSprite->GetKey().end());
+		string TexKey;
+		if (pCurSprite == nullptr) TexKey = "";
+		else TexKey = string(pCurSprite->GetKey().begin(), pCurSprite->GetKey().end());
 		ImGui::Text("Setted Asset");
 		ImGui::SameLine(0.f, 10.f);
 		ImGui::SetNextItemWidth(250.f);
@@ -169,17 +173,17 @@ void MaterialUI::ShaderParameter()
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 0.7f);
 
-		if (CurSprite != nullptr)
+		if (pCurSprite != nullptr)
 		{
-			Ptr<CTexture> CurTex = CurSprite->GetAtlasTexture();
+			Ptr<CTexture> CurTex = pCurSprite->GetAtlasTexture();
 
-			string Name = string(CurSprite->GetName().begin(), CurSprite->GetName().end());
+			string Name = string(pCurSprite->GetName().begin(), pCurSprite->GetName().end());
 
 			ImGui::Text(Name.c_str());
 			ImGui::SameLine(120);
 
-			ImVec2 crop = ImVec2(CurSprite->GetBackgroundUV().x * CurTex->Width()
-							   , CurSprite->GetBackgroundUV().y * CurTex->Height());
+			ImVec2 crop = ImVec2(pCurSprite->GetBackgroundUV().x * CurTex->Width()
+							   , pCurSprite->GetBackgroundUV().y * CurTex->Height());
 
 			if (frameSize.x < crop.x || frameSize.y < crop.y)
 			{
@@ -190,9 +194,9 @@ void MaterialUI::ShaderParameter()
 				crop.y *= ratio;
 			}
 
-			ImVec2 uv_min = ImVec2(CurSprite->GetLeftTopUV().x, CurSprite->GetLeftTopUV().y);
-			ImVec2 uv_max = ImVec2(CurSprite->GetLeftTopUV().x + CurSprite->GetSliceUV().x
-				                 , CurSprite->GetLeftTopUV().y + CurSprite->GetSliceUV().y);
+			ImVec2 uv_min = ImVec2(pCurSprite->GetLeftTopUV().x, pCurSprite->GetLeftTopUV().y);
+			ImVec2 uv_max = ImVec2(pCurSprite->GetLeftTopUV().x + pCurSprite->GetSliceUV().x
+				                 , pCurSprite->GetLeftTopUV().y + pCurSprite->GetSliceUV().y);
 
 			ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
 			ImGui::Image(CurTex->GetSRV().Get(), crop, uv_min, uv_max, tint_col, border_col);
@@ -214,16 +218,16 @@ void MaterialUI::ShaderParameter()
 				Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
 				if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
 				{
-					CurSprite = ((CSprite*)pAsset.Get());
+					pCurSprite = ((CSprite*)pAsset.Get());
 				}
 			}
 			ImGui::EndDragDropTarget();
 		}
 
 		// DragDrop으로 원본 텍스쳐가 바뀐 경우
-		if (CurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
+		if (pCurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
 		{
-			pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, CurSprite);
+			pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, pCurSprite);
 			SaveMaterialToFile();
 			return;
 		}

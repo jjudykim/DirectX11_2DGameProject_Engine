@@ -181,7 +181,6 @@ void SE_Detail::SelectSpriteInfo()
 			m_CurSprite = new CSprite;
 			Vec2 vSpriteLT = { SpriteLT.x, SpriteLT.y };
 			Vec2 vSpriteSize = { SpriteSize.x, SpriteSize.y };
-
 			m_CurSprite->Create(m_AtlasTex, vSpriteLT, vSpriteSize);
 			CalcBackgroundSize();
 			m_CurSprite->SetBackground(Vec2(m_Background.x, m_Background.y));
@@ -264,8 +263,6 @@ void SE_Detail::SelectSpriteInfo()
 	ImGui::InputFloat2("##SpritePos", pos, "%.2f");
 	if (pos[0] != SpriteLT.x || pos[1] != SpriteLT.y)
 	{
-		pos[0] = SpriteLT.x;
-		pos[1] = SpriteLT.y;
 		GetAtlasView()->SetMouseLT(ImVec2(pos[0], pos[1]));
 	}
 	
@@ -279,8 +276,6 @@ void SE_Detail::SelectSpriteInfo()
 	ImGui::InputFloat2("##SpriteSize", size, "%.2f");
 	if (size[0] != SpriteSize.x || size[1] != SpriteSize.y)
 	{
-		size[0] = SpriteSize.x;
-		size[1] = SpriteSize.y;
 		GetAtlasView()->SetMouseRB(ImVec2(pos[0] + size[0], pos[1] + size[1]));
 	}
 	// --------------------------
@@ -536,8 +531,18 @@ void SE_Detail::CalcBackgroundSize()
 			m_Background = ImVec2(3500.f, 3500.f);
 		else if (vSpriteSize.x < 4000.f && vSpriteSize.y < 4000.f)
 			m_Background = ImVec2(4000.f, 4000.f);
-		else
+		else if (vSpriteSize.x < 5000.f && vSpriteSize.y < 5000.f)
 			m_Background = ImVec2(5000.f, 5000.f);
+		else if (vSpriteSize.x < 6000.f && vSpriteSize.y < 6000.f)
+			m_Background = ImVec2(6000.f, 6000.f);
+		else if (vSpriteSize.x < 7000.f && vSpriteSize.y < 7000.f)
+			m_Background = ImVec2(7000.f, 7000.f);
+		else if (vSpriteSize.x < 8000.f && vSpriteSize.y < 8000.f)
+			m_Background = ImVec2(8000.f, 8000.f);
+		else if (vSpriteSize.x < 9000.f && vSpriteSize.y < 9000.f)
+			m_Background = ImVec2(9000.f, 9000.f);
+		else
+			m_Background = ImVec2(15000.f, 15000.f);
 	}
 }
 

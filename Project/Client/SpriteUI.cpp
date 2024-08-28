@@ -91,10 +91,10 @@ void SpriteUI::SpriteInfo()
 	ImGui::Text("Background");
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(100.f);
-	ImGui::InputFloat("##BackgroundX", &m_SpriteBG.x, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputFloat("##BackgroundX", &m_SpriteBG.x, 0, 0, "%.3f");
 	ImGui::SameLine(205.f);
 	ImGui::SetNextItemWidth(100.f);
-	ImGui::InputFloat("##BackgroundY", &m_SpriteBG.y, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputFloat("##BackgroundY", &m_SpriteBG.y, 0, 0, "%.3f");
 }
 
 void SpriteUI::SetSpriteInfo()

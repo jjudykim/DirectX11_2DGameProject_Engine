@@ -99,8 +99,29 @@ void Outliner::PopupMenu(DWORD_PTR _Param)
 	TreeNode* pTargetNode = (TreeNode*)_Param;
 	CGameObject* pObject = (CGameObject*)pTargetNode->GetData();
 
-	if (ImGui::MenuItem("None"))
+	if (ImGui::MenuItem("Clone"))
 	{
+		CGameObject* CloneObj = pObject->Clone();
+
+		wstring NewName = pObject->GetName() + L"C";
+		CloneObj->SetName(NewName);
+
+		CreateObject(CloneObj, 0);
+
+		ImGui::CloseCurrentPopup();
+	}
+
+	if (ImGui::MenuItem("Delete"))
+	{
+		DeleteObject(pObject);
+		Inspector* inspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+		vector<EditorUI*> ChildUI = inspector->GetChildren();
+		for (size_t i = 0; i < ChildUI.size(); ++i)
+		{
+			ChildUI[i]->SetActive(false);
+		}
+		inspector->SetTargetObject(nullptr);
+		ImGui::CloseCurrentPopup();
 	}
 
 	ImGui::EndPopup();

@@ -12,6 +12,9 @@ TransformUI::~TransformUI()
 
 void TransformUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	Title();
 
 	CTransform* pTrans = GetTargetObject()->Transform();
@@ -40,12 +43,12 @@ void TransformUI::Update()
 
 
 	// Independent Scale
-	bool IS = pTrans->IsIndependentScale();
+	bool IS = pTrans->IsIndependentParent();
 
 	ImGui::Text("Ignore Parent");
 	ImGui::SameLine(100);
 	if (ImGui::Checkbox("##TransIS", &IS))
 	{
-		pTrans->SetIndependentScale(IS);
+		pTrans->SetIndependentParent(IS);
 	}
 }

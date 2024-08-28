@@ -20,6 +20,9 @@ ScriptUI::~ScriptUI()
 
 void ScriptUI::Update()
 {
+	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
+		return;
+
 	m_UIHeight = 0;
 
 	ImGui::PushID((int)GetComponentUIType());
