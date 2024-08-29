@@ -141,8 +141,21 @@ Ptr<CFlipBook> CFlipBookComponent::FindFlipBook(const wstring& _Key)
 	return nullptr;
 }
 
+int CFlipBookComponent::FindFlipBookIndex(const wstring& _Key)
+{
+	for (size_t i = 0; i < m_vecFlipBook.size(); ++i)
+	{
+		if (m_vecFlipBook[i]->GetKey() == _Key)
+			return i;
+	}
+
+	return -1;
+}
+
 void CFlipBookComponent::Play(int _FlipBookIdx, bool _Repeat)
 {
+	assert(_FlipBookIdx != -1);
+
 	m_CurFlipBook = m_vecFlipBook[_FlipBookIdx];
 
 	if (m_CurFlipBook == nullptr)

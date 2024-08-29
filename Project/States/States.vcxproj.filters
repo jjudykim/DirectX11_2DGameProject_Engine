@@ -11,6 +11,12 @@
     <Filter Include="States\PlayerState">
       <UniqueIdentifier>{a7fa11a3-c904-42ff-a6d8-4b07f1d441a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\PlayerState\CIdleState">
+      <UniqueIdentifier>{d89639df-5196-41aa-856c-5d754ecfbca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\CRunState">
+      <UniqueIdentifier>{79a40fab-cb28-4fb5-a8b3-fca7301d2342}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -22,6 +28,12 @@
     <ClInclude Include="CPlayerState.h">
       <Filter>States\PlayerState</Filter>
     </ClInclude>
+    <ClInclude Include="CRunState.h">
+      <Filter>States\PlayerState\CRunState</Filter>
+    </ClInclude>
+    <ClInclude Include="CIdleState.h">
+      <Filter>States\PlayerState\CIdleState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -32,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="CPlayerState.cpp">
       <Filter>States\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="CRunState.cpp">
+      <Filter>States\PlayerState\CRunState</Filter>
+    </ClCompile>
+    <ClCompile Include="CIdleState.cpp">
+      <Filter>States\PlayerState\CIdleState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

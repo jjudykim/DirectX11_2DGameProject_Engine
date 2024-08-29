@@ -7,12 +7,18 @@ class CGameObject;
 class CState :
     public CEntity
 {
-private:
+protected:
     CFSM*       m_Owner;
 
 protected:
     CGameObject* GetTargetObject() { return m_Owner->GetOwner(); }
     CFSM* GetFSM() { return m_Owner; }
+
+    template<typename T>
+    T GetBlackboardData(const wstring& _DataName)
+    {
+        return m_Owner->GetBlackboardData<T>(_DataName);
+    }
 
 public:
     virtual void Set() = 0;

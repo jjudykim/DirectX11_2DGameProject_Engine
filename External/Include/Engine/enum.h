@@ -91,6 +91,14 @@ enum DIR
 	FRONT,
 };
 
+enum class UNITVEC_TYPE
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+};
+
 enum class RS_TYPE
 {
 	CULL_BACK,

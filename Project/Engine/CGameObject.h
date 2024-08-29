@@ -45,11 +45,12 @@ public:
     void DisconnectWithLayer();
     void DeregisterChild();
 
-    GET_COMPONENT(Transform, TRANSFORM);           
-    GET_COMPONENT(MeshRender, MESHRENDER);  
+    GET_COMPONENT(Transform, TRANSFORM);
+    GET_COMPONENT(MeshRender, MESHRENDER);
     GET_COMPONENT(Camera, CAMERA);
     GET_COMPONENT(Collider2D, COLLIDER2D);
     GET_COMPONENT(FlipBookComponent, FLIPBOOKCOMPONENT);
+    GET_COMPONENT(FSM, FSM);
     GET_COMPONENT(TileMap, TILEMAP);
     GET_COMPONENT(Light2D, LIGHT2D)
 

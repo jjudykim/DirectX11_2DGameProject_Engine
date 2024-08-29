@@ -213,7 +213,8 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::ANIMATOR3D:
 		break;
 
-	case COMPONENT_TYPE::STATE_MACHINE:
+	case COMPONENT_TYPE::FSM:
+		return new CFSM;
 		break;
 
 	case COMPONENT_TYPE::RIGIDBODY:

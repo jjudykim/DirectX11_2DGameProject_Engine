@@ -12,6 +12,7 @@ CFSM::CFSM()
 
 CFSM::~CFSM()
 {
+	Delete_Map(m_mapState);
 }
 
 void CFSM::FinalTick()
@@ -65,6 +66,12 @@ void CFSM::ChangeState(const wstring& _NextStateKey)
 	assert(m_CurState);
 
 	m_CurState->Enter();
+}
+
+void CFSM::SetBlackboardData(const wstring& _DataKey, DATA_TYPE _Type, void* _pData)
+{
+	BlackboardData data = { _Type, _pData };
+	m_mapData.insert(make_pair(_DataKey, data));
 }
 
 void CFSM::LoadFromFile(FILE* _File)

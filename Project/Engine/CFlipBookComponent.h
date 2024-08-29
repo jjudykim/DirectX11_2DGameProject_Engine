@@ -36,6 +36,7 @@ public:
 public:
     void AddFlipBook(int _Idx, Ptr<CFlipBook> _FliPBook);
     Ptr<CFlipBook> FindFlipBook(const wstring& _Key);
+    int FindFlipBookIndex(const wstring& _Key);
     void Play(int _FlipBookIdx, bool _Repeat);
     
 public:

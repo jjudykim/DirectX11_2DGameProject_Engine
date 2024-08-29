@@ -4,9 +4,11 @@
 class CPlayerScript :
     public CScript
 {
-
 private:
     float            m_Speed;
+    UNITVEC_TYPE     m_Dir;
+    vector<wstring>  m_vStatesStr;
+
     Ptr<CTexture>    m_Texture;
     Ptr<CPrefab>     m_MissilePref;
 

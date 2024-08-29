@@ -337,8 +337,6 @@ void MenuUI::AddScript()
 					CScript* pScript = CScriptMgr::GetScript(vecScriptsName[i]);
 					pObject->AddComponent(pScript);
 				}
-
-	
 			}
 		}
 

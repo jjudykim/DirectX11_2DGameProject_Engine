@@ -58,7 +58,7 @@ public:
     void SetFOV(float _FOV) { m_FOV = _FOV; }
     void SetProjScale(float _Scale) { m_ProjectionScale = _Scale; }
 
-
+    int GetPriority() { return m_Priority; }
     bool GetLayerCheck(UINT _LayerIdx) { return m_LayerCheck & (1 << _LayerIdx); }
     PROJ_TYPE GetProjType() { return m_ProjType; }
     float GetWidth() { return m_Width; }
