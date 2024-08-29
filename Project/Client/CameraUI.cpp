@@ -27,7 +27,13 @@ void CameraUI::Update()
 
 	CCamera* pCam = GetTargetObject()->Camera();
 
+	int priority = pCam->GetPriority();
 	// 카메라 우선순위
+	ImGui::Text("Caemera Priority");
+	ImGui::SameLine(0.f, 10.f);
+	ImGui::SetNextItemWidth(200);
+	ImGui::InputInt("##CamPriority", &priority);
+	pCam->SetPriority(priority);
 
 	// 레이어 설정
 	LayerCheck();

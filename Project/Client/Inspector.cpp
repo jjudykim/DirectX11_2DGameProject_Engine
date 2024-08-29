@@ -34,10 +34,15 @@ void Inspector::Update()
 	// ===========
 	// Object Name
 	// ===========
+
+	char Name[256];
 	string strObjectName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
+	strcpy_s(Name, strObjectName.c_str());
+
 	ImGui::Text("ObjectName");
 	ImGui::SameLine(108);
-	ImGui::InputText("##ObjectName", (char*)strObjectName.c_str(), strObjectName.length());
+	ImGui::InputText("##ObjectName", Name, 256);
+	strObjectName = Name;
 	m_TargetObject->SetName(wstring(strObjectName.begin(), strObjectName.end()));
 
 	// ===========
@@ -46,15 +51,7 @@ void Inspector::Update()
 	int LayerIdx = m_TargetObject->GetLayerIdx();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	CLayer* pLayer = pCurLevel->GetLayer(LayerIdx);
-	string LayerName = LAYER_TYPE_STRING[LayerIdx];
-
 	int selectItem = LayerIdx;
-	char buffer[50] = {};
-
-	if (LayerName.empty())
-		sprintf_s(buffer, 50, "%d : %s", LayerIdx, "None");
-	else
-		sprintf_s(buffer, 50, "%d : %s", LayerIdx, LayerName.c_str());
 
 	ImGui::Text("Layer");
 	ImGui::SameLine(108);

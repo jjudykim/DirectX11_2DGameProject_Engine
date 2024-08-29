@@ -32,7 +32,7 @@ void Collider2DUI::Update()
 	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
 		return;
 
-	if (m_ColliderCom == nullptr)
+	if (m_ColliderCom == nullptr || m_ColliderCom->GetID() != GetTargetObject()->Collider2D()->GetID())
 		Init();
 
 	Title();
