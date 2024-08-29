@@ -9,7 +9,7 @@
 //#include "CAnimator3D.h"
 //#include "CRigidBody.h"
 #include "CCamera.h"
-//#include "CStateMachine.h"
+#include "CFSM.h"
 
 #include "CMeshRender.h"
 #include "CTileMap.h"

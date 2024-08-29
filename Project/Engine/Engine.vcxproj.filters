@@ -140,6 +140,15 @@
     <Filter Include="08. Component\08. Light2D">
       <UniqueIdentifier>{a475804c-3edc-4a58-902b-ecd675f5a448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08. Component\09. FSM">
+      <UniqueIdentifier>{1b11ffca-3107-4fd7-aa8f-2d77f49b3e02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default\State">
+      <UniqueIdentifier>{0d5da0ee-5ae8-47f2-b0ff-088242c36870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\09. FSM\State">
+      <UniqueIdentifier>{bbb03a8b-844b-43fb-a289-989433afa93a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -286,6 +295,12 @@
     <ClInclude Include="CPrefab.h">
       <Filter>06. Asset\04. Prefab</Filter>
     </ClInclude>
+    <ClInclude Include="CFSM.h">
+      <Filter>08. Component\09. FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="CState.h">
+      <Filter>08. Component\09. FSM\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -410,6 +425,12 @@
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>06. Asset\04. Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="CFSM.cpp">
+      <Filter>08. Component\09. FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="CState.cpp">
+      <Filter>08. Component\09. FSM\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

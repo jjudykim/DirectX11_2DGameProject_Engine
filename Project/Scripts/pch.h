@@ -12,8 +12,10 @@
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_D")
+#pragma comment(lib, "States\\States_D")
 #else
-#pragma commnet(lib, "Engine\\Engine")
+#pragma comment(lib, "Engine\\Engine")
+#pragma comment(lib, "States\\States")
 #endif
 
 #include <Engine/global.h>
