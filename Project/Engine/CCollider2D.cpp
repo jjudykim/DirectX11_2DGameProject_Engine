@@ -26,20 +26,24 @@ CCollider2D::~CCollider2D()
 
 void CCollider2D::FinalTick()
 {
-	Matrix matTranslation = XMMatrixTranslation(m_Offset.x, m_Offset.y, m_Offset.z);
-	Matrix matScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	Vec3 vObjectScale = GetOwner()->Transform()->GetWorldScale();
 
-	// 크기, 회전, 이동
-	Matrix matObjectScaleInv = XMMatrixIdentity();
-
-	if (m_IndependentScale)
+	if (!m_IndependentScale)
 	{
-		Vec3 vObjectScale = GetOwner()->Transform()->GetWorldScale();
-		matObjectScaleInv = XMMatrixScaling(vObjectScale.x, vObjectScale.y, vObjectScale.z);
-		matObjectScaleInv = XMMatrixInverse(nullptr, matObjectScaleInv);
+		m_Scale.x *= vObjectScale.x;
+		m_Scale.y *= vObjectScale.y;
+		m_Scale.z *= vObjectScale.z;
+
+		m_Offset.x *= vObjectScale.x;
+		m_Offset.y *= vObjectScale.y;
+		m_Offset.z *= vObjectScale.z;
 	}
 
-	m_matColWorld = matScale * matTranslation * matObjectScaleInv * GetOwner()->Transform()->GetWorldMat();
+	Matrix matTranslation = XMMatrixTranslation(m_Offset.x, m_Offset.y, m_Offset.z);
+	Matrix matScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	
+	// 크기, 회전, 이동
+	m_matColWorld = matScale * matTranslation * GetOwner()->Transform()->GetWorldMat();
 
 	// Debug 렌더링을 통해 충돌체의 위치를 표시
 	if (m_OverlapCount)

@@ -10,6 +10,7 @@ private:
     ImVec4           m_Offset;
 
     bool             m_Independent;
+    int              m_Ratio;
 
 public:
     virtual void Init() override;

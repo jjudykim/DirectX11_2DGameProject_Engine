@@ -30,6 +30,9 @@ void FlipBookComUI::Init()
 	m_FBCom = GetTargetObject()->FlipBookComponent();
 	if (m_FBCom == nullptr) return;
 
+	if (m_FBCom->GetVecFlipBook().size() < 1)
+		return;
+
 	m_CurFB = m_FBCom->GetVecFlipBook()[0];
 	m_FBCom->SetCurFlipBook(m_CurFB);
 	m_CurSprite = m_CurFB->GetSprite(0);
@@ -62,7 +65,7 @@ void FlipBookComUI::Update()
 	if (GetTargetObject() == nullptr || GetTargetObject()->IsDead())
 		return;
 
-	if (m_FBCom == nullptr)
+	if (m_FBCom == nullptr || m_CurFB == nullptr)
 		Init();
 
 	m_UIHeight = 0;

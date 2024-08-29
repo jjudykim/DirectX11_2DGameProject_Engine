@@ -9,6 +9,7 @@ Collider2DUI::Collider2DUI()
 	, m_Scale(ImVec4(0.f, 0.f, 0.f, 0.f))
 	, m_Offset(ImVec4(0.f, 0.f, 0.f, 0.f))
 	, m_Independent(false)
+	, m_Ratio(100)
 {
 }
 
@@ -36,55 +37,39 @@ void Collider2DUI::Update()
 
 	Title();
 
-	// Offset Scale
-	Vec3 ObjectScale = GetTargetObject()->Transform()->GetRelativeScale();
-
-	if (!m_Independent)
-		m_Scale = { m_Scale.x * ObjectScale.x, m_Scale.y * ObjectScale.y, m_Scale.z * ObjectScale.z, 0 };
-
-	float scale[3] = { m_Scale.x, m_Scale.y, m_Scale.z };
+	// Scale
+	float scale[3] = { m_Scale.x * m_Ratio, m_Scale.y * m_Ratio, m_Scale.z * m_Ratio };
 	ImGui::Text("Scale");
 	ImGui::SameLine(120.f);
-	ImGui::DragFloat3("##Collider2DScale", scale);
+	if (m_Independent)
+		ImGui::DragFloat3("##Collider2DScale", scale, 1.f);
+	else ImGui::DragFloat3("##Collider2DScale", scale, 0.1f);
 
-	if (!m_Independent)
-	{
-		scale[0] /= ObjectScale.x;
-		scale[1] /= ObjectScale.y;
-		scale[2] /= ObjectScale.z;
-	}
-
-	m_Scale.x = scale[0];
-	m_Scale.y = scale[1];
-	m_Scale.z = scale[2];
+	m_Scale.x = scale[0] / m_Ratio;
+	m_Scale.y = scale[1] / m_Ratio;
+	m_Scale.z = scale[2] / m_Ratio;
+	
+	m_ColliderCom->SetScale(Vec3(m_Scale.x, m_Scale.y, m_Scale.z));
 
 	// Offset Pos
-
-	if (!m_Independent)
-		m_Offset = { m_Offset.x * ObjectScale.x, m_Offset.y * ObjectScale.y, m_Offset.z * ObjectScale.z, 0 };
-
-	float offset[3] = { m_Offset.x, m_Offset.y, m_Offset.z };
+	float offset[3] = { m_Offset.x * m_Ratio, m_Offset.y * m_Ratio, m_Offset.z * m_Ratio };
 	ImGui::Text("Offset");
 	ImGui::SameLine(120.f);
-	ImGui::DragFloat3("##Collider2DOffset", offset, 1.f, 0.f, 0.f, "%.2f");
+	if (m_Independent)
+		ImGui::DragFloat3("##Collider2DOffset", offset, 1.f);
+	else ImGui::DragFloat3("##Collider2DOffset", offset, 0.1f);
 
-	if (!m_Independent)
-	{
-		offset[0] /= ObjectScale.x;
-		offset[1] /= ObjectScale.y;
-		offset[2] /= ObjectScale.z;
-	}
+	m_Offset.x = offset[0] / m_Ratio;
+	m_Offset.y = offset[1] / m_Ratio;
+	m_Offset.z = offset[2] / m_Ratio;
 
-	m_Offset.x = offset[0];
-	m_Offset.y = offset[1];
-	m_Offset.y = offset[2];
+	m_ColliderCom->SetOffset(Vec3(m_Offset.x, m_Offset.y, m_Offset.z));
 
 	// Independent Scale CheckBox
 	ImGui::Text("Independent Of Object Scale");
 	ImGui::SameLine(0.f, 10.f);
 	ImGui::Checkbox("##Collider2DIndependent", &m_Independent);
-
-	ApplyColliderDetail();
+	m_ColliderCom->SetIndependentScale(m_Independent);
 }
 
 void Collider2DUI::ApplyColliderDetail()
