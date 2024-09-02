@@ -23,6 +23,7 @@
 #include "TextureUI.h"
 #include "MaterialUI.h"
 #include "SpriteUI.h"
+#include "RigidBodyUI.h"
 #include "FlipBookUI.h"
 #include "SoundUI.h"
 #include "GraphicShaderUI.h"
@@ -68,7 +69,7 @@ void Inspector::CreateComponentUI()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D] = new Collider2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetName("Collider2DUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetChildSize(ImVec2(0.f, 100.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetChildSize(ImVec2(0.f, 130.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
@@ -80,6 +81,11 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 200.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidBodyUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetName("RigidBodyUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetChildSize(ImVec2(0.f, 120.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::FLIPBOOKCOMPONENT] = new FlipBookComUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::FLIPBOOKCOMPONENT]->SetName("FlipBookComUI");

@@ -242,6 +242,7 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 		break;
 
 	case COMPONENT_TYPE::RIGIDBODY:
+		return new CRigidBody;
 		break;
 
 	case COMPONENT_TYPE::CAMERA:

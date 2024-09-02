@@ -12,6 +12,8 @@ private:
     Ptr<CTexture>    m_Texture;
     Ptr<CPrefab>     m_MissilePref;
 
+    int              m_OverlapPLTCount;
+
 public:
     virtual void Begin() override;
     virtual void Tick() override;
@@ -24,7 +26,8 @@ public:
 
 public:
     virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
-
+    virtual void EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
+    
 public:
     CLONE(CPlayerScript);
     CPlayerScript();

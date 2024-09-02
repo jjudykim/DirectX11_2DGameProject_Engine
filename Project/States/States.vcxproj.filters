@@ -17,6 +17,9 @@
     <Filter Include="States\PlayerState\CRunState">
       <UniqueIdentifier>{79a40fab-cb28-4fb5-a8b3-fca7301d2342}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\PlayerState\CJumpState">
+      <UniqueIdentifier>{4522ed92-b60d-44e6-aa62-91466bc6450d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -34,6 +37,9 @@
     <ClInclude Include="CIdleState.h">
       <Filter>States\PlayerState\CIdleState</Filter>
     </ClInclude>
+    <ClInclude Include="CJumpState.h">
+      <Filter>States\PlayerState\CJumpState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -50,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="CIdleState.cpp">
       <Filter>States\PlayerState\CIdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="CJumpState.cpp">
+      <Filter>States\PlayerState\CJumpState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -150,6 +150,9 @@
     <Filter Include="EditorUI\00. Level Viewer">
       <UniqueIdentifier>{cd293184-9704-42f5-8e1f-6b1afe1869f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\01. Inspector\ComponentUI\06. RigidBodyUI">
+      <UniqueIdentifier>{d76fad99-4859-43d5-b98f-00e61338b3b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -322,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="LevelViewer.h">
       <Filter>EditorUI\00. Level Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyUI.h">
+      <Filter>EditorUI\01. Inspector\ComponentUI\06. RigidBodyUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -501,6 +507,9 @@
     </ClCompile>
     <ClCompile Include="LevelViewer.cpp">
       <Filter>EditorUI\00. Level Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyUI.cpp">
+      <Filter>EditorUI\01. Inspector\ComponentUI\06. RigidBodyUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

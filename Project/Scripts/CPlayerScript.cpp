@@ -2,9 +2,13 @@
 #include "CPlayerScript.h"
 #include "CMissileScript.h"
 
+#include "Engine/CLevelMgr.h"
+#include "Engine/CLevel.h"
+
 // Using States
 #include "States/CIdleState.h"
 #include "States/CRunState.h"
+#include "States/CJumpState.h"
 
 
 CPlayerScript::CPlayerScript()
@@ -37,6 +41,8 @@ void CPlayerScript::Begin()
 	m_vStatesStr.push_back(L"Idle");
 	FSM()->AddState(L"Run", new CRunState);
 	m_vStatesStr.push_back(L"Run");
+	FSM()->AddState(L"Jump", new CJumpState);
+	m_vStatesStr.push_back(L"Jump");
 
 	FSM()->SetState();
 
@@ -77,30 +83,15 @@ void CPlayerScript::Tick()
 		Transform()->SetRelativeRotation(vRot);
 	}
 
-	if (KEY_PRESSED(KEY::Z))
-	{
-		MeshRender()->GetMaterial()->SetScalarParam(INT_0, 1);
-
-		Vec3 vRot = Transform()->GetRelativeRotation();
-		vRot.z += DT * XM_PI;
-		Transform()->SetRelativeRotation(vRot);
-
-		/*Vec3 vScale = Transform()->GetRelativeScale();
-		vScale += DT * 100.f * Vec3(1.f, 1.f, 1.f);
-		Transform()->SetRelativeScale(vScale);*/
-	}
-	else
-	{
-		MeshRender()->GetMaterial()->SetScalarParam(INT_0, 0);
-	}
-
 	if (KEY_TAP(KEY::SPACE))
 	{
+		FSM()->ChangeState(L"Jump");
+
 		// 미사일 발사
-		if (m_MissilePref != nullptr)
-		{
-			Instantiate(m_MissilePref, 5, Transform()->GetWorldPos(), L"Missile");
-		}
+		//if (m_MissilePref != nullptr)
+		//{
+		//	Instantiate(m_MissilePref, 5, Transform()->GetWorldPos(), L"Missile");
+		//}
 	}
 
 	Transform()->SetRelativePos(vPos);
@@ -108,6 +99,28 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::PLAY)
+	{
+		if (IsPlatformLayerObject(_OtherObject))
+		{
+			++m_OverlapPLTCount;
+			RigidBody()->SetGround(true);
+			RigidBody()->UseGravity(false);
+		}
+	}
+}
+
+void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::PLAY)
+	{
+		if (IsPlatformLayerObject(_OtherObject))
+		{
+			--m_OverlapPLTCount;
+			RigidBody()->SetGround(false);
+			RigidBody()->UseGravity(true);
+		}
+	}
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)

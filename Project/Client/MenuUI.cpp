@@ -246,9 +246,14 @@ void MenuUI::GameObject()
 			if (ImGui::MenuItem("3. FlipBook"))
 				pObject->AddComponent(new CFlipBookComponent);
 
-			//if (ImGui::MenuItem("4. RigidBody"))
-			//	pObject->AddComponent(new CFlipBookComponent);
 
+			if (ImGui::MenuItem("4. RigidBody"))
+			{
+				pObject->AddComponent(new CRigidBody);
+				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
+					pObject->AddComponent(new CTransform);
+			}
+				
 			if (ImGui::MenuItem("5. Camera"))
 			{
 				pObject->AddComponent(new CCamera);

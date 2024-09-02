@@ -7,7 +7,7 @@
 // #include "CLight3D.h"
 #include "CFlipBookComponent.h"
 //#include "CAnimator3D.h"
-//#include "CRigidBody.h"
+#include "CRigidBody.h"
 #include "CCamera.h"
 #include "CFSM.h"
 

@@ -159,6 +159,7 @@ call StatesHeaderCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CIdleState.h" />
+    <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CPlayerState.h" />
     <ClInclude Include="CRunState.h" />
     <ClInclude Include="framework.h" />
@@ -166,6 +167,7 @@ call StatesHeaderCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CIdleState.cpp" />
+    <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CPlayerState.cpp" />
     <ClCompile Include="CRunState.cpp" />
     <ClCompile Include="pch.cpp">

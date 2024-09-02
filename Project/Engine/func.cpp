@@ -59,6 +59,17 @@ bool IsValid(CGameObject*& _Object)
 	return true;
 }
 
+bool IsPlatformLayerObject(CGameObject* _Object)
+{
+	UINT layer = _Object->GetLayerIdx();
+
+	if (layer >= (UINT)LAYER_TYPE::PLATFORM0 && layer <= (UINT)LAYER_TYPE::PLATFORM3
+		&& layer != (UINT)LAYER_TYPE::LANDMARK0 && layer != (UINT)LAYER_TYPE::LANDMARK1)
+		return true;
+	else
+		return false;
+}
+
 void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};

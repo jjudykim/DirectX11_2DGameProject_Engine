@@ -301,6 +301,9 @@
     <ClInclude Include="CState.h">
       <Filter>08. Component\09. FSM\State</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidBody.h">
+      <Filter>08. Component\06. RigidBody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -431,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="CState.cpp">
       <Filter>08. Component\09. FSM\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidBody.cpp">
+      <Filter>08. Component\06. RigidBody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
