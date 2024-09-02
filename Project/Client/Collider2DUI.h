@@ -10,6 +10,7 @@ private:
     ImVec4           m_Offset;
 
     bool             m_Independent;
+    bool             m_ShowLayerCheck;
     int              m_Ratio;
 
 public:
@@ -18,6 +19,7 @@ public:
 
 private:
     void ApplyColliderDetail();
+    void LayerCollisionCheck();
 
 public:
     Collider2DUI();

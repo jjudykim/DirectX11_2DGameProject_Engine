@@ -2,6 +2,10 @@
 #include "Collider2DUI.h"
 
 #include <Engine/CCollider2D.h>
+#include <Engine/CCollisionMgr.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
+#include <Engine/CLayer.h>
 
 Collider2DUI::Collider2DUI()
 	: ComponentUI(COMPONENT_TYPE::COLLIDER2D)
@@ -70,6 +74,9 @@ void Collider2DUI::Update()
 	ImGui::SameLine(0.f, 10.f);
 	ImGui::Checkbox("##Collider2DIndependent", &m_Independent);
 	m_ColliderCom->SetIndependentScale(m_Independent);
+
+	// Layer Collision Check
+	LayerCollisionCheck();
 }
 
 void Collider2DUI::ApplyColliderDetail()
@@ -77,4 +84,60 @@ void Collider2DUI::ApplyColliderDetail()
 	m_ColliderCom->SetScale(Vec3(m_Scale.x, m_Scale.y, m_Scale.z));
 	m_ColliderCom->SetOffset(Vec3(m_Offset.x, m_Offset.y, m_Offset.z));
 	m_ColliderCom->SetIndependentScale(m_Independent);
+}
+
+void Collider2DUI::LayerCollisionCheck()
+{
+	ImGui::Text("Collision Check");
+	ImGui::SameLine(120);
+	if (ImGui::Button("Show##LayerCollisionBtn", ImVec2(50.f, 20.f)))
+	{
+		m_ShowLayerCheck ? m_ShowLayerCheck = false : m_ShowLayerCheck = true;
+	}
+
+	if (!m_ShowLayerCheck)
+		return;
+
+	int CurLayer = GetTargetObject()->GetLayerIdx();
+
+	wstring CurLayerName = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(CurLayer)->GetName();
+	string strCurLayerName = string(CurLayerName.begin(), CurLayerName.end());
+	ImGui::Text("Layer %d :", CurLayer);
+	ImGui::SameLine(0.f, 5.f);
+	ImGui::Text(strCurLayerName.c_str());
+
+
+	bool bLayer[32] = {};
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		bLayer[i] = CCollisionMgr::GetInst()->IsCollisionChecked(i, CurLayer);
+	}
+
+	int ChangedIdx = -1;
+	if (ImGui::BeginTable("##CollisionCheckTable", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders))
+	{
+		for (int i = 0; i < MAX_LAYER; i++)
+		{
+			char label[MAX_LAYER];
+			sprintf_s(label, "Layer %d", i);
+			ImGui::TableNextRow();
+			ImGui::TableNextColumn();
+			if (ImGui::Selectable(label, &bLayer[i], ImGuiSelectableFlags_SpanAllColumns))
+			{
+				ChangedIdx = i;
+			}
+
+			wstring wlayerName = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(i)->GetName();
+			string layerName(wlayerName.begin(), wlayerName.end());
+			ImGui::TableNextColumn();
+			ImGui::Text(layerName.c_str());
+		}
+		ImGui::EndTable();
+	}
+
+	if (ChangedIdx != -1)
+	{
+		CCollisionMgr::GetInst()->CollisionCheck(ChangedIdx, CurLayer);
+		CLevelMgr::GetInst()->GetCurrentLevel()->SetCollisionInfo(CCollisionMgr::GetInst()->GetCollisionByLevel());
+	}
 }

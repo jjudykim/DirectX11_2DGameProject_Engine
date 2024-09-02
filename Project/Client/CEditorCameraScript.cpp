@@ -29,15 +29,6 @@ void CEditorCameraScript::Tick()
 		else
 			Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	}
-
-	float Scale = Camera()->GetProjScale();
-	if (KEY_PRESSED(KEY::_8))
-		Scale += EngineDT;
-
-	if (KEY_PRESSED(KEY::_9))
-		Scale -= EngineDT;
-
-	Camera()->SetProjScale(Scale);
 }
 
 void CEditorCameraScript::OrthoGraphicMove()

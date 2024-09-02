@@ -10,6 +10,19 @@
 
 UINT ParamUI::g_ID = 0;
 
+bool ParamUI::CheckBool(bool* _Data, const string& _Desc)
+{
+	ImGui::Text(_Desc.c_str());
+	ImGui::SameLine(120);
+
+	if (ImGui::Checkbox("##Bool%d", _Data))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool ParamUI::InputInt(int* _Data, const string& _Desc)
 {
 	ImGui::Text(_Desc.c_str());

@@ -11,6 +11,8 @@ public:
 	static void ResetID() { g_ID = 0; }
 
 public:
+	static bool CheckBool(bool* _Data, const string& _Desc);
+
 	static bool InputInt(int* _Data, const string& _Desc);
 	static bool DragInt(int* _Data, float _Step, const string& _Desc);
 

@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "CCameraMoveScript.h"
 
+#include "Engine/CLevelMgr.h"
+
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
-	, m_CamSpeed(500.f)
+	, m_CamSpeed(300.f)
+	, m_FollowPlayer(true)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "CameraSpeed", &m_CamSpeed);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "FollowPlayer", &m_FollowPlayer);
 }
 
 CCameraMoveScript::~CCameraMoveScript()
@@ -35,32 +40,65 @@ void CCameraMoveScript::OrthoGraphicMove()
 {
 	float Speed = m_CamSpeed;
 
-	if (KEY_PRESSED(KEY::LSHIFT))
-	{
-		Speed *= 3.f;
-	}
-
 	Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	if (KEY_PRESSED(KEY::W))
+	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	m_CamSpeed = player->FSM()->GetBlackboardData<float>(L"Speed");
+	Vec3 vStandardPos = player->Transform()->GetRelativePos();
+	vStandardPos.y += 300;
+
+	if (m_FollowPlayer)
 	{
-		vPos.y += DT * Speed;
+		if (m_IsReachLimit)
+		{
+			if (fabs(m_LimitPos.x - Transform()->GetRelativePos().x) > 5.f
+				|| fabs(m_LimitPos.y - Transform()->GetRelativePos().y) > 5.f)
+			{
+				vPos += m_CurDir * DT * (m_CamSpeed * 0.75f);
+			}
+			else
+			{
+				if (fabs(vPos.x - vStandardPos.x) > 530 || fabs(vPos.y - vStandardPos.y) > 530)
+				{
+					m_IsReachLimit = false;
+				}
+			}
+		}
+		else
+		{
+			if (fabs(vPos.x - vStandardPos.x) > 200 || fabs(vPos.y - vStandardPos.y) > 200)
+			{
+				Vec3 vUnit = vStandardPos - vPos;
+				float length = vUnit.Length();
+				m_CurDir = vUnit / length;
+
+				vPos += m_CurDir * DT * m_CamSpeed;
+			}
+		}
+		
 	}
-	
-	if (KEY_PRESSED(KEY::S))
+	else
 	{
-		vPos.y -= DT * Speed;
-	}
-	
-	if (KEY_PRESSED(KEY::A))
-	{
-		vPos.x -= DT * Speed;
-	}
-	
-	if (KEY_PRESSED(KEY::D))
-	{
-		vPos.x += DT * Speed;
+		if (KEY_PRESSED(KEY::W))
+		{
+			vPos.y += DT * Speed;
+		}
+
+		if (KEY_PRESSED(KEY::S))
+		{
+			vPos.y -= DT * Speed;
+		}
+
+		if (KEY_PRESSED(KEY::A))
+		{
+			vPos.x -= DT * Speed;
+		}
+
+		if (KEY_PRESSED(KEY::D))
+		{
+			vPos.x += DT * Speed;
+		}
 	}
 
 	Transform()->SetRelativePos(vPos);
@@ -120,6 +158,23 @@ void CCameraMoveScript::PerspectiveMove()
 	{
 		CKeyMgr::GetInst()->MouseCapture(false);
 	}
+}
+
+void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	m_IsReachLimit = true;
+	m_LimitPos = Transform()->GetRelativePos();
+	if (m_CurDir.x == 1) m_LimitPos.x -= 100;
+	if (m_CurDir.x == -1) m_LimitPos.x += 100;
+	if (m_CurDir.y == 1) m_LimitPos.y -= 100;
+	if (m_CurDir.y == -1) m_LimitPos.y += 100;
+
+	m_CurDir *= -1;
+}
+
+void CCameraMoveScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	//m_IsReachLimit = false;
 }
 
 void CCameraMoveScript::SaveToFile(FILE* _File)

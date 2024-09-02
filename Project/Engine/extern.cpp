@@ -43,37 +43,38 @@ const char* ToString(COMPONENT_TYPE _Type) { return COMPONENT_TYPE_STRING[(UINT)
 
 const char* LAYER_TYPE_STRING[MAX_LAYER] =
 {
-	"POSTPROCESS",                // 0
-	"FOREGROUND",                 // 1
-	"MONSTER_PROJECTTILE",        // 2
-	"PLAYER_PROJECTTILE",   	  // 3
-	"PLAYERWEAPON",         	  // 4
-	"PLAYER",               	  // 5
-	"WEAPON_EFFECT",		      // 6
-	"DAMAGE_EFFECT",		      // 7
-	"MONSTER",		              // 8
-	"LIGHT0",		              // 9
-	"LIGHT1",		              // 10
-	"LIGHT2",		              // 11
-	"LIGHT3",		              // 12
-	"ITEMBOX",		              // 13
-	"PLATFORM0",		          // 14
-	"PLATFORM1",		          // 15
-	"LANDMARK0",		          // 16
-	"LANDMARK1",                  // 17
-	"PLATFORM2",                  // 18
-	"PLATFORM3",                  // 19
-	"BACKGROUND_DECO",		      // 20
-	"BACKGROUND0",		          // 21
-	"BACKGROUND1",		          // 22
-	"BACKGROUND2",                // 23
-	"BACKGROUND3",		          // 24
-	"DEFAULT",                    // 25
-	"",						      // 26
-	"",						      // 27
+	"UI",                         // 0
+	"POSTPROCESS",                // 1
+	"FOREGROUND",                 // 2
+	"MONSTER_PROJECTTILE",  	  // 3
+	"PLAYER_PROJECTTILE",   	  // 4
+	"PLAYERWEAPON",         	  // 5
+	"PLAYER",                     // 6
+	"WEAPON_EFFECT",		      // 7
+	"DAMAGE_EFFECT",		      // 8
+	"MONSTER",		              // 9
+	"LIGHT0",		              // 10
+	"LIGHT1",		              // 11
+	"LIGHT2",		              // 12
+	"LIGHT3",		              // 13
+	"ITEMBOX",		              // 14
+	"PLATFORM0",		          // 15
+	"PLATFORM1",		          // 16
+	"LANDMARK0",		          // 17
+	"LANDMARK1",                  // 18
+	"PLATFORM2",                  // 19
+	"PLATFORM3",                  // 20
+	"BACKGROUND_DECO",		      // 21
+	"BACKGROUND0",		          // 22
+	"BACKGROUND1",		          // 23
+	"BACKGROUND2",                // 24
+	"BACKGROUND3",		          // 25
+	"MAPLIMIT_COLLIDER",          // 26
+	"DEFAULT", 					  // 27
 	"",						      // 28
 	"",						      // 29
 	"",						      // 30
 	""   					      // 31
 };
 const char* ToString(LAYER_TYPE _Type) { return LAYER_TYPE_STRING[(UINT)_Type]; }
+const char* ToString(int _Index) {return LAYER_TYPE_STRING[_Index]; }

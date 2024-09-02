@@ -5,7 +5,12 @@ class CCameraMoveScript :
     public CScript
 {
 private:
-    float m_CamSpeed;
+    Vec3    m_CurDir;
+    Vec3    m_LimitPos;
+    float   m_CamSpeed;
+            
+    bool    m_FollowPlayer;
+    bool    m_IsReachLimit;
 
 public:
     virtual void Tick() override;
@@ -16,6 +21,10 @@ public:
 private:
     void OrthoGraphicMove();
     void PerspectiveMove();
+
+public:
+    virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
+    virtual void EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
 
 public:
     CLONE(CCameraMoveScript);

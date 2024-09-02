@@ -6,6 +6,8 @@
 CLayer::CLayer(int _LayerIdx)
 	: m_LayerIdx(_LayerIdx)
 {
+	string strLayerName = ToString(_LayerIdx);
+	SetName(wstring(strLayerName.begin(), strLayerName.end()));
 }
 
 CLayer::CLayer(const CLayer& _Origin)

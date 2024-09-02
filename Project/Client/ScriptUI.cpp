@@ -45,6 +45,10 @@ void ScriptUI::Update()
 	{
 		switch (vecParam[i].Type)
 		{
+		case SCRIPT_PARAM::BOOL:
+			ParamUI::CheckBool((bool*)vecParam[i].pData, vecParam[i].Desc);
+			break;
+
 		case SCRIPT_PARAM::INT:
 			ParamUI::InputInt((int*)vecParam[i].pData, vecParam[i].Desc);
 			break;

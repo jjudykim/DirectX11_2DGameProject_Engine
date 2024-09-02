@@ -11,6 +11,7 @@ private:
     CLayer*        m_Layer[MAX_LAYER];
     LEVEL_STATE    m_State;
     wstring        m_LevelTitle;
+    UINT           m_CollisionMatrix[MAX_LAYER];
 
 public:
     void AddObject(int LayerIdx, CGameObject* _Object, bool _bMoveChild = false);
@@ -19,8 +20,16 @@ public:
 
 public:
     void SetLevelTitle(const wstring& _Name) { m_LevelTitle = _Name; }
+    void SetCollisionInfo(const UINT* _matrix)
+    {
+        for (int i = 0; i < MAX_LAYER; ++i)
+        {
+            m_CollisionMatrix[i] = _matrix[i];
+        }
+    }
 
     CLayer* GetLayer(int _LayerIdx) { return m_Layer[_LayerIdx]; }
+    const UINT* GetCollisionInfo() { return m_CollisionMatrix; }
     LEVEL_STATE GetState() { return m_State; }
     const wstring& GetLevelTitle() { return m_LevelTitle; }
     

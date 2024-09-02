@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CLevelSaveLoad.h"
 
+#include <Engine/CCollisionMgr.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 #include <Engine/CLayer.h>
@@ -18,6 +19,14 @@ void CLevelSaveLoad::SaveLevel(const wstring& _FilePath, CLevel* _Level)
 
 	// Level Name
 	SaveWString(_Level->GetName(), File);
+
+	const UINT* arr = _Level->GetCollisionInfo();
+
+	// Level Collision Info
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		fwrite(&arr[i], sizeof(UINT), 1, File);
+	}
 
 	// Layer
 	for (UINT i = 0; i < MAX_LAYER; ++i)
@@ -55,6 +64,21 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _FilePath)
 	LoadWString(LevelName, File);
 	pNewLevel->SetName(LevelName);
 
+	UINT arr[MAX_LAYER] = {0};
+	
+	// Level Collision Info
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		UINT CollisionInfo = 0;
+		fread(&CollisionInfo, sizeof(UINT), 1, File);
+		arr[i] = CollisionInfo;
+	}
+	
+	pNewLevel->SetCollisionInfo(arr);
+	
+	CCollisionMgr::GetInst()->CollisionCheckClear();
+	CCollisionMgr::GetInst()->SetCollisionByLevel(arr);
+
 	// Layer Info
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
@@ -63,7 +87,7 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _FilePath)
 		// Layer Name
 		wstring LayerName;
 		LoadWString(LayerName, File);
-		pLayer->SetName(LayerName);
+		//pLayer->SetName(LayerName);
 
 		// GameObject - Parents Count
 		size_t count = 0;

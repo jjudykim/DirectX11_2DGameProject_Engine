@@ -31,6 +31,28 @@ void CCollisionMgr::Tick()
 	}
 }
 
+void CCollisionMgr::SetCollisionByLevel(UINT* _matrix)
+{
+	for (int i = 0; i < MAX_LAYER; ++i)
+	{
+		m_Matrix[i] = _matrix[i];
+	}
+}
+
+bool CCollisionMgr::IsCollisionChecked(UINT Layer1, UINT Layer2)
+{
+	UINT Row = Layer1;
+	UINT Col = Layer2;
+
+	if (Row > Col)
+	{
+		Row = Layer2;
+		Col = Layer1;
+	}
+
+	return (m_Matrix[Row] & (1 << Col)) != 0;
+}
+
 void CCollisionMgr::CollisionCheck(UINT Layer1, UINT Layer2)
 {
 	UINT Row = Layer1;
