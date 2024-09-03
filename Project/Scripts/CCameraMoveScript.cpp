@@ -6,14 +6,26 @@
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
 	, m_CamSpeed(300.f)
-	, m_FollowPlayer(true)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "CameraSpeed", &m_CamSpeed);
-	AddScriptParam(SCRIPT_PARAM::BOOL, "FollowPlayer", &m_FollowPlayer);
 }
 
 CCameraMoveScript::~CCameraMoveScript()
 {
+}
+
+void CCameraMoveScript::Begin()
+{
+	FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
+	FSM()->SetBlackboardData(L"CamDir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
+	
+	// FSM State
+	FSM()->AddState(L"ChasingPlayer", new CChasingPlayerState);
+	FSM()->AddState(L"ReachLimit", new CReachLimitState);
+
+	FSM()->SetState();
+
+	FSM()->ChangeState(L"ChasingPlayer");
 }
 
 void CCameraMoveScript::Tick()

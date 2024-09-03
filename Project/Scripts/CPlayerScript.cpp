@@ -25,7 +25,7 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::Begin()
 {
-	GetRenderComponent()->GetDynamicMaterial();
+	//GetRenderComponent()->GetDynamicMaterial();
 
 	FSM()->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);

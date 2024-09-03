@@ -159,18 +159,22 @@ call StatesHeaderCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCameraState.h" />
+    <ClInclude Include="CChasingPlayerState.h" />
     <ClInclude Include="CIdleState.h" />
     <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CPlayerState.h" />
+    <ClInclude Include="CReachLimitState.h" />
     <ClInclude Include="CRunState.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraState.cpp" />
+    <ClCompile Include="CChasingPlayerState.cpp" />
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CPlayerState.cpp" />
+    <ClCompile Include="CReachLimitState.cpp" />
     <ClCompile Include="CRunState.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -23,6 +23,12 @@
     <Filter Include="States\CameraState">
       <UniqueIdentifier>{4d019bef-f254-4e09-a41d-06db3fd71771}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\CameraState\ChasingPlayer">
+      <UniqueIdentifier>{63cac8e7-5543-49aa-8881-52a29ca47ff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\CameraState\ReachLimit">
+      <UniqueIdentifier>{8b3a8aee-65ab-4f0e-ac08-8b4b6f54382a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -46,6 +52,12 @@
     <ClInclude Include="CCameraState.h">
       <Filter>States\CameraState</Filter>
     </ClInclude>
+    <ClInclude Include="CChasingPlayerState.h">
+      <Filter>States\CameraState\ChasingPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="CReachLimitState.h">
+      <Filter>States\CameraState\ReachLimit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -68,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="CCameraState.cpp">
       <Filter>States\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CChasingPlayerState.cpp">
+      <Filter>States\CameraState\ChasingPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="CReachLimitState.cpp">
+      <Filter>States\CameraState\ReachLimit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

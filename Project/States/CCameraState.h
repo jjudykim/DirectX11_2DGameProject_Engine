@@ -6,6 +6,9 @@
 class CCameraState :
     public CState
 {
+protected:
+    float                m_CamSpeed;
+    UNITVEC_TYPE         m_Dir;
 
 public:
     virtual void Set() override;
