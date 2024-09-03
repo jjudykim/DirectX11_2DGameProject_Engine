@@ -13,6 +13,7 @@
 #include "CameraUI.h"
 #include "MeshRenderUI.h"
 #include "FlipBookComUI.h"
+#include "FSMUI.h"
 #include "TileMapUI.h"
 #include "ParticleSystemUI.h"
 
@@ -76,6 +77,11 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetName("Light2DUI");
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetChildSize(ImVec2(0.f, 200.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::FSM] = new FSMUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::FSM]->SetName("FSMUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::FSM]->SetChildSize(ImVec2(0.f, 200.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::FSM]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");

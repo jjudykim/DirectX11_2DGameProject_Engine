@@ -27,6 +27,9 @@ public:
     virtual void Exit() = 0;
 
 public:
+    
+
+public:
     CState();
     ~CState();
 

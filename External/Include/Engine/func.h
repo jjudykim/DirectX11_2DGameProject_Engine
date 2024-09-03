@@ -6,7 +6,9 @@ void ChangeLevelState(LEVEL_STATE _NextState);
 void ChangeLevel(class CLevel* _Level, LEVEL_STATE _NextLevelState);
 
 bool IsValid(CGameObject*& _Object);
+
 bool IsPlatformLayerObject(CGameObject* _Object);
+bool IsMapLimitObject(CGameObject* _Object);
 
 void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest);
 void DrawDebugRect(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);

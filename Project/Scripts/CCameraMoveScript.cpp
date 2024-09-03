@@ -40,7 +40,7 @@ void CCameraMoveScript::OrthoGraphicMove()
 {
 	float Speed = m_CamSpeed;
 
-	Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
+	//Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 	Vec3 vPos = Transform()->GetRelativePos();
 
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
@@ -55,11 +55,11 @@ void CCameraMoveScript::OrthoGraphicMove()
 			if (fabs(m_LimitPos.x - Transform()->GetRelativePos().x) > 5.f
 				|| fabs(m_LimitPos.y - Transform()->GetRelativePos().y) > 5.f)
 			{
-				vPos += m_CurDir * DT * (m_CamSpeed * 0.75f);
+				vPos += m_CurDir * DT * m_CamSpeed;
 			}
 			else
 			{
-				if (fabs(vPos.x - vStandardPos.x) > 530 || fabs(vPos.y - vStandardPos.y) > 530)
+				if (fabs(vPos.x - vStandardPos.x) > 250 || fabs(vPos.y - vStandardPos.y) > 250)
 				{
 					m_IsReachLimit = false;
 				}
@@ -67,7 +67,7 @@ void CCameraMoveScript::OrthoGraphicMove()
 		}
 		else
 		{
-			if (fabs(vPos.x - vStandardPos.x) > 200 || fabs(vPos.y - vStandardPos.y) > 200)
+			if (fabs(vPos.x - vStandardPos.x) > 170 || fabs(vPos.y - vStandardPos.y) > 100)
 			{
 				Vec3 vUnit = vStandardPos - vPos;
 				float length = vUnit.Length();

@@ -166,6 +166,7 @@
     <ClInclude Include="FlipBookEditor.h" />
     <ClInclude Include="FlipBookUI.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="FSMUI.h" />
     <ClInclude Include="GraphicShaderUI.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="FlipBookComUI.cpp" />
     <ClCompile Include="FlipBookEditor.cpp" />
     <ClCompile Include="FlipBookUI.cpp" />
+    <ClCompile Include="FSMUI.cpp" />
     <ClCompile Include="GraphicShaderUI.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />

@@ -8,7 +8,12 @@ class CRigidBody :
     public CComponent
 {
 private:
+    Vec3    m_Velocity;             // 속도
     Vec3    m_VelocityByGravity;    // 중력에 의해서 증가하는 속도
+    Vec3    m_AddVelocity;          // 최종 속도에 누적될 속도
+
+    float   m_Mass;
+    Vec3    m_Force;
 
     float   m_GravityAccel;         // 중력 가속도
     float   m_MaxGravitySpeed;      // 중력으로 발생한 낙하속도 제한

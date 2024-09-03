@@ -23,11 +23,13 @@ void CRunState::Enter()
 		m_FBCom->Play(m_FBIdx, m_FBCom->GetRepeat());
 
 	m_Speed = GetBlackboardData<float>(L"Speed");
-	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
 }
 
 void CRunState::FinalTick()
 {
+	m_ReachMapLimit = GetBlackboardData<INT>(L"ReachMapLimit");
+	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
+
 	if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
 	{
 		switch (m_Dir)
@@ -50,11 +52,13 @@ void CRunState::FinalTick()
 	switch (m_Dir)
 	{
 	case UNITVEC_TYPE::LEFT:
-		vPos.x -= DT * m_Speed;
+		if (m_ReachMapLimit != 1)
+			vPos.x -= DT * m_Speed;
 		break;
 
 	case UNITVEC_TYPE::RIGHT:
-		vPos.x += DT * m_Speed;
+		if (m_ReachMapLimit != 2)
+			vPos.x += DT * m_Speed;
 		break;
 	}
 	

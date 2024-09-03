@@ -158,6 +158,7 @@ call StatesHeaderCopy.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCameraState.h" />
     <ClInclude Include="CIdleState.h" />
     <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CPlayerState.h" />
@@ -166,6 +167,7 @@ call StatesHeaderCopy.bat</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCameraState.cpp" />
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CPlayerState.cpp" />

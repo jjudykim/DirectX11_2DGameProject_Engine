@@ -17,8 +17,6 @@ CPlayerScript::CPlayerScript()
 	, m_Dir(UNITVEC_TYPE::RIGHT)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
-	//AddScriptParam(SCRIPT_PARAM::TEXTURE, "Test", &m_Texture);
-	//AddScriptParam(SCRIPT_PARAM::PREFAB, "Missile", &m_MissilePref);
 }
 
 CPlayerScript::~CPlayerScript()
@@ -29,20 +27,14 @@ void CPlayerScript::Begin()
 {
 	GetRenderComponent()->GetDynamicMaterial();
 
-	if (FSM() == nullptr)
-		GetOwner()->AddComponent(new CFSM);
-
-	//m_MissilePref = CAssetMgr::GetInst()->FindAsset<CPrefab>(L"MissilePref");
 	FSM()->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
-	
+	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
+
 	// FSM State
 	FSM()->AddState(L"Idle", new CIdleState);
-	m_vStatesStr.push_back(L"Idle");
 	FSM()->AddState(L"Run", new CRunState);
-	m_vStatesStr.push_back(L"Run");
 	FSM()->AddState(L"Jump", new CJumpState);
-	m_vStatesStr.push_back(L"Jump");
 
 	FSM()->SetState();
 
@@ -53,45 +45,23 @@ void CPlayerScript::Tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	if (KEY_PRESSED(KEY::LEFT))
-	{
-		m_Dir = UNITVEC_TYPE::LEFT;
-		FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
-		Transform()->SetRelativeRotation(Vec3(XMConvertToRadians(180.f), 0.f, XMConvertToRadians(180.f)));
-		FSM()->ChangeState(L"Run");
-	}
+	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
+	// m_ReachMapLimit (0 : 맵 끝 도달 X, 1 : 왼쪽 맵 끝 도달, 2 : 오른쪽 맵 끝 도달)
 
-	if (KEY_PRESSED(KEY::RIGHT))
+	if (m_OverlapPLTCount > 0)
 	{
-		m_Dir = UNITVEC_TYPE::RIGHT;
-		FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
-		Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
-		FSM()->ChangeState(L"Run");
+		RigidBody()->SetGround(true);
+		RigidBody()->UseGravity(false);
 	}
-
-	if (KEY_PRESSED(KEY::Q))
+	else
 	{
-		Vec3 vRot = Transform()->GetRelativeRotation();
-		vRot.y += XM_PI * DT;
-		Transform()->SetRelativeRotation(vRot);
-	}
-
-	if (KEY_PRESSED(KEY::E))
-	{
-		Vec3 vRot = Transform()->GetRelativeRotation();
-		vRot.y -= XM_PI * DT;
-		Transform()->SetRelativeRotation(vRot);
+		RigidBody()->SetGround(false);
+		RigidBody()->UseGravity(true);
 	}
 
 	if (KEY_TAP(KEY::SPACE))
 	{
 		FSM()->ChangeState(L"Jump");
-
-		// 미사일 발사
-		//if (m_MissilePref != nullptr)
-		//{
-		//	Instantiate(m_MissilePref, 5, Transform()->GetWorldPos(), L"Missile");
-		//}
 	}
 
 	Transform()->SetRelativePos(vPos);
@@ -99,27 +69,65 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::PLAY)
+
+	if (IsPlatformLayerObject(_OtherObject))
 	{
-		if (IsPlatformLayerObject(_OtherObject))
-		{
-			++m_OverlapPLTCount;
-			RigidBody()->SetGround(true);
-			RigidBody()->UseGravity(false);
-		}
+		++m_OverlapPLTCount;
+	}
+
+	if (IsMapLimitObject(_OtherObject))
+	{
+		if (m_Dir == UNITVEC_TYPE::LEFT)
+			m_ReachMapLimit = 1;
+		else if (m_Dir == UNITVEC_TYPE::RIGHT)
+			m_ReachMapLimit = 2;
+
 	}
 }
 
+void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	if (IsPlatformLayerObject(_OtherObject))
+	{
+		float Correction = 0;
+
+		Vec3 OtherColPos = _OtherCollider->GetWorldPos();
+		Vec3 OtherColScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
+		Vec3 OwnColPos = _OwnCollider->GetWorldPos();
+		Vec3 OwnColScale = _OwnCollider->GetScale() * GetOwner()->Transform()->GetWorldScale();
+
+		if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
+		{
+			Vec3 OtherRot = _OtherObject->Transform()->GetRelativeRotation();
+			Matrix matRot = XMMatrixRotationX(OtherRot.x) * XMMatrixRotationY(OtherRot.y) * XMMatrixRotationZ(OtherRot.z);
+			OtherColPos = XMVector3TransformCoord(OtherColPos, matRot);
+		}
+
+		float Distance = fabs(OtherColPos.y - OwnColPos.y);
+		float Standard = (OtherColScale.y / 2.f) + (OwnColScale.y / 2.f);
+
+		if (Distance < Standard)
+		{
+			Correction = Standard - Distance;
+		}
+
+		Vec3 vPos = Transform()->GetRelativePos();
+		vPos.y += Correction;
+		Transform()->SetRelativePos(vPos);
+	}
+}
+
+
 void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::PLAY)
+	if (IsPlatformLayerObject(_OtherObject))
 	{
-		if (IsPlatformLayerObject(_OtherObject))
-		{
-			--m_OverlapPLTCount;
-			RigidBody()->SetGround(false);
-			RigidBody()->UseGravity(true);
-		}
+		--m_OverlapPLTCount;
+	}
+
+	if (IsMapLimitObject(_OtherObject))
+	{
+		m_ReachMapLimit = 0;
 	}
 }
 

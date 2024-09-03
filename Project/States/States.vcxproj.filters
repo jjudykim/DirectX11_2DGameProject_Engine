@@ -20,6 +20,9 @@
     <Filter Include="States\PlayerState\CJumpState">
       <UniqueIdentifier>{4522ed92-b60d-44e6-aa62-91466bc6450d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\CameraState">
+      <UniqueIdentifier>{4d019bef-f254-4e09-a41d-06db3fd71771}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -40,6 +43,9 @@
     <ClInclude Include="CJumpState.h">
       <Filter>States\PlayerState\CJumpState</Filter>
     </ClInclude>
+    <ClInclude Include="CCameraState.h">
+      <Filter>States\CameraState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="CJumpState.cpp">
       <Filter>States\PlayerState\CJumpState</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraState.cpp">
+      <Filter>States\CameraState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

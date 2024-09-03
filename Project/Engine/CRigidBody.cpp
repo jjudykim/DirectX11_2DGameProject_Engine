@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "CRigidBody.h"
 
+#define EARTH_GRAVITY_ACCEL 9.8f
+
 CRigidBody::CRigidBody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
-	, m_UseGravity(true)
-	, m_GravityAccel(100.f)
+	, m_Mass(0.f)
+	, m_UseGravity(false)
+	, m_GravityAccel(980.f)
 	, m_MaxGravitySpeed(500.f)
 	, m_Ground(false)
-	, m_JumpSpeed(300.f)
+	, m_JumpSpeed(50.f)
 	, m_GroundFunc(nullptr)
 	, m_AirFunc(nullptr)
 	, m_GroundInst(nullptr)
@@ -47,6 +50,7 @@ void CRigidBody::Jump()
 void CRigidBody::FinalTick()
 {
 	Vec3 vObjectPos = GetOwner()->Transform()->GetRelativePos();
+	Vec3 vAccel = m_Force / m_Mass;
 
 	// 중력 가속도에 의한 속도 증가
 	if (m_UseGravity && !m_Ground)
@@ -71,7 +75,7 @@ void CRigidBody::FinalTick()
 
 void CRigidBody::SaveToFile(FILE* _File)
 {
-	fwrite(&m_VelocityByGravity, sizeof(Vec3), 1, _File);
+	//fwrite(&m_VelocityByGravity, sizeof(Vec3), 1, _File);
 
 	fwrite(&m_GravityAccel, sizeof(float), 1, _File);
 	fwrite(&m_MaxGravitySpeed, sizeof(float), 1, _File);
@@ -83,7 +87,7 @@ void CRigidBody::SaveToFile(FILE* _File)
 
 void CRigidBody::LoadFromFile(FILE* _File)
 {
-	fread(&m_VelocityByGravity, sizeof(Vec3), 1, _File);
+	//fread(&m_VelocityByGravity, sizeof(Vec3), 1, _File);
 	 
 	fread(&m_GravityAccel, sizeof(float), 1, _File);
 	fread(&m_MaxGravitySpeed, sizeof(float), 1, _File);

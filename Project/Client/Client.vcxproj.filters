@@ -153,6 +153,9 @@
     <Filter Include="EditorUI\01. Inspector\ComponentUI\06. RigidBodyUI">
       <UniqueIdentifier>{d76fad99-4859-43d5-b98f-00e61338b3b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\01. Inspector\ComponentUI\09. FSMUI">
+      <UniqueIdentifier>{d5edf923-d5e7-49ef-a2e4-184e76000e3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="RigidBodyUI.h">
       <Filter>EditorUI\01. Inspector\ComponentUI\06. RigidBodyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMUI.h">
+      <Filter>EditorUI\01. Inspector\ComponentUI\09. FSMUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -510,6 +516,9 @@
     </ClCompile>
     <ClCompile Include="RigidBodyUI.cpp">
       <Filter>EditorUI\01. Inspector\ComponentUI\06. RigidBodyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMUI.cpp">
+      <Filter>EditorUI\01. Inspector\ComponentUI\09. FSMUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

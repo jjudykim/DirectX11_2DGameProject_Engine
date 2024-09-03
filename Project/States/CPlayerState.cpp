@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "CPlayerState.h"
 
-
 CPlayerState::CPlayerState()
 	: m_Player(nullptr)
-{ 
+{	
 }
 
 CPlayerState::~CPlayerState()

@@ -24,6 +24,10 @@ class CFSM :
 private:
     map<wstring, BlackboardData>      m_mapData;
     map<wstring, CState*>             m_mapState;
+
+    vector<wstring>                   m_vecStateWstr;
+    vector<wstring>                   m_vecDataWstr;
+
     CState*                           m_CurState;
     CState*                           m_PrevState;
 
@@ -37,6 +41,9 @@ public:
     CState* FindState(const wstring& _Key);
     void ChangeState(const wstring& _NextStateKey);
     void SetBlackboardData(const wstring& _DataKey, DATA_TYPE _Type, void* _pData);
+
+    const vector<wstring>& GetVecStateWstr() { return m_vecStateWstr; }
+    const vector<wstring>& GetVecDataWstr() { return m_vecDataWstr; }
 
     template<typename T>
     T GetBlackboardData(const wstring& _DataKey);

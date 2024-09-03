@@ -242,27 +242,27 @@ void MenuUI::GameObject()
 					pObject->AddComponent(new CTransform);
 			}
 				
-
 			if (ImGui::MenuItem("3. FlipBook"))
 				pObject->AddComponent(new CFlipBookComponent);
 
+			if (ImGui::MenuItem("4. FSM"))
+				pObject->AddComponent(new CFSM);
 
-			if (ImGui::MenuItem("4. RigidBody"))
+			if (ImGui::MenuItem("5. RigidBody"))
 			{
 				pObject->AddComponent(new CRigidBody);
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
 					pObject->AddComponent(new CTransform);
 			}
 				
-			if (ImGui::MenuItem("5. Camera"))
+			if (ImGui::MenuItem("6. Camera"))
 			{
 				pObject->AddComponent(new CCamera);
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
 					pObject->AddComponent(new CTransform);
 			}
 				
-
-			if (ImGui::MenuItem("6. Light2D"))
+			if (ImGui::MenuItem("7. Light2D"))
 			{
 				pObject->AddComponent(new CLight2D);
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
@@ -270,7 +270,6 @@ void MenuUI::GameObject()
 					
 			}
 				
-			
 			ImGui::SeparatorText("Render Component");
 
 			if (ImGui::MenuItem("MeshRender"))

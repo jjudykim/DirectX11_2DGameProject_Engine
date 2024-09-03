@@ -7,12 +7,12 @@ class CPlayerScript :
 private:
     float            m_Speed;
     UNITVEC_TYPE     m_Dir;
-    vector<wstring>  m_vStatesStr;
 
     Ptr<CTexture>    m_Texture;
     Ptr<CPrefab>     m_MissilePref;
 
     int              m_OverlapPLTCount;
+    int              m_ReachMapLimit;
 
 public:
     virtual void Begin() override;
@@ -26,6 +26,7 @@ public:
 
 public:
     virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
+    virtual void Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
     virtual void EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
     
 public:
