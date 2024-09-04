@@ -146,30 +146,65 @@ void Content::FindAssetName(const wstring& _FolderPath, const wstring& _Filter)
 	WIN32_FIND_DATA tFindData = {};
 
 	// File / Folder search - kernel object
-	wstring strFindPath = _FolderPath + _Filter;
-	HANDLE hFinder = FindFirstFile(strFindPath.c_str(), &tFindData);
+	std::filesystem::path findPath = std::filesystem::path(_FolderPath) / _Filter;
+	HANDLE hFinder = FindFirstFile(findPath.c_str(), &tFindData);
 	assert(hFinder != INVALID_HANDLE_VALUE);
 
 	// 탐색 커널 오브젝트로 다음 파일을 반복해서 찾아나가기
-	while (FindNextFile(hFinder, &tFindData))
+	do
 	{
-		wstring strFindName = tFindData.cFileName;
+		std::wstring strFindName = tFindData.cFileName;
 
-		if (tFindData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
+		// 디렉토리인 경우 재귀 탐색
+		if (tFindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			if (strFindName == L"..")
+			if (strFindName == L"." || strFindName == L"..")
 				continue;
 
-			FindAssetName(_FolderPath + strFindName + L"\\", _Filter);
+			// 새로운 폴더 경로
+			std::filesystem::path subFolderPath = std::filesystem::path(_FolderPath) / strFindName;
+			subFolderPath += L"\\";  // 윈도우에서 하위 폴더를 탐색할 때 필요
+
+			FindAssetName(subFolderPath.wstring(), _Filter);
 		}
 		else
 		{
-			wstring RelativePath = CPathMgr::GetInst()->GetRelativePath(_FolderPath + strFindName);
-			m_vecAssetPath.push_back(RelativePath);
+			// 파일인 경우 상대 경로 계산 후 벡터에 추가
+			std::filesystem::path filePath = std::filesystem::path(_FolderPath) / strFindName;
+			std::wstring relativePath = CPathMgr::GetInst()->GetRelativePath(filePath.wstring());
+			m_vecAssetPath.push_back(relativePath);
 		}
-	}
+	} while (FindNextFile(hFinder, &tFindData));
 
 	FindClose(hFinder);
+
+	//WIN32_FIND_DATA tFindData = {};
+	//
+	//// File / Folder search - kernel object
+	//wstring strFindPath = _FolderPath + _Filter;
+	//HANDLE hFinder = FindFirstFile(strFindPath.c_str(), &tFindData);
+	//assert(hFinder != INVALID_HANDLE_VALUE);
+	//
+	//// 탐색 커널 오브젝트로 다음 파일을 반복해서 찾아나가기
+	//while (FindNextFile(hFinder, &tFindData))
+	//{
+	//	wstring strFindName = tFindData.cFileName;
+	//
+	//	if (tFindData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
+	//	{
+	//		if (strFindName == L"..")
+	//			continue;
+	//
+	//		FindAssetName(_FolderPath + strFindName + L"\\", _Filter);
+	//	}
+	//	else
+	//	{
+	//		wstring RelativePath = CPathMgr::GetInst()->GetRelativePath(_FolderPath + strFindName);
+	//		m_vecAssetPath.push_back(RelativePath);
+	//	}
+	//}
+	//
+	//FindClose(hFinder);
 }
 
 void Content::LoadAsset(const path& _Path)

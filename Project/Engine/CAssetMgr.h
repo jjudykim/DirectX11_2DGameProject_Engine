@@ -62,14 +62,17 @@ Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
         return Asset;
     }
 
-    wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-    strFilePath.reserve(strFilePath.size() + _RelativePath.size());
-    strFilePath += _RelativePath;
+    std::filesystem::path filePath = CPathMgr::GetInst()->GetContentPath();
+    filePath /= _RelativePath;
+
+    //wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    //strFilePath.reserve(strFilePath.size() + _RelativePath.size());
+    //strFilePath += _RelativePath;
 
     Asset = new T;
 
     // Loading Failed
-    if (FAILED(Asset->Load(strFilePath)))
+    if (FAILED(Asset->Load(filePath.wstring())))
     {
         MessageBox(nullptr, L"알 수 없는 에셋 포맷", L"에셋 로딩 실패", MB_OK);
         return nullptr;

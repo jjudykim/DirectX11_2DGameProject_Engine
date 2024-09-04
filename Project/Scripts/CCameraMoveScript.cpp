@@ -59,7 +59,7 @@ void CCameraMoveScript::OrthoGraphicMove()
 	//Vec3 vPos = Transform()->GetRelativePos();
 	//
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
+	//FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
 
 	m_StandardPos = player->Transform()->GetRelativePos();
 	m_StandardPos.y += 200;
