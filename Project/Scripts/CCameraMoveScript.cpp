@@ -7,7 +7,7 @@
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
-	, m_CamSpeed(300.f)
+	, m_CamSpeed(400.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "CameraSpeed", &m_CamSpeed);
 }
@@ -59,11 +59,10 @@ void CCameraMoveScript::OrthoGraphicMove()
 	//Vec3 vPos = Transform()->GetRelativePos();
 	//
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	m_CamSpeed = player->FSM()->GetBlackboardData<float>(L"Speed");
 	FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
 
 	m_StandardPos = player->Transform()->GetRelativePos();
-	m_StandardPos.y += 300;
+	m_StandardPos.y += 200;
 	FSM()->SetBlackboardData(L"StandardPos", DATA_TYPE::VEC3, m_StandardPos);
 	//
 	//if (m_FollowPlayer)

@@ -7,6 +7,7 @@ class CCameraState :
     public CState
 {
 protected:
+    CGameObject*         m_Camera;
     float                m_CamSpeed;
     Vec3                 m_StandardPos;
     UNITVEC_TYPE         m_Dir;

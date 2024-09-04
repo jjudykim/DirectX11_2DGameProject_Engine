@@ -161,7 +161,8 @@ int CDevice::CreateView()
 	// Swapchain의 Backbuffer 주소를 받아옴
 	ComPtr<ID3D11Texture2D> RenderTargetTex;
 	m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)RenderTargetTex.GetAddressOf());
-	m_RTTex = CAssetMgr::GetInst()->CreateTexture(L"RenderTargetTex", RenderTargetTex);
+	wstring RTTexName = L"RenderTargetTex";
+	m_RTTex = CAssetMgr::GetInst()->CreateTexture(RTTexName, RenderTargetTex);
 
 	// Detph Stencil Texture 생성
 	m_DSTex = CAssetMgr::GetInst()->CreateTexture(L"DepthStencilTex", (UINT)m_vResolution.x, (UINT)m_vResolution.y

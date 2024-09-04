@@ -63,6 +63,7 @@ Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
     }
 
     wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+    strFilePath.reserve(strFilePath.size() + _RelativePath.size());
     strFilePath += _RelativePath;
 
     Asset = new T;

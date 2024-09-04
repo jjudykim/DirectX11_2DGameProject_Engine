@@ -11,6 +11,7 @@ CReachLimitState::~CReachLimitState()
 
 void CReachLimitState::Set()
 {
+	CCameraState::Set();
 }
 
 void CReachLimitState::Enter()

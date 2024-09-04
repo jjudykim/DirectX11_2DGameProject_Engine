@@ -11,6 +11,8 @@ CCameraState::~CCameraState()
 
 void CCameraState::Set()
 {
+	if (m_Camera == nullptr)
+		m_Camera = GetTargetObject();
 }
 
 void CCameraState::Enter()

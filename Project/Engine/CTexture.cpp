@@ -75,7 +75,6 @@ int CTexture::Load(const wstring& _FilePath)
 		return E_FAIL;
 	}
 
-
 	// System Memory (Scratch Image) -> GPU (Texture2D)
 	CreateShaderResourceView(DEVICE
 							, m_Image.GetImages()
@@ -83,8 +82,10 @@ int CTexture::Load(const wstring& _FilePath)
 							, m_Image.GetMetadata()
 							, m_SRV.GetAddressOf());
 
+	m_Image.Release();
 	m_SRV->GetResource((ID3D11Resource**)m_Tex2D.GetAddressOf());
 	m_Tex2D->GetDesc(&m_Desc);
+
 
 	return S_OK;
 }

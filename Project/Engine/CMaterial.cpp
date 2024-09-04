@@ -86,7 +86,7 @@ void CMaterial::Binding(int _index)
 	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
 	pCB->SetData(&m_Const);
 	pCB->Binding();
-
+	
 	m_Shader->Binding();
 }
 
