@@ -44,6 +44,7 @@ public:
     void Jump();
 
 public:
+    void SetVelocity(Vec3 _Velocity) { m_Velocity = _Velocity; }
     void AddForce(Vec3 _vForce) { m_Force += _vForce; }
     void SetMass(float _Mass) { m_Mass = _Mass; }
     void SetInitialWalkSpeed(float _Speed) { m_InitWalkSpeed = _Speed; }
@@ -58,6 +59,7 @@ public:
     void SetAirFunc(void(*_pFunc)(void)) { m_AirFunc = _pFunc; }
 
 public:
+    Vec3 GetVelocity() { return m_Velocity; }
     float GetMass() { return m_Mass; }
     float GetInitialWalkSpeed() { return m_InitWalkSpeed; }
     float GetMaxWalkSpeed() { return m_MaxWalkSpeed; }

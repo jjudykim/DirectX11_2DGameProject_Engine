@@ -13,9 +13,7 @@ CChasingPlayerState::~CChasingPlayerState()
 
 void CChasingPlayerState::Set()
 {
-	CCameraState::Set();	
-	m_Friction = m_Camera->RigidBody()->GetFriction();
-	m_MaxWalkSpeed = m_Camera->RigidBody()->GetMaxWalkSpeed();
+	CCameraState::Set();
 }
 
 void CChasingPlayerState::Enter()
@@ -29,36 +27,31 @@ void CChasingPlayerState::FinalTick()
 		m_Owner->ChangeState(L"DirectControl");
 	}
 
-	m_CamSpeed = GetBlackboardData<float>(L"CamSpeed");
-	m_StandardPos = GetBlackboardData<Vec3>(L"StandardPos");
+	if (GetBlackboardData<int>(L"ReachLimit") != 0)
+	{
+		m_Owner->ChangeState(L"ReachLimit");
+	}
 
-	
+	Vec3 vPlayerVelocity = GetBlackboardData<Vec3>(L"PlayerVelocity");
+	Vec3 vPlayerPos = GetBlackboardData<Vec3>(L"PlayerPos");
 
-	Vec3 vPos = GetTargetObject()->Transform()->GetRelativePos();
+	Vec3 vCameraPos = m_Camera->Transform()->GetRelativePos();
 
-	Vec3 vUnit = m_StandardPos - vPos;
-	float distance = vUnit.Length();
-	vUnit = vUnit.Normalize();
+	float distanceX = vPlayerPos.x - vCameraPos.x;
 
-	//if (fabs(vPos.x - m_StandardPos.x) > 500 || fabs(vPos.x - m_StandardPos.y) > 100)
-	//{
-	//	//m_Camera->RigidBody()->SetFriction(m_Friction * 2.f);
-	//	//m_Camera->RigidBody()->SetMaxWalkSpeed(m_MaxWalkSpeed * 2.f);
-	//	m_Camera->RigidBody()->AddForce(vUnit * m_CamSpeed * 2.f);
-	//}
-	//
-	//if (fabs(vPos.x - m_StandardPos.x) > 150 || fabs(vPos.y - m_StandardPos.y) > 50)
-	//{
-	//	//m_Camera->RigidBody()->SetFriction(m_Friction);
-	//	//m_Camera->RigidBody()->SetMaxWalkSpeed(m_MaxWalkSpeed);
-	//	m_Camera->RigidBody()->AddForce(vUnit * m_CamSpeed);
-	//}
+	float threshold = 100.0f;  // 플레이어와 카메라의 X 좌표 차이가 이 값을 넘으면 보정 적용
+	float correctionSpeed = 0.7f;  // 보정 속도의 비율 (값을 조절하여 보정 속도 설정)
 
-	float forceMagnitude = distance * m_CamSpeed;
+	if (fabs(distanceX) > threshold)
+	{
+		// 차이에 비례한 보정 속도 계산
+		float correctionVelocityX = distanceX * correctionSpeed;
 
-	m_Camera->RigidBody()->AddForce(vUnit * forceMagnitude);
+		// 카메라의 기존 속도에 보정 속도 추가 (X 축만 보정)
+		vPlayerVelocity.x += correctionVelocityX;
+	}
 
-	DrawDebugRect(m_StandardPos, Vec3(50.f, 50.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec4(1.0f, 1.0f, 0.3f, 1.f), 0.f, false);
+	m_Camera->RigidBody()->SetVelocity(vPlayerVelocity);
 }
 
 void CChasingPlayerState::Exit()

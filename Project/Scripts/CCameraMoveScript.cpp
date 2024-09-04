@@ -18,9 +18,11 @@ CCameraMoveScript::~CCameraMoveScript()
 
 void CCameraMoveScript::Begin()
 {
-	FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
-	FSM()->SetBlackboardData(L"CamDir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
-	FSM()->SetBlackboardData(L"StandardPos", DATA_TYPE::VEC3, &m_StandardPos);
+	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::FLOAT, &m_PlayerVelocity);
+	FSM()->SetBlackboardData(L"PLayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
+	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
+	FSM()->SetBlackboardData(L"LimitTargetPos", DATA_TYPE::VEC3, &m_LimitTargetPos);
+	FSM()->SetBlackboardData(L"LimitTargetScale", DATA_TYPE::VEC3, &m_LimitTargetScale);
 	
 	// FSM State
 	FSM()->AddState(L"ChasingPlayer", new CChasingPlayerState);
@@ -52,72 +54,12 @@ void CCameraMoveScript::Tick()
 }
 
 void CCameraMoveScript::OrthoGraphicMove()
-{
-	//float Speed = m_CamSpeed;
-	//
-	////Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
-	//Vec3 vPos = Transform()->GetRelativePos();
-	//
+{	
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-	//FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
-
-	m_StandardPos = player->Transform()->GetRelativePos();
-	m_StandardPos.y += 200;
-	FSM()->SetBlackboardData(L"StandardPos", DATA_TYPE::VEC3, m_StandardPos);
-	//
-	//if (m_FollowPlayer)
-	//{
-	//	if (m_IsReachLimit)
-	//	{
-	//		if (fabs(m_LimitPos.x - Transform()->GetRelativePos().x) > 5.f
-	//			|| fabs(m_LimitPos.y - Transform()->GetRelativePos().y) > 5.f)
-	//		{
-	//			vPos += m_CurDir * DT * m_CamSpeed;
-	//		}
-	//		else
-	//		{
-	//			if (fabs(vPos.x - vStandardPos.x) > 250 || fabs(vPos.y - vStandardPos.y) > 250)
-	//			{
-	//				m_IsReachLimit = false;
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		if (fabs(vPos.x - vStandardPos.x) > 170 || fabs(vPos.y - vStandardPos.y) > 100)
-	//		{
-	//			Vec3 vUnit = vStandardPos - vPos;
-	//			float length = vUnit.Length();
-	//			m_CurDir = vUnit / length;
-	//
-	//			vPos += m_CurDir * DT * m_CamSpeed;
-	//		}
-	//	}
-	//	
-	//}
-	//else
-	//{
-	//	if (KEY_PRESSED(KEY::W))
-	//	{
-	//		vPos.y += DT * Speed;
-	//	}
-	//	
-	//	if (KEY_PRESSED(KEY::S))
-	//	{
-	//		vPos.y -= DT * Speed;
-	//	}
-	//	
-	//	if (KEY_PRESSED(KEY::A))
-	//	{
-	//		vPos.x -= DT * Speed;
-	//	}
-	//	
-	//	if (KEY_PRESSED(KEY::D))
-	//	{
-	//		vPos.x += DT * Speed;
-	//	}
-	//}
-	//
+	m_PlayerVelocity = player->RigidBody()->GetVelocity();
+	m_PlayerPos = player->Transform()->GetRelativePos();
+	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::VEC3, &m_PlayerVelocity);
+	FSM()->SetBlackboardData(L"PlayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
 }
 
 void CCameraMoveScript::PerspectiveMove()
@@ -178,27 +120,27 @@ void CCameraMoveScript::PerspectiveMove()
 
 void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	//m_IsReachLimit = true;
-	//m_LimitPos = Transform()->GetRelativePos();
-	//if (m_CurDir.x == 1) m_LimitPos.x -= 100;
-	//if (m_CurDir.x == -1) m_LimitPos.x += 100;
-	//if (m_CurDir.y == 1) m_LimitPos.y -= 100;
-	//if (m_CurDir.y == -1) m_LimitPos.y += 100;
-	//
-	//m_CurDir *= -1;
+	m_IsReachLimit = true;
+	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
+	
+	m_LimitTargetPos = _OtherCollider->GetWorldPos();
+	m_LimitTargetScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
+
+	FSM()->SetBlackboardData(L"LimitTargetPos", DATA_TYPE::VEC3, &m_LimitTargetPos);
+	FSM()->SetBlackboardData(L"LimitTargetScale", DATA_TYPE::VEC3, &m_LimitTargetScale);
+
 }
 
 void CCameraMoveScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	//m_IsReachLimit = false;
+	m_IsReachLimit = false;
+	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
 }
 
 void CCameraMoveScript::SaveToFile(FILE* _File)
 {
-	fwrite(&m_CamSpeed, sizeof(float), 1, _File);
 }
 
 void CCameraMoveScript::LoadFromFile(FILE* _File)
 {
-	fread(&m_CamSpeed, sizeof(float), 1, _File);
 }
