@@ -12,16 +12,21 @@ private:
     Vec3    m_VelocityByGravity;    // 중력에 의해서 증가하는 속도
     Vec3    m_AddVelocity;          // 최종 속도에 누적될 속도
 
-    float   m_Mass;
-    Vec3    m_Force;
+    float   m_Mass;                 // 질량
+    Vec3    m_Force;                // 힘
+
+    float   m_InitWalkSpeed;        // 최소 보장 속력
+    float   m_MaxWalkSpeed;         // 최대 제한 속력
+
+    float   m_Friction;             // 마찰력
 
     float   m_GravityAccel;         // 중력 가속도
     float   m_MaxGravitySpeed;      // 중력으로 발생한 낙하속도 제한
 
-    bool    m_UseGravity;
-    bool    m_Ground;               // 땅 위에 서있는지 체크
     float   m_JumpSpeed;            // 점프 속력
-
+    bool    m_UseGravity;
+    bool    m_Ground;               
+    
 
     // Ground On / Off 호출시킬 함수포인터
     // CallBack
@@ -39,13 +44,29 @@ public:
     void Jump();
 
 public:
-    Vec3 GetGravityVelocity() { return m_VelocityByGravity; }
-
-
+    void AddForce(Vec3 _vForce) { m_Force += _vForce; }
+    void SetMass(float _Mass) { m_Mass = _Mass; }
+    void SetInitialWalkSpeed(float _Speed) { m_InitWalkSpeed = _Speed; }
+    void SetMaxWalkSpeed(float _Speed) { m_MaxWalkSpeed = _Speed; }
+    void SetMaxGravitySpeed(float _Speed) { m_MaxGravitySpeed = _Speed; }
+    void SetFriction(float _Friction) { m_Friction = _Friction; }
     void SetJumpSpeed(float _Speed) { m_JumpSpeed = _Speed; }
-    void SetGravityVelocity(Vec3 _Velocity) { m_VelocityByGravity = _Velocity; }
+    void SetGravityAccel(float _Accel) { m_GravityAccel = _Accel; }
+    void SetUseGravity(bool _Use) { m_UseGravity = _Use; }
+    
     void SetGroundFunc(void (*_pFunc)(void)) { m_GroundFunc = _pFunc; }
     void SetAirFunc(void(*_pFunc)(void)) { m_AirFunc = _pFunc; }
+
+public:
+    float GetMass() { return m_Mass; }
+    float GetInitialWalkSpeed() { return m_InitWalkSpeed; }
+    float GetMaxWalkSpeed() { return m_MaxWalkSpeed; }
+    float GetMaxGravitySpeed() { return m_MaxGravitySpeed; }
+    float GetFriction() { return m_Friction; }
+    float GetJumpSpeed() { return m_JumpSpeed; }
+    float GetGravityAccel() { return m_GravityAccel; }
+    bool IsUseGravity() { return m_UseGravity; }
+    bool IsGround() { return m_Ground; }
 
     void SetGroundDelegate(CGameObject* _Inst, DELEGATE _MemFunc)
     {

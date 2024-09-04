@@ -5,7 +5,7 @@ enum class DATA_TYPE
 {
     INT,
     FLOAT,
-    VEC2,
+    VEC3,
     WSTRING,
     UNITVEC_TYPE,
 };
@@ -81,9 +81,9 @@ inline T CFSM::GetBlackboardData(const wstring& _DataKey)
         return *((T*)iter->second.pData);
     }
 
-    if (std::is_same_v<Vec2, T>)
+    if (std::is_same_v<Vec3, T>)
     {
-        assert(DATA_TYPE::VEC2 == iter->second.Type);
+        assert(DATA_TYPE::VEC3 == iter->second.Type);
         return *((T*)iter->second.pData);
     }
 

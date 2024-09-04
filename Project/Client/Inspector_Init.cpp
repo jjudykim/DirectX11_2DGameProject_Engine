@@ -12,6 +12,7 @@
 #include "Light2DUI.h"
 #include "CameraUI.h"
 #include "MeshRenderUI.h"
+#include "RigidBodyUI.h"
 #include "FlipBookComUI.h"
 #include "FSMUI.h"
 #include "TileMapUI.h"
@@ -90,7 +91,7 @@ void Inspector::CreateComponentUI()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidBodyUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetName("RigidBodyUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetChildSize(ImVec2(0.f, 120.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetChildSize(ImVec2(0.f, 200.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::FLIPBOOKCOMPONENT] = new FlipBookComUI;

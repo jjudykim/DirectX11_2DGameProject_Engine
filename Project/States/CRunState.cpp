@@ -46,23 +46,26 @@ void CRunState::FinalTick()
 			break;
 		}
 	}
-	
-	Vec3 vPos = m_Player->Transform()->GetRelativePos();
 
 	switch (m_Dir)
 	{
 	case UNITVEC_TYPE::LEFT:
 		if (m_ReachMapLimit != 1)
-			vPos.x -= DT * m_Speed;
+			m_Player->RigidBody()->AddForce(Vec3((-1.f) * m_Speed, 0.f, 0.f));
+			//vPos.x -= DT * m_Speed;
 		break;
 
 	case UNITVEC_TYPE::RIGHT:
 		if (m_ReachMapLimit != 2)
-			vPos.x += DT * m_Speed;
+			m_Player->RigidBody()->AddForce(Vec3(m_Speed, 0.f, 0.f));
+			//vPos.x += DT * m_Speed;
 		break;
 	}
-	
-	m_Player->Transform()->SetRelativePos(vPos);
+
+	//if (KEY_TAP(KEY::SPACE))
+	//{
+	//	m_Owner->ChangeState(L"Jump");
+	//}
 }
 
 void CRunState::Exit()

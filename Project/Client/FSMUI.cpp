@@ -19,18 +19,22 @@ void FSMUI::Update()
 	Title();
 
 	if (m_FSM == nullptr)
+	{
 		m_FSM = (CFSM*)GetTargetObject()->GetComponent(COMPONENT_TYPE::FSM);
-
-	vector<wstring> vecStateWstr = m_FSM->GetVecStateWstr();
-	vector<wstring> vecDataWStr = m_FSM->GetVecDataWstr();
+	}
+	else
+	{
+		m_vecStateWstr = m_FSM->GetVecStateWstr();
+		m_vecDataWStr = m_FSM->GetVecDataWstr();
+	}
 
 	ImGui::SeparatorText("State List");
 	if (ImGui::BeginListBox("##StateList", ImVec2(-FLT_MIN, 100.f)))
 	{
-		for (size_t i = 0; i < vecStateWstr.size(); i++)
+		for (size_t i = 0; i < m_vecStateWstr.size(); i++)
 		{
 			const bool is_selected = 0;
-			string label = string(vecStateWstr[i].begin(), vecStateWstr[i].end());
+			string label = string(m_vecStateWstr[i].begin(), m_vecStateWstr[i].end());
 			if (ImGui::Selectable(label.c_str(), is_selected))
 			{
 			}
@@ -49,10 +53,10 @@ void FSMUI::Update()
 	ImGui::SeparatorText("Blackboard List");
 	if (ImGui::BeginListBox("##BlackboardList", ImVec2(-FLT_MIN, 100.f)))
 	{
-		for (size_t i = 0; i < vecDataWStr.size(); i++)
+		for (size_t i = 0; i < m_vecDataWStr.size(); i++)
 		{
 			const bool is_selected = 0;
-			string label = string(vecDataWStr[i].begin(), vecDataWStr[i].end());
+			string label = string(m_vecDataWStr[i].begin(), m_vecDataWStr[i].end());
 			if (ImGui::Selectable(label.c_str(), is_selected))
 			{
 			}

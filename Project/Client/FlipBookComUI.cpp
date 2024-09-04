@@ -8,6 +8,7 @@
 #include <Engine/CSprite.h>
 #include <Engine/CTexture.h>
 #include <Engine/CFlipBook.h>
+#include <Engine/CLevelMgr.h>
 
 FlipBookComUI::FlipBookComUI()
 	: ComponentUI(COMPONENT_TYPE::FLIPBOOKCOMPONENT)
@@ -27,7 +28,6 @@ FlipBookComUI::~FlipBookComUI()
 
 void FlipBookComUI::Init()
 {
-	m_FBCom = GetTargetObject()->FlipBookComponent();
 	if (m_FBCom == nullptr) return;
 
 	if (m_FBCom->GetVecFlipBook().size() < 1)
@@ -67,6 +67,9 @@ void FlipBookComUI::Update()
 
 	if (m_FBCom == nullptr || m_CurFB == nullptr)
 		Init();
+
+	SetTargetObject(GetTargetObject());
+	m_FBCom = GetTargetObject()->FlipBookComponent();
 
 	m_UIHeight = 0;
 

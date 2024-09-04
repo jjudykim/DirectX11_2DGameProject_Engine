@@ -59,11 +59,6 @@ void CPlayerScript::Tick()
 		RigidBody()->UseGravity(true);
 	}
 
-	if (KEY_TAP(KEY::SPACE))
-	{
-		FSM()->ChangeState(L"Jump");
-	}
-
 	Transform()->SetRelativePos(vPos);
 }
 

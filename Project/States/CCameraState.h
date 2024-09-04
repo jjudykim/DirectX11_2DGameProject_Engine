@@ -8,6 +8,7 @@ class CCameraState :
 {
 protected:
     float                m_CamSpeed;
+    Vec3                 m_StandardPos;
     UNITVEC_TYPE         m_Dir;
 
 public:

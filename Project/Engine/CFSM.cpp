@@ -13,6 +13,8 @@ CFSM::CFSM()
 CFSM::~CFSM()
 {
 	Delete_Map(m_mapState);
+	m_vecDataWstr.clear();
+	m_vecStateWstr.clear();
 }
 
 void CFSM::FinalTick()
@@ -78,7 +80,7 @@ void CFSM::ChangeState(const wstring& _NextStateKey)
 
 void CFSM::SetBlackboardData(const wstring& _DataKey, DATA_TYPE _Type, void* _pData)
 {
-	if (m_mapData.find(_DataKey) == m_mapData.end())
+	if (m_mapData.count(_DataKey) == 0)
 	{
 		BlackboardData data = { _Type, _pData };
 		m_mapData.insert(make_pair(_DataKey, data));
@@ -87,7 +89,7 @@ void CFSM::SetBlackboardData(const wstring& _DataKey, DATA_TYPE _Type, void* _pD
 	else
 	{
 		BlackboardData data = { _Type, _pData };
-		m_mapData.find(_DataKey)->second = data;
+		m_mapData[_DataKey] = data;
 	}
 }
 
@@ -118,10 +120,10 @@ void CFSM::SaveToFile(FILE* _File)
 				fwrite(&data, sizeof(float), 1, _File);
 				break;
 			}
-			case DATA_TYPE::VEC2:
+			case DATA_TYPE::VEC3:
 			{
-				Vec2 data = *((Vec2*)pair.second.pData);
-				fwrite(&data, sizeof(Vec2), 1, _File);
+				Vec3 data = *((Vec3*)pair.second.pData);
+				fwrite(&data, sizeof(Vec3), 1, _File);
 				break;
 			}
 			case DATA_TYPE::WSTRING:
@@ -180,10 +182,10 @@ void CFSM::LoadFromFile(FILE* _File)
 				pData = &data;
 				break;
 			}
-			case DATA_TYPE::VEC2:
+			case DATA_TYPE::VEC3:
 			{
-				Vec2 data = Vec2(0.f, 0.f);
-				fread(&data, sizeof(Vec2), 1, _File);
+				Vec3 data = Vec3(0.f, 0.f, 0.f);
+				fread(&data, sizeof(Vec3), 1, _File);
 				pData = &data;
 				break;
 			}

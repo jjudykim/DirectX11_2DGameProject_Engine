@@ -5,14 +5,15 @@ class CCameraMoveScript :
     public CScript
 {
 private:
-    Vec3    m_CurDir;
-    Vec3    m_LimitPos;
-    float   m_CamSpeed;
-            
-    bool    m_FollowPlayer;
-    bool    m_IsReachLimit;
+    UNITVEC_TYPE     m_Dir;
+    Vec3             m_LimitPos;
+    Vec3             m_StandardPos;
+    float            m_CamSpeed;
+                     
+    bool             m_IsReachLimit;
 
 public:
+    virtual void Begin() override;
     virtual void Tick() override;
 
     virtual void SaveToFile(FILE* _File) override;

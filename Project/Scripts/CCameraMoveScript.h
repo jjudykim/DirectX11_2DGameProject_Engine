@@ -7,6 +7,7 @@ class CCameraMoveScript :
 private:
     UNITVEC_TYPE     m_Dir;
     Vec3             m_LimitPos;
+    Vec3             m_StandardPos;
     float            m_CamSpeed;
                      
     bool             m_IsReachLimit;

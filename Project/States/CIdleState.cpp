@@ -42,6 +42,11 @@ void CIdleState::FinalTick()
 		GetTargetObject()->FSM()->ChangeState(L"Run");
 	}
 
+	//if (KEY_TAP(KEY::SPACE))
+	//{
+	//	m_Owner->ChangeState(L"Jump");
+	//}
+
 	UNITVEC_TYPE check = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
 }
 

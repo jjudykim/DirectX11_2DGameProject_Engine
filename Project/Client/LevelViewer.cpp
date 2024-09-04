@@ -55,26 +55,19 @@ void LevelViewer::Update()
 void LevelViewer::Viewer()
 { 
 	WideCharToMultiByte(CP_UTF8, 0, m_LevelName.c_str(), -1, cLevelName, 256, NULL, NULL);
-
-	UINT Flag = 0;
-
-	if (m_LevelEditMode)
-	{
-		//Flag |= ImGuiInputTextFlags_ReadOnly;
-	}
 		
 	ImGui::Text("Current Level");
 	ImGui::SameLine(120.f);
 	ImGui::SetNextItemWidth(180.f);
-
-	if (Flag != 0)
-		ImGui::BeginDisabled();
-	ImGui::InputText("##LevelFile", cLevelName, IM_ARRAYSIZE(cLevelName), Flag);
-	if (Flag != 0)
-		ImGui::EndDisabled();
+	ImGui::InputText("##LevelFile", cLevelName, IM_ARRAYSIZE(cLevelName));
 
 	MultiByteToWideChar(CP_UTF8, 0, cLevelName, -1, wLevelName, 256);
 	m_LevelName = wLevelName;
+
+	if (m_CurLevel != nullptr && m_LevelName != m_CurLevel->GetName())
+	{
+		m_CurLevel->SetName(m_LevelName);
+	}
 
 	ViewerButton();
 }

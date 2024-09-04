@@ -2,6 +2,8 @@
 #include "CCameraMoveScript.h"
 
 #include "Engine/CLevelMgr.h"
+#include "States/CChasingPlayerState.h"
+#include "States/CReachLimitState.h"
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
@@ -18,6 +20,7 @@ void CCameraMoveScript::Begin()
 {
 	FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
 	FSM()->SetBlackboardData(L"CamDir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
+	FSM()->SetBlackboardData(L"StandardPos", DATA_TYPE::VEC3, &m_StandardPos);
 	
 	// FSM State
 	FSM()->AddState(L"ChasingPlayer", new CChasingPlayerState);
@@ -50,70 +53,72 @@ void CCameraMoveScript::Tick()
 
 void CCameraMoveScript::OrthoGraphicMove()
 {
-	float Speed = m_CamSpeed;
-
-	//Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
-	Vec3 vPos = Transform()->GetRelativePos();
-
+	//float Speed = m_CamSpeed;
+	//
+	////Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
+	//Vec3 vPos = Transform()->GetRelativePos();
+	//
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	m_CamSpeed = player->FSM()->GetBlackboardData<float>(L"Speed");
-	Vec3 vStandardPos = player->Transform()->GetRelativePos();
-	vStandardPos.y += 300;
+	FSM()->SetBlackboardData(L"CamSpeed", DATA_TYPE::FLOAT, &m_CamSpeed);
 
-	if (m_FollowPlayer)
-	{
-		if (m_IsReachLimit)
-		{
-			if (fabs(m_LimitPos.x - Transform()->GetRelativePos().x) > 5.f
-				|| fabs(m_LimitPos.y - Transform()->GetRelativePos().y) > 5.f)
-			{
-				vPos += m_CurDir * DT * m_CamSpeed;
-			}
-			else
-			{
-				if (fabs(vPos.x - vStandardPos.x) > 250 || fabs(vPos.y - vStandardPos.y) > 250)
-				{
-					m_IsReachLimit = false;
-				}
-			}
-		}
-		else
-		{
-			if (fabs(vPos.x - vStandardPos.x) > 170 || fabs(vPos.y - vStandardPos.y) > 100)
-			{
-				Vec3 vUnit = vStandardPos - vPos;
-				float length = vUnit.Length();
-				m_CurDir = vUnit / length;
-
-				vPos += m_CurDir * DT * m_CamSpeed;
-			}
-		}
-		
-	}
-	else
-	{
-		if (KEY_PRESSED(KEY::W))
-		{
-			vPos.y += DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::S))
-		{
-			vPos.y -= DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::A))
-		{
-			vPos.x -= DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::D))
-		{
-			vPos.x += DT * Speed;
-		}
-	}
-
-	Transform()->SetRelativePos(vPos);
+	m_StandardPos = player->Transform()->GetRelativePos();
+	m_StandardPos.y += 300;
+	FSM()->SetBlackboardData(L"StandardPos", DATA_TYPE::VEC3, m_StandardPos);
+	//
+	//if (m_FollowPlayer)
+	//{
+	//	if (m_IsReachLimit)
+	//	{
+	//		if (fabs(m_LimitPos.x - Transform()->GetRelativePos().x) > 5.f
+	//			|| fabs(m_LimitPos.y - Transform()->GetRelativePos().y) > 5.f)
+	//		{
+	//			vPos += m_CurDir * DT * m_CamSpeed;
+	//		}
+	//		else
+	//		{
+	//			if (fabs(vPos.x - vStandardPos.x) > 250 || fabs(vPos.y - vStandardPos.y) > 250)
+	//			{
+	//				m_IsReachLimit = false;
+	//			}
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (fabs(vPos.x - vStandardPos.x) > 170 || fabs(vPos.y - vStandardPos.y) > 100)
+	//		{
+	//			Vec3 vUnit = vStandardPos - vPos;
+	//			float length = vUnit.Length();
+	//			m_CurDir = vUnit / length;
+	//
+	//			vPos += m_CurDir * DT * m_CamSpeed;
+	//		}
+	//	}
+	//	
+	//}
+	//else
+	//{
+	//	if (KEY_PRESSED(KEY::W))
+	//	{
+	//		vPos.y += DT * Speed;
+	//	}
+	//	
+	//	if (KEY_PRESSED(KEY::S))
+	//	{
+	//		vPos.y -= DT * Speed;
+	//	}
+	//	
+	//	if (KEY_PRESSED(KEY::A))
+	//	{
+	//		vPos.x -= DT * Speed;
+	//	}
+	//	
+	//	if (KEY_PRESSED(KEY::D))
+	//	{
+	//		vPos.x += DT * Speed;
+	//	}
+	//}
+	//
 }
 
 void CCameraMoveScript::PerspectiveMove()
@@ -174,14 +179,14 @@ void CCameraMoveScript::PerspectiveMove()
 
 void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	m_IsReachLimit = true;
-	m_LimitPos = Transform()->GetRelativePos();
-	if (m_CurDir.x == 1) m_LimitPos.x -= 100;
-	if (m_CurDir.x == -1) m_LimitPos.x += 100;
-	if (m_CurDir.y == 1) m_LimitPos.y -= 100;
-	if (m_CurDir.y == -1) m_LimitPos.y += 100;
-
-	m_CurDir *= -1;
+	//m_IsReachLimit = true;
+	//m_LimitPos = Transform()->GetRelativePos();
+	//if (m_CurDir.x == 1) m_LimitPos.x -= 100;
+	//if (m_CurDir.x == -1) m_LimitPos.x += 100;
+	//if (m_CurDir.y == 1) m_LimitPos.y -= 100;
+	//if (m_CurDir.y == -1) m_LimitPos.y += 100;
+	//
+	//m_CurDir *= -1;
 }
 
 void CCameraMoveScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
