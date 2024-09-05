@@ -4,6 +4,9 @@
 class CRunState :
     public CPlayerState
 {
+private:
+    float      m_Friction;
+
     virtual void Set() override;
     virtual void Enter() override;
     virtual void FinalTick() override;

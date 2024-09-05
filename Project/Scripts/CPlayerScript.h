@@ -21,6 +21,9 @@ public:
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
 
+private:
+    void CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider);
+
 public:
     float GetSpeed() { return m_Speed; }
 

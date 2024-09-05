@@ -26,6 +26,7 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::Begin()
 {
 	//GetRenderComponent()->GetDynamicMaterial();
+	FSM()->RigidBody()->SetUseGravity(true);
 
 	FSM()->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
@@ -51,12 +52,10 @@ void CPlayerScript::Tick()
 	if (m_OverlapPLTCount > 0)
 	{
 		RigidBody()->SetGround(true);
-		RigidBody()->UseGravity(false);
 	}
 	else
 	{
 		RigidBody()->SetGround(false);
-		RigidBody()->UseGravity(true);
 	}
 
 	Transform()->SetRelativePos(vPos);
@@ -84,34 +83,9 @@ void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 {
 	if (IsPlatformLayerObject(_OtherObject))
 	{
-		float Correction = 0;
-
-		Vec3 OtherColPos = _OtherCollider->GetWorldPos();
-		Vec3 OtherColScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
-		Vec3 OwnColPos = _OwnCollider->GetWorldPos();
-		Vec3 OwnColScale = _OwnCollider->GetScale() * GetOwner()->Transform()->GetWorldScale();
-
-		if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
-		{
-			Vec3 OtherRot = _OtherObject->Transform()->GetRelativeRotation();
-			Matrix matRot = XMMatrixRotationX(OtherRot.x) * XMMatrixRotationY(OtherRot.y) * XMMatrixRotationZ(OtherRot.z);
-			OtherColPos = XMVector3TransformCoord(OtherColPos, matRot);
-		}
-
-		float Distance = fabs(OtherColPos.y - OwnColPos.y);
-		float Standard = (OtherColScale.y / 2.f) + (OwnColScale.y / 2.f);
-
-		if (Distance < Standard)
-		{
-			Correction = Standard - Distance;
-		}
-
-		Vec3 vPos = Transform()->GetRelativePos();
-		vPos.y += Correction;
-		Transform()->SetRelativePos(vPos);
+		CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
 	}
 }
-
 
 void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
@@ -124,6 +98,59 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 	{
 		m_ReachMapLimit = 0;
 	}
+}
+
+void CPlayerScript::CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	float Correction = 0;
+
+	Vec3 OtherColPos = _OtherCollider->GetWorldPos();
+	Vec3 OtherColScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
+	Vec3 OwnColPos = _OwnCollider->GetWorldPos();
+	Vec3 OwnColScale = _OwnCollider->GetScale() * GetOwner()->Transform()->GetWorldScale();
+
+	float playerCenterX = OwnColPos.x;
+	float platformYAtPlayerX = OtherColPos.y;
+
+	Matrix matRot = XMMatrixIdentity();
+
+	if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
+	{
+		Vec3 OtherRot = _OtherObject->Transform()->GetRelativeRotation() * _OtherObject->Transform()->GetWorldScale();
+		matRot = XMMatrixRotationX(OtherRot.x) * XMMatrixRotationY(OtherRot.y) * XMMatrixRotationZ(OtherRot.z);
+		OtherColPos = XMVector3TransformCoord(OtherColPos, matRot);
+
+		Vec3 tempPlayerCeneter = XMVector3TransformCoord(Vec3(playerCenterX, 0, 0), matRot);
+		playerCenterX = tempPlayerCeneter.x;
+
+		// *플랫폼의 충돌면에서의 플레이어의 X좌표와 충돌하는 부분 찾기*
+		// : 플랫폼의 충돌 범위 내에서 플레이어의 X좌표가 위치하는 비율을 구함
+		float platformMinX = OtherColPos.x - (OtherColScale.x / 2.f);  // 플랫폼의 좌측 경계
+		float platformMaxX = OtherColPos.x + (OtherColScale.x / 2.f);  // 플랫폼의 우측 경계
+
+		// 플레이어의 X좌표가 플랫폼 상에서 차지하는 비율 계산 (0.0 ~ 1.0 사이)
+		float xRatio = (playerCenterX - platformMinX) / (platformMaxX - platformMinX);
+
+		// 플랫폼의 Y좌표 계산
+		float platformMinY = OtherColPos.y - (OtherColScale.y / 2.f);  // 플랫폼의 최저점 Y좌표
+		float platformMaxY = OtherColPos.y + (OtherColScale.y / 2.f);  // 플랫폼의 최고점 Y좌표
+
+		// 플레이어의 X좌표에 맞는 플랫폼 Y좌표를 보정 (Y축에서의 비율에 따라 보정할 수도 있음)
+		platformYAtPlayerX = platformMinY + (platformMaxY - platformMinY) * xRatio;
+	}
+
+	float Distance = fabs(platformYAtPlayerX - OwnColPos.y);
+	float Standard = (OtherColScale.y / 2.f) + (OwnColScale.y / 2.f);
+
+	if (Distance < Standard)
+	{
+		Correction = Standard - Distance;
+	}
+
+	Vec3 vPos = Transform()->GetRelativePos();
+	vPos.y += Correction;
+
+	Transform()->SetRelativePos(vPos);
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)

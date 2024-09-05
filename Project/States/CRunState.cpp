@@ -23,12 +23,15 @@ void CRunState::Enter()
 		m_FBCom->Play(m_FBIdx, m_FBCom->GetRepeat());
 
 	m_Speed = GetBlackboardData<float>(L"Speed");
+	m_Friction = m_Player->RigidBody()->GetFriction();
 }
 
 void CRunState::FinalTick()
 {
 	m_ReachMapLimit = GetBlackboardData<INT>(L"ReachMapLimit");
 	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
+	Vec3 vVelocity = m_Player->RigidBody()->GetVelocity();
+	float velocityMagnitude = vVelocity.Length();
 
 	if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
 	{
@@ -51,14 +54,28 @@ void CRunState::FinalTick()
 	{
 	case UNITVEC_TYPE::LEFT:
 		if (m_ReachMapLimit != 1)
+		{
 			m_Player->RigidBody()->AddForce(Vec3((-1.f) * m_Speed, 0.f, 0.f));
-			//vPos.x -= DT * m_Speed;
+
+			if (vVelocity.x > 0.f)
+				m_Player->RigidBody()->SetFriction(m_Friction + velocityMagnitude * 100.f);
+			else
+				m_Player->RigidBody()->SetFriction(m_Friction);
+		}
+			
 		break;
 
 	case UNITVEC_TYPE::RIGHT:
 		if (m_ReachMapLimit != 2)
+		{
 			m_Player->RigidBody()->AddForce(Vec3(m_Speed, 0.f, 0.f));
-			//vPos.x += DT * m_Speed;
+
+			if (vVelocity.x < 0.f)
+				m_Player->RigidBody()->SetFriction(m_Friction + velocityMagnitude * 100.f);
+			else
+				m_Player->RigidBody()->SetFriction(m_Friction);
+		}
+			
 		break;
 	}
 
@@ -70,6 +87,7 @@ void CRunState::FinalTick()
 
 void CRunState::Exit()
 {
+	m_Player->RigidBody()->SetFriction(m_Friction);
 }
 
 
