@@ -4,6 +4,7 @@
 class CIdleState :
     public CPlayerState
 {
+
 private:
     virtual void Set() override;
     virtual void Enter() override;

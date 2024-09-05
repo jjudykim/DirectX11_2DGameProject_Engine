@@ -17,6 +17,8 @@ protected:
     Ptr<CFlipBook>       m_CurFB;
     int                  m_FBIdx;
 
+    int                  m_JumpCount;
+
 public:
     virtual void Set() override;
     virtual void Enter() override;

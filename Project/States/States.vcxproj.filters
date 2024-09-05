@@ -29,6 +29,12 @@
     <Filter Include="States\CameraState\ReachLimit">
       <UniqueIdentifier>{8b3a8aee-65ab-4f0e-ac08-8b4b6f54382a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\PlayerState\CFallState">
+      <UniqueIdentifier>{67f8f1ec-e121-42f4-89a6-061651b3689b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\CDoubleJumpState">
+      <UniqueIdentifier>{e8946a32-02d0-4453-a10a-ac8d86becacf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -58,6 +64,12 @@
     <ClInclude Include="CReachLimitState.h">
       <Filter>States\CameraState\ReachLimit</Filter>
     </ClInclude>
+    <ClInclude Include="CFallState.h">
+      <Filter>States\PlayerState\CFallState</Filter>
+    </ClInclude>
+    <ClInclude Include="CDoubleJumpState.h">
+      <Filter>States\PlayerState\CDoubleJumpState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -86,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="CReachLimitState.cpp">
       <Filter>States\CameraState\ReachLimit</Filter>
+    </ClCompile>
+    <ClCompile Include="CFallState.cpp">
+      <Filter>States\PlayerState\CFallState</Filter>
+    </ClCompile>
+    <ClCompile Include="CDoubleJumpState.cpp">
+      <Filter>States\PlayerState\CDoubleJumpState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -19,7 +19,9 @@ void CIdleState::Set()
 
 void CIdleState::Enter()
 {
-	m_FBCom->Play(m_FBIdx, m_FBCom->GetRepeat());
+	m_FBCom->Play(m_FBIdx, true);
+
+	m_JumpCount = 0;
 }
 
 void CIdleState::FinalTick()
@@ -42,10 +44,10 @@ void CIdleState::FinalTick()
 		GetTargetObject()->FSM()->ChangeState(L"Run");
 	}
 
-	//if (KEY_TAP(KEY::SPACE))
-	//{
-	//	m_Owner->ChangeState(L"Jump");
-	//}
+	if (KEY_TAP(KEY::SPACE))
+	{
+		m_Owner->ChangeState(L"Jump");
+	}
 
 	UNITVEC_TYPE check = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
 }

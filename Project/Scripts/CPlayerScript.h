@@ -5,14 +5,18 @@ class CPlayerScript :
     public CScript
 {
 private:
-    float            m_Speed;
-    UNITVEC_TYPE     m_Dir;
+    float                m_Speed;
+    float                m_GravityAccel;
+    UNITVEC_TYPE         m_Dir;
+                         
+    Ptr<CTexture>        m_Texture;
+    Ptr<CPrefab>         m_MissilePref;
 
-    Ptr<CTexture>    m_Texture;
-    Ptr<CPrefab>     m_MissilePref;
+    vector<CCollider2D*> m_vecNonePlatform;
 
-    int              m_OverlapPLTCount;
-    int              m_ReachMapLimit;
+    int                  m_OverlapPLTCount;
+    int                  m_JumpCount;
+    int                  m_ReachMapLimit;
 
 public:
     virtual void Begin() override;
@@ -22,6 +26,8 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
 
 private:
+    void GroundLogic();
+    void AirLogic();
     void CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider);
 
 public:

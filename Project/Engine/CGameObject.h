@@ -38,6 +38,7 @@ public:
     void AddChild(CGameObject* _ChildObject);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
     const vector<CScript*> GetScripts() { return m_vecScript; }
+    CScript* GetScriptByIndex(int _Idx) { return m_vecScript[_Idx]; }
 
     bool IsAncestor(CGameObject* _Object);
     bool IsDead() { return m_Dead; }

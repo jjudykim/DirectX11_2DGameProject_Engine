@@ -9,11 +9,14 @@
 #include "States/CIdleState.h"
 #include "States/CRunState.h"
 #include "States/CJumpState.h"
+#include "States/CFallState.h"
+#include "States/CDoubleJumpState.h"
 
 
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(400.f)
+	, m_JumpCount(0.f)
 	, m_Dir(UNITVEC_TYPE::RIGHT)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
@@ -26,9 +29,12 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::Begin()
 {
 	//GetRenderComponent()->GetDynamicMaterial();
-	FSM()->RigidBody()->SetUseGravity(true);
+	m_GravityAccel = RigidBody()->GetGravityAccel();
+	RigidBody()->SetGroundDelegate(GetOwner(), (DELEGATE)&CPlayerScript::GroundLogic);
+	RigidBody()->SetAirDelegate(GetOwner(), (DELEGATE)&CPlayerScript::AirLogic);
 
 	FSM()->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
+	FSM()->SetBlackboardData(L"JumpCount", DATA_TYPE::INT, &m_JumpCount);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
 	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 
@@ -36,6 +42,8 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"Idle", new CIdleState);
 	FSM()->AddState(L"Run", new CRunState);
 	FSM()->AddState(L"Jump", new CJumpState);
+	FSM()->AddState(L"Fall", new CFallState);
+	FSM()->AddState(L"DoubleJump", new CDoubleJumpState);
 
 	FSM()->SetState();
 
@@ -44,38 +52,72 @@ void CPlayerScript::Begin()
 
 void CPlayerScript::Tick()
 {
-	Vec3 vPos = Transform()->GetRelativePos();
-
 	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 	// m_ReachMapLimit (0 : 맵 끝 도달 X, 1 : 왼쪽 맵 끝 도달, 2 : 오른쪽 맵 끝 도달)
 
 	if (m_OverlapPLTCount > 0)
-	{
 		RigidBody()->SetGround(true);
-	}
 	else
-	{
 		RigidBody()->SetGround(false);
-	}
-
-	Transform()->SetRelativePos(vPos);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-
-	if (IsPlatformLayerObject(_OtherObject))
-	{
-		++m_OverlapPLTCount;
-	}
-
 	if (IsMapLimitObject(_OtherObject))
 	{
 		if (m_Dir == UNITVEC_TYPE::LEFT)
 			m_ReachMapLimit = 1;
 		else if (m_Dir == UNITVEC_TYPE::RIGHT)
 			m_ReachMapLimit = 2;
+	}
 
+	if (IsPlatformLayerObject(_OtherObject))
+	{
+		CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
+
+		Vec3 OtherColPos = _OtherCollider->GetWorldPos();
+		Vec3 OtherColScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
+		Vec3 OwnColPos = Transform()->GetWorldPos();
+		Vec3 OwnColScale = Collider2D()->GetScale() * GetOwner()->Transform()->GetWorldScale();
+
+		float playerBottomY = OwnColPos.y - (OwnColScale.y / 2.f);
+
+		if (playerBottomY < OtherColPos.y)
+		{
+			m_vecNonePlatform.push_back(_OtherCollider);
+			RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+			return;
+		}
+
+		Vec3 vVelocity = RigidBody()->GetVelocity();
+		Vec3 platformNormal = Vec3(0.0f, 1.0f, 0.0f);
+
+		if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
+		{
+			Vec3 OtherRot = _OtherObject->Transform()->GetRelativeRotation() * _OtherObject->Transform()->GetWorldScale();
+			Matrix matRot = XMMatrixRotationX(OtherRot.x) * XMMatrixRotationY(OtherRot.y) * XMMatrixRotationZ(OtherRot.z);
+
+			// 플랫폼 법선을 회전 행렬로 변환
+			platformNormal = XMVector3TransformNormal(platformNormal, matRot);
+			platformNormal = platformNormal.Normalize();
+		}
+
+		XMVECTOR dotProductVector = XMVector3Dot(vVelocity.Normalize(), platformNormal);
+		float dotProduct = XMVectorGetX(dotProductVector); 
+		
+		float incidenceAngle = acosf(dotProduct);  // 입사각 (라디안 값)
+		
+		// 입사각을 기준으로 충돌 처리
+		float maxAngle = XMConvertToRadians(90.0f);
+		if (incidenceAngle > maxAngle)
+		{
+			m_vecNonePlatform.push_back(_OtherCollider);
+			RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+		}
+		else
+		{
+			m_OverlapPLTCount++;
+		}
 	}
 }
 
@@ -91,6 +133,16 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 {
 	if (IsPlatformLayerObject(_OtherObject))
 	{
+		vector<CCollider2D*>::iterator iter = m_vecNonePlatform.begin();
+
+		for (; iter != m_vecNonePlatform.end(); ++iter)
+		{
+			if ((*iter)->GetID() == _OtherCollider->GetID())
+			{
+				m_vecNonePlatform.erase(iter);
+				return;
+			}
+		}
 		--m_OverlapPLTCount;
 	}
 
@@ -98,6 +150,16 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 	{
 		m_ReachMapLimit = 0;
 	}
+}
+
+void CPlayerScript::GroundLogic()
+{
+	RigidBody()->SetGravityAccel(0.f);
+}
+
+void CPlayerScript::AirLogic()
+{
+	RigidBody()->SetGravityAccel(m_GravityAccel);
 }
 
 void CPlayerScript::CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -108,10 +170,10 @@ void CPlayerScript::CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject
 	Vec3 OtherColScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
 	Vec3 OwnColPos = _OwnCollider->GetWorldPos();
 	Vec3 OwnColScale = _OwnCollider->GetScale() * GetOwner()->Transform()->GetWorldScale();
-
+	
 	float playerCenterX = OwnColPos.x;
 	float platformYAtPlayerX = OtherColPos.y;
-
+	
 	Matrix matRot = XMMatrixIdentity();
 
 	if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
@@ -138,6 +200,11 @@ void CPlayerScript::CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject
 		// 플레이어의 X좌표에 맞는 플랫폼 Y좌표를 보정 (Y축에서의 비율에 따라 보정할 수도 있음)
 		platformYAtPlayerX = platformMinY + (platformMaxY - platformMinY) * xRatio;
 	}
+
+	float platformCenterY = platformYAtPlayerX;
+	float playerBottomY = OwnColPos.y - (OwnColScale.y / 2.f);
+
+	if (playerBottomY < platformCenterY) return;
 
 	float Distance = fabs(platformYAtPlayerX - OwnColPos.y);
 	float Standard = (OtherColScale.y / 2.f) + (OwnColScale.y / 2.f);

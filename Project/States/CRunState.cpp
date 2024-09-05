@@ -20,7 +20,7 @@ void CRunState::Set()
 void CRunState::Enter()
 {
 	if (m_CurFB != m_FBCom->GetCurFlipBook())
-		m_FBCom->Play(m_FBIdx, m_FBCom->GetRepeat());
+		m_FBCom->Play(m_FBIdx, true);
 
 	m_Speed = GetBlackboardData<float>(L"Speed");
 	m_Friction = m_Player->RigidBody()->GetFriction();
@@ -58,9 +58,13 @@ void CRunState::FinalTick()
 			m_Player->RigidBody()->AddForce(Vec3((-1.f) * m_Speed, 0.f, 0.f));
 
 			if (vVelocity.x > 0.f)
-				m_Player->RigidBody()->SetFriction(m_Friction + velocityMagnitude * 100.f);
+				m_Player->RigidBody()->SetFriction(m_Friction + velocityMagnitude * 300.f);
 			else
 				m_Player->RigidBody()->SetFriction(m_Friction);
+		}
+		else
+		{
+			m_Player->RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 		}
 			
 		break;
@@ -71,18 +75,22 @@ void CRunState::FinalTick()
 			m_Player->RigidBody()->AddForce(Vec3(m_Speed, 0.f, 0.f));
 
 			if (vVelocity.x < 0.f)
-				m_Player->RigidBody()->SetFriction(m_Friction + velocityMagnitude * 100.f);
+				m_Player->RigidBody()->SetFriction(m_Friction + velocityMagnitude * 300.f);
 			else
 				m_Player->RigidBody()->SetFriction(m_Friction);
+		}
+		else
+		{
+			m_Player->RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 		}
 			
 		break;
 	}
 
-	//if (KEY_TAP(KEY::SPACE))
-	//{
-	//	m_Owner->ChangeState(L"Jump");
-	//}
+	if (KEY_TAP(KEY::SPACE))
+	{
+		m_Owner->ChangeState(L"Jump");
+	}
 }
 
 void CRunState::Exit()

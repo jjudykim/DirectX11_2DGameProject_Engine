@@ -51,7 +51,6 @@ CRigidBody::~CRigidBody()
 void CRigidBody::Jump()
 {
 	m_VelocityByGravity += Vec3(0.f, 1.f, 0.f) * m_JumpSpeed;
-	SetGround(false);
 }
 
 void CRigidBody::FinalTick()

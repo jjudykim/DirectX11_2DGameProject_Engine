@@ -2,7 +2,7 @@
 #include "CComponent.h"
 
 typedef void (*CALL_BACK)(void);
-typedef void (CGameObject::* DELEGATE)(void);
+typedef void (CScript::* DELEGATE)(void);
 
 class CRigidBody :
     public CComponent
@@ -60,6 +60,7 @@ public:
 
 public:
     Vec3 GetVelocity() { return m_Velocity; }
+    Vec3 GetVelocityByGravity() { return m_VelocityByGravity; }
     float GetMass() { return m_Mass; }
     float GetInitialWalkSpeed() { return m_InitWalkSpeed; }
     float GetMaxWalkSpeed() { return m_MaxWalkSpeed; }
@@ -104,7 +105,7 @@ public:
                 m_GroundFunc();
 
             if (m_GroundInst && m_GroundDelegate)
-                (m_GroundInst->*m_GroundDelegate)();
+                (m_GroundInst->GetScriptByIndex(0)->*m_GroundDelegate)();
         }
         else
         {
@@ -112,7 +113,7 @@ public:
                 m_AirFunc();
 
             if (m_AirInst && m_AirDelegate)
-                (m_AirInst->*m_AirDelegate)();
+                (m_AirInst->GetScriptByIndex(0)->*m_AirDelegate)();
         }
     }
 

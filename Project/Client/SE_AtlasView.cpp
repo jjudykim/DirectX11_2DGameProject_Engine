@@ -206,7 +206,9 @@ bool SE_AtlasView::IsPixelOk(Vec2 _PixelPos)
 	// Pixel의 Alpha값이 0이라면
 	int PixelIdx = m_AtlasTex->Width() * (int)_PixelPos.y + (int)_PixelPos.x;
 
-	if (m_AtlasTex->GetPixels()[PixelIdx].a == 0)
+	tPixel* pixel = m_AtlasTex->GetPixels();
+
+	if (pixel[PixelIdx].a == 0)
 		return false;
 
 	return true;
