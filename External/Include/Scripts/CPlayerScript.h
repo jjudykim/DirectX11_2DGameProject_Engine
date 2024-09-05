@@ -15,8 +15,10 @@ private:
     vector<CCollider2D*> m_vecNonePlatform;
 
     int                  m_OverlapPLTCount;
-    int                  m_JumpCount;
     int                  m_ReachMapLimit;
+    float                m_JumpSpeed;
+    float                m_Friction;
+    float                m_MaxWalkSpeed;
 
 public:
     virtual void Begin() override;

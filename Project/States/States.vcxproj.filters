@@ -35,6 +35,9 @@
     <Filter Include="States\PlayerState\CDoubleJumpState">
       <UniqueIdentifier>{e8946a32-02d0-4453-a10a-ac8d86becacf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\PlayerState\CDashState">
+      <UniqueIdentifier>{40e8f71d-b8d8-40b4-9ccd-4bc9113c6a33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -70,6 +73,9 @@
     <ClInclude Include="CDoubleJumpState.h">
       <Filter>States\PlayerState\CDoubleJumpState</Filter>
     </ClInclude>
+    <ClInclude Include="CDashState.h">
+      <Filter>States\PlayerState\CDashState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -104,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="CDoubleJumpState.cpp">
       <Filter>States\PlayerState\CDoubleJumpState</Filter>
+    </ClCompile>
+    <ClCompile Include="CDashState.cpp">
+      <Filter>States\PlayerState\CDashState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,7 +18,8 @@ CCameraMoveScript::~CCameraMoveScript()
 
 void CCameraMoveScript::Begin()
 {
-	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::FLOAT, &m_PlayerVelocity);
+	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::VEC3, &m_PlayerVelocity);
+	FSM()->SetBlackboardData(L"PlayerGravityVelocity", DATA_TYPE::VEC3, &m_PlayerGravityVelocity);
 	FSM()->SetBlackboardData(L"PLayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
 	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
 	FSM()->SetBlackboardData(L"LimitTargetPos", DATA_TYPE::VEC3, &m_LimitTargetPos);
@@ -57,8 +58,10 @@ void CCameraMoveScript::OrthoGraphicMove()
 {	
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	m_PlayerVelocity = player->RigidBody()->GetVelocity();
+	m_PlayerGravityVelocity = player->RigidBody()->GetVelocityByGravity();
 	m_PlayerPos = player->Transform()->GetRelativePos();
 	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::VEC3, &m_PlayerVelocity);
+	FSM()->SetBlackboardData(L"PlayerGravityVelocity", DATA_TYPE::VEC3, &m_PlayerGravityVelocity);
 	FSM()->SetBlackboardData(L"PlayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
 }
 

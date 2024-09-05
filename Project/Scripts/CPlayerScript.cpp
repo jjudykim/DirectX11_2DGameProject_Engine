@@ -11,12 +11,12 @@
 #include "States/CJumpState.h"
 #include "States/CFallState.h"
 #include "States/CDoubleJumpState.h"
+#include "States/CDashState.h"
 
 
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(400.f)
-	, m_JumpCount(0.f)
 	, m_Dir(UNITVEC_TYPE::RIGHT)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
@@ -28,13 +28,17 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::Begin()
 {
-	//GetRenderComponent()->GetDynamicMaterial();
 	m_GravityAccel = RigidBody()->GetGravityAccel();
+	m_JumpSpeed = RigidBody()->GetJumpSpeed();
+	m_Friction = RigidBody()->GetFriction();
+	m_MaxWalkSpeed = RigidBody()->GetMaxWalkSpeed();
 	RigidBody()->SetGroundDelegate(GetOwner(), (DELEGATE)&CPlayerScript::GroundLogic);
 	RigidBody()->SetAirDelegate(GetOwner(), (DELEGATE)&CPlayerScript::AirLogic);
 
 	FSM()->SetBlackboardData(L"Speed", DATA_TYPE::FLOAT, &m_Speed);
-	FSM()->SetBlackboardData(L"JumpCount", DATA_TYPE::INT, &m_JumpCount);
+	FSM()->SetBlackboardData(L"JumpSpeed", DATA_TYPE::FLOAT, &m_JumpSpeed);
+	FSM()->SetBlackboardData(L"Friction", DATA_TYPE::FLOAT, &m_Friction);
+	FSM()->SetBlackboardData(L"MaxWalkSpeed", DATA_TYPE::FLOAT, &m_MaxWalkSpeed);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
 	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 
@@ -44,6 +48,7 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"Jump", new CJumpState);
 	FSM()->AddState(L"Fall", new CFallState);
 	FSM()->AddState(L"DoubleJump", new CDoubleJumpState);
+	FSM()->AddState(L"Dash", new CDashState);
 
 	FSM()->SetState();
 

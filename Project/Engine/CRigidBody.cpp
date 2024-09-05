@@ -58,7 +58,15 @@ void CRigidBody::FinalTick()
 	Vec3 vObjectPos = GetOwner()->Transform()->GetRelativePos();
 	Vec3 vAccel = m_Force / m_Mass;
 
-	m_Velocity += vAccel * DT;
+	// 가속도
+	if (m_UseGravity && !m_Ground)           // 중력을 사용할때, 공중에서 힘이 적용된 경우
+	{
+		m_Velocity += vAccel * DT * 0.3f;
+	}
+	else
+	{
+		m_Velocity += vAccel * DT;
+	}
 
 	// 최대 속도 제한
 	if (0.f != m_MaxWalkSpeed && m_MaxWalkSpeed < m_Velocity.Length())

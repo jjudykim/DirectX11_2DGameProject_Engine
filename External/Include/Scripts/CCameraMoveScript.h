@@ -10,6 +10,7 @@ private:
 
     Vec3             m_PlayerPos;
     Vec3             m_PlayerVelocity;
+    Vec3             m_PlayerGravityVelocity;
 
     Vec3             m_LimitTargetPos;
     Vec3             m_LimitTargetScale;
