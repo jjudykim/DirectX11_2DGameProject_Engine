@@ -12,10 +12,11 @@ private:
     Ptr<CTexture>        m_Texture;
     Ptr<CPrefab>         m_MissilePref;
 
-    vector<CCollider2D*> m_vecNonePlatform;
+    map<UINT, UNITVEC_TYPE> m_mapNonePlatform;
 
     int                  m_OverlapPLTCount;
     int                  m_ReachMapLimit;
+    int                  m_ReachNoPltCol;
     float                m_JumpSpeed;
     float                m_Friction;
     float                m_MaxWalkSpeed;

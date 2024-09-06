@@ -30,6 +30,7 @@ void CChasingPlayerState::FinalTick()
 	if (GetBlackboardData<int>(L"ReachLimit") != 0)
 	{
 		m_Owner->ChangeState(L"ReachLimit");
+		return;
 	}
 
 	Vec3 vPlayerVelocity = GetBlackboardData<Vec3>(L"PlayerVelocity");
@@ -45,7 +46,7 @@ void CChasingPlayerState::FinalTick()
 	float correctionSpeed = 0.7f;  // 보정 속도의 비율 (값을 조절하여 보정 속도 설정)
 
 	if (fabs(distanceX) > threshold)
-	{
+	{ 
 		// 차이에 비례한 보정 속도 계산
 		float correctionVelocityX = distanceX * correctionSpeed;
 
@@ -59,11 +60,11 @@ void CChasingPlayerState::FinalTick()
 		float correctionVelocityY = distanceY * correctionSpeed;
 
 		// 카메라의 기존 속도에 보정 속도 추가 (X 축만 보정)
-		vPlayerVelocity.y += correctionVelocityY;
+		vPlayerGravityVelocity.y += correctionVelocityY;
 	}
 
 	m_Camera->RigidBody()->SetVelocity(vPlayerVelocity);
-	m_Camera->RigidBody()->SetVelocityByGravity(vPlayerGravityVelocity * 0.5f);
+	m_Camera->RigidBody()->SetVelocityByGravity(vPlayerGravityVelocity * 0.7f);
 }
 
 void CChasingPlayerState::Exit()

@@ -39,6 +39,17 @@ void RigidBodyUI::Update()
 
 	GetRigidBodyData(m_RigidBody);
 
+	ImGui::Text("Velocity");
+	ImGui::SameLine(120.f);
+	ImGui::SetNextItemWidth(180.f);
+	ImGui::InputFloat3("##DragVelocity", m_Velocity, "%.2f", ImGuiInputTextFlags_ReadOnly);
+
+	ImGui::Text("VelocityByGrav");
+	ImGui::SameLine(120.f);
+	ImGui::SetNextItemWidth(180.f);
+	ImGui::InputFloat3("##DragVelocity", m_VelocityByGravity, "%.2f", ImGuiInputTextFlags_ReadOnly);
+
+	ImGui::Separator();
 	ImGui::Text("Mass");
 	ImGui::SameLine(120.f);
 	ImGui::SetNextItemWidth(100.f);
@@ -85,14 +96,24 @@ void RigidBodyUI::Update()
 
 void RigidBodyUI::GetRigidBodyData(CRigidBody* _RigidBody)
 {
-	m_Mass            = _RigidBody->GetMass();
-	m_InitWalkSpeed   = _RigidBody->GetInitialWalkSpeed();
-	m_MaxWalkSpeed    = _RigidBody->GetMaxWalkSpeed();
-	m_Friction        = _RigidBody->GetFriction();
-	m_GravityAccel    = _RigidBody->GetGravityAccel();
-	m_MaxGravitySpeed = _RigidBody->GetMaxGravitySpeed();
-	m_JumpSpeed       = _RigidBody->GetJumpSpeed();
-	m_UseGravity      = _RigidBody->IsUseGravity();
+	Vec3 vVelocity           = _RigidBody->GetVelocity();
+	m_Velocity[0]            = vVelocity.x;
+	m_Velocity[1]            = vVelocity.y;
+	m_Velocity[2]            = vVelocity.z;
+
+	Vec3 vVelocityByGravity  = _RigidBody->GetVelocityByGravity();
+	m_VelocityByGravity[0]   = vVelocityByGravity.x;
+	m_VelocityByGravity[1]   = vVelocityByGravity.y;
+	m_VelocityByGravity[2]   = vVelocityByGravity.z;
+
+	m_Mass                   = _RigidBody->GetMass();
+	m_InitWalkSpeed          = _RigidBody->GetInitialWalkSpeed();
+	m_MaxWalkSpeed           = _RigidBody->GetMaxWalkSpeed();
+	m_Friction               = _RigidBody->GetFriction();
+	m_GravityAccel           = _RigidBody->GetGravityAccel();
+	m_MaxGravitySpeed        = _RigidBody->GetMaxGravitySpeed();
+	m_JumpSpeed              = _RigidBody->GetJumpSpeed();
+	m_UseGravity             = _RigidBody->IsUseGravity();
 }
 
 void RigidBodyUI::SetRigidBodyData(CRigidBody* _RigidBody)

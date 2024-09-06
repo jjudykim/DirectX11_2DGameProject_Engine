@@ -13,7 +13,7 @@ private:
                      
     Vec3             m_Velocity;
 
-    bool             m_IsReachLimit;
+    int              m_ReachMapLimit;
 
     virtual void Set() override;
     virtual void Enter() override;

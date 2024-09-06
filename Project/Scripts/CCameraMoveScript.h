@@ -15,7 +15,7 @@ private:
     Vec3             m_LimitTargetPos;
     Vec3             m_LimitTargetScale;
                      
-    bool             m_IsReachLimit;
+    int              m_ReachMapLimit;
 
 public:
     virtual void Begin() override;

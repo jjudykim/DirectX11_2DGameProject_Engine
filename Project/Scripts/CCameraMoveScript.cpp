@@ -20,8 +20,8 @@ void CCameraMoveScript::Begin()
 {
 	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::VEC3, &m_PlayerVelocity);
 	FSM()->SetBlackboardData(L"PlayerGravityVelocity", DATA_TYPE::VEC3, &m_PlayerGravityVelocity);
-	FSM()->SetBlackboardData(L"PLayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
-	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
+	FSM()->SetBlackboardData(L"PlayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
+	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 	FSM()->SetBlackboardData(L"LimitTargetPos", DATA_TYPE::VEC3, &m_LimitTargetPos);
 	FSM()->SetBlackboardData(L"LimitTargetScale", DATA_TYPE::VEC3, &m_LimitTargetScale);
 	
@@ -60,6 +60,7 @@ void CCameraMoveScript::OrthoGraphicMove()
 	m_PlayerVelocity = player->RigidBody()->GetVelocity();
 	m_PlayerGravityVelocity = player->RigidBody()->GetVelocityByGravity();
 	m_PlayerPos = player->Transform()->GetRelativePos();
+
 	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::VEC3, &m_PlayerVelocity);
 	FSM()->SetBlackboardData(L"PlayerGravityVelocity", DATA_TYPE::VEC3, &m_PlayerGravityVelocity);
 	FSM()->SetBlackboardData(L"PlayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
@@ -123,8 +124,17 @@ void CCameraMoveScript::PerspectiveMove()
 
 void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	m_IsReachLimit = true;
-	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
+	Vec3 vUnit = RigidBody()->GetVelocity().Normalize();
+	if (vUnit.x < 0) m_Dir = UNITVEC_TYPE::LEFT;
+	else if (vUnit.x > 0) m_Dir = UNITVEC_TYPE::RIGHT;
+
+	if (m_Dir == UNITVEC_TYPE::LEFT)
+		m_ReachMapLimit = 1;
+	else if (m_Dir == UNITVEC_TYPE::RIGHT)
+		m_ReachMapLimit = 2;
+
+	// m_ReachMapLimit (0 : ¸Ê ³¡ µµ´Þ X, 1 : ¿ÞÂÊ ¸Ê ³¡ µµ´Þ, 2 : ¿À¸¥ÂÊ ¸Ê ³¡ µµ´Þ)
+	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 	
 	m_LimitTargetPos = _OtherCollider->GetWorldPos();
 	m_LimitTargetScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
@@ -136,8 +146,8 @@ void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Ot
 
 void CCameraMoveScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	m_IsReachLimit = false;
-	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_IsReachLimit);
+	m_ReachMapLimit = 0;
+	FSM()->SetBlackboardData(L"ReachLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 }
 
 void CCameraMoveScript::SaveToFile(FILE* _File)

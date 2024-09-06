@@ -11,7 +11,8 @@ protected:
 
     float                m_Speed;
     UNITVEC_TYPE         m_Dir;
-    bool                 m_ReachMapLimit;
+    int                  m_ReachMapLimit;
+    int                  m_ReachNoPlatformCol;
 
     CFlipBookComponent*  m_FBCom;
     Ptr<CFlipBook>       m_CurFB;

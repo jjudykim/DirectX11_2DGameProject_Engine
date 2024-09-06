@@ -82,7 +82,7 @@ int CTexture::Load(const wstring& _FilePath)
 							, m_Image.GetMetadata()
 							, m_SRV.GetAddressOf());
 
-	//m_Image.Release();
+	m_Image.Release();
 	m_SRV->GetResource((ID3D11Resource**)m_Tex2D.GetAddressOf());
 	m_Tex2D->GetDesc(&m_Desc);
 

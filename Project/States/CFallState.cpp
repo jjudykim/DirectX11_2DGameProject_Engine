@@ -41,6 +41,7 @@ void CFallState::FinalTick()
 	if (m_Player->RigidBody()->IsGround())
 		m_Owner->ChangeState(L"Idle");
 
+	m_ReachNoPlatformCol = GetBlackboardData<INT>(L"ReachNoPlatformCollider");
 	m_ReachMapLimit = GetBlackboardData<INT>(L"ReachMapLimit");
 	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
 
@@ -49,7 +50,7 @@ void CFallState::FinalTick()
 		m_Dir = UNITVEC_TYPE::LEFT;
 		GetTargetObject()->FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
 		GetTargetObject()->Transform()->SetRelativeRotation(Vec3(XMConvertToRadians(180.f), 0.f, XMConvertToRadians(180.f)));
-		if (m_ReachMapLimit != 1)
+		if (m_ReachMapLimit != 1 && m_ReachNoPlatformCol != 1)
 		{
 			m_Player->RigidBody()->AddForce(Vec3((-1.f) * m_Speed, 0.f, 0.f));
 
@@ -69,7 +70,7 @@ void CFallState::FinalTick()
 		m_Dir = UNITVEC_TYPE::RIGHT;
 		GetTargetObject()->FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
 		GetTargetObject()->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
-		if (m_ReachMapLimit != 2)
+		if (m_ReachMapLimit != 2 && m_ReachNoPlatformCol != 2)
 		{
 			m_Player->RigidBody()->AddForce(Vec3(m_Speed, 0.f, 0.f));
 

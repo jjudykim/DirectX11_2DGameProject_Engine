@@ -7,6 +7,9 @@ class RigidBodyUI :
 private:
     class CRigidBody*   m_RigidBody;
 
+    float               m_Velocity[3];
+    float               m_VelocityByGravity[3];
+
     float               m_Mass;
                         
     float               m_InitWalkSpeed;

@@ -22,6 +22,7 @@ void CDashState::Enter()
 	if (m_CurFB != m_FBCom->GetCurFlipBook())
 		m_FBCom->Play(m_FBIdx, false);
 
+	m_ReachNoPlatformCol = GetBlackboardData<INT>(L"ReachNoPlatformCollider");
 	m_ReachMapLimit = GetBlackboardData<INT>(L"ReachMapLimit");
 	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
 	m_MaxWalkSpeed = GetBlackboardData<float>(L"MaxWalkSpeed");
@@ -32,16 +33,16 @@ void CDashState::Enter()
 	switch (m_Dir)
 	{
 	case UNITVEC_TYPE::LEFT:
-		if (m_ReachMapLimit != 1)
-			m_Player->RigidBody()->SetVelocity(Vec3(-10000.f, 0.f, 0.f));
+		if (m_ReachMapLimit != 1 && m_ReachNoPlatformCol != 1)
+			m_Player->RigidBody()->SetVelocity(Vec3(-5000.f, 0.f, 0.f));
 		else
 			m_Player->RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 
 		break;
 
 	case UNITVEC_TYPE::RIGHT:
-		if (m_ReachMapLimit != 2)
-			m_Player->RigidBody()->SetVelocity(Vec3(10000.f, 0.f, 0.f));
+		if (m_ReachMapLimit != 2 && m_ReachNoPlatformCol != 1)
+			m_Player->RigidBody()->SetVelocity(Vec3(5000.f, 0.f, 0.f));
 		else
 			m_Player->RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 
@@ -72,7 +73,7 @@ void CDashState::FinalTick()
 	switch (m_Dir)
 	{
 	case UNITVEC_TYPE::LEFT:
-		if (m_ReachMapLimit != 1)
+		if (m_ReachMapLimit != 1 && m_ReachNoPlatformCol != 1)
 			m_Player->RigidBody()->AddForce(Vec3((-1.f) * velocityMagnitude, 0.f, 0.f));
 		else
 			m_Player->RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
@@ -80,7 +81,7 @@ void CDashState::FinalTick()
 		break;
 
 	case UNITVEC_TYPE::RIGHT:
-		if (m_ReachMapLimit != 2)
+		if (m_ReachMapLimit != 2 && m_ReachNoPlatformCol != 2)
 			m_Player->RigidBody()->AddForce(Vec3(velocityMagnitude, 0.f, 0.f));
 		else
 			m_Player->RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));

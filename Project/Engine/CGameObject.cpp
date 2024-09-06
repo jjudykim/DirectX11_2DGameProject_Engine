@@ -90,6 +90,28 @@ void CGameObject::AddComponent(CComponent* _Component)
 	}
 }
 
+void CGameObject::DeleteComponent(COMPONENT_TYPE _Type)
+{
+	if (COMPONENT_TYPE::SCRIPT == _Type)
+	{
+		Delete_Vec(m_vecScript);
+	}
+	else
+	{
+		assert(m_arrCom[(UINT)_Type] != nullptr);
+
+		delete m_arrCom[(UINT)_Type];
+		m_arrCom[(UINT)_Type] = nullptr;
+
+		if (_Type >= COMPONENT_TYPE::MESHRENDER)
+		{
+			assert(m_RenderCom != nullptr);
+
+			m_RenderCom = nullptr;
+		}
+	}
+}
+
 void CGameObject::AddChild(CGameObject* _ChildObject)
 {
 	// 부모 오브젝트는 Level에 속해있고, AddChild 되는 자식 오브젝트는 Level에 소속되지 않은 경우

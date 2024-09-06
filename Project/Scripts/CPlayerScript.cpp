@@ -41,6 +41,7 @@ void CPlayerScript::Begin()
 	FSM()->SetBlackboardData(L"MaxWalkSpeed", DATA_TYPE::FLOAT, &m_MaxWalkSpeed);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
 	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
+	FSM()->SetBlackboardData(L"ReachNoPlatformCollider", DATA_TYPE::INT, &m_ReachNoPltCol);
 
 	// FSM State
 	FSM()->AddState(L"Idle", new CIdleState);
@@ -74,28 +75,19 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 			m_ReachMapLimit = 1;
 		else if (m_Dir == UNITVEC_TYPE::RIGHT)
 			m_ReachMapLimit = 2;
+
+		RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
 	}
 
 	if (IsPlatformLayerObject(_OtherObject))
 	{
-		CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
-
 		Vec3 OtherColPos = _OtherCollider->GetWorldPos();
 		Vec3 OtherColScale = _OtherCollider->GetScale() * _OtherObject->Transform()->GetWorldScale();
-		Vec3 OwnColPos = Transform()->GetWorldPos();
+		Vec3 OwnColPos = _OwnCollider->GetWorldPos();
 		Vec3 OwnColScale = Collider2D()->GetScale() * GetOwner()->Transform()->GetWorldScale();
 
-		float playerBottomY = OwnColPos.y - (OwnColScale.y / 2.f);
-
-		if (playerBottomY < OtherColPos.y)
-		{
-			m_vecNonePlatform.push_back(_OtherCollider);
-			RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
-			return;
-		}
-
-		Vec3 vVelocity = RigidBody()->GetVelocity();
-		Vec3 platformNormal = Vec3(0.0f, 1.0f, 0.0f);
+		Vec3 vVelocity = RigidBody()->GetVelocity() + RigidBody()->GetVelocityByGravity();
+		Vec3 platformNormal = Vec3(0.0f, -1.0f, 0.0f);
 
 		if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
 		{
@@ -108,20 +100,45 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		}
 
 		XMVECTOR dotProductVector = XMVector3Dot(vVelocity.Normalize(), platformNormal);
-		float dotProduct = XMVectorGetX(dotProductVector); 
-		
+		float dotProduct = XMVectorGetX(dotProductVector);
+
 		float incidenceAngle = acosf(dotProduct);  // 입사각 (라디안 값)
-		
+
+		//Vec3 playerPosition = _OwnCollider->GetWorldPos();
+		//Vec3 platformPosition = _OtherCollider->GetWorldPos();
+
+		float fRelativeY = OwnColPos.y - OtherColPos.y;
+		float fPlatformHeight = OtherColScale.y * 0.5f;
+
+		// 플레이어가 플랫폼의 윗부분에 있는지 확인
+		bool isAbovePlatform = fRelativeY > fPlatformHeight;
+
+		// 플레이어가 플랫폼의 아래쪽에서 충돌했는지 확인
+		bool isBelowPlatform = fRelativeY < -fPlatformHeight;
+
 		// 입사각을 기준으로 충돌 처리
-		float maxAngle = XMConvertToRadians(90.0f);
-		if (incidenceAngle > maxAngle)
+		float maxAngle;
+		if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
+			maxAngle = XMConvertToRadians(90.f);
+		else
+			maxAngle = XMConvertToRadians(45.f);
+
+		if (isBelowPlatform)
 		{
-			m_vecNonePlatform.push_back(_OtherCollider);
+			RigidBody()->SetVelocityByGravity(Vec3(0.f, 0.f, 0.f));
+		}
+		
+		if (incidenceAngle > maxAngle || !isAbovePlatform)
+		{
 			RigidBody()->SetVelocity(Vec3(0.f, 0.f, 0.f));
+			if (vVelocity.x < 0) m_mapNonePlatform.insert(make_pair(_OtherCollider->GetID(), UNITVEC_TYPE::LEFT));
+			else if (vVelocity.x > 0) m_mapNonePlatform.insert(make_pair(_OtherCollider->GetID(), UNITVEC_TYPE::RIGHT));
+			else m_mapNonePlatform.insert(make_pair(_OtherCollider->GetID(), UNITVEC_TYPE::UP));
 		}
 		else
 		{
-			m_OverlapPLTCount++;
+			CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
+ 			m_OverlapPLTCount++;
 		}
 	}
 }
@@ -131,6 +148,21 @@ void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 	if (IsPlatformLayerObject(_OtherObject))
 	{
 		CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
+
+		map<UINT, UNITVEC_TYPE>::iterator iter = m_mapNonePlatform.begin();
+
+		for (; iter != m_mapNonePlatform.end(); ++iter)
+		{
+			if (iter->first == _OtherCollider->GetID())
+			{
+				if (iter->second == UNITVEC_TYPE::LEFT)
+					m_ReachNoPltCol = 1;
+				else if (iter->second == UNITVEC_TYPE::RIGHT)
+					m_ReachNoPltCol = 2;
+
+				FSM()->SetBlackboardData(L"ReachNoPlatformCollider", DATA_TYPE::INT, &m_ReachNoPltCol);
+			}
+		}
 	}
 }
 
@@ -138,21 +170,24 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 {
 	if (IsPlatformLayerObject(_OtherObject))
 	{
-		vector<CCollider2D*>::iterator iter = m_vecNonePlatform.begin();
+		map<UINT, UNITVEC_TYPE>::iterator iter = m_mapNonePlatform.begin();
 
-		for (; iter != m_vecNonePlatform.end(); ++iter)
+		for (; iter != m_mapNonePlatform.end(); ++iter)
 		{
-			if ((*iter)->GetID() == _OtherCollider->GetID())
+			if (iter->first == _OtherCollider->GetID())
 			{
-				m_vecNonePlatform.erase(iter);
+				m_mapNonePlatform.erase(iter);
+				m_ReachNoPltCol = 0;
+				FSM()->SetBlackboardData(L"ReachNoPlatformCollider", DATA_TYPE::INT, &m_ReachNoPltCol);
 				return;
 			}
 		}
-		--m_OverlapPLTCount;
+
+		--m_OverlapPLTCount; 
 	}
 
 	if (IsMapLimitObject(_OtherObject))
-	{
+	{ 
 		m_ReachMapLimit = 0;
 	}
 }
@@ -206,10 +241,10 @@ void CPlayerScript::CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject
 		platformYAtPlayerX = platformMinY + (platformMaxY - platformMinY) * xRatio;
 	}
 
-	float platformCenterY = platformYAtPlayerX;
+	float platformStandardY = platformYAtPlayerX + (OtherColScale.y / 2.f) - (OtherColScale.y * 0.1f);
 	float playerBottomY = OwnColPos.y - (OwnColScale.y / 2.f);
 
-	if (playerBottomY < platformCenterY) return;
+	if (playerBottomY < platformStandardY) return;
 
 	float Distance = fabs(platformYAtPlayerX - OwnColPos.y);
 	float Standard = (OtherColScale.y / 2.f) + (OwnColScale.y / 2.f);

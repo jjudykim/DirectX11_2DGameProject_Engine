@@ -124,6 +124,87 @@ void Outliner::PopupMenu(DWORD_PTR _Param)
 		ImGui::CloseCurrentPopup();
 	}
 
+	if (ImGui::BeginMenu("Delete Component"))
+	{
+		if (ImGui::MenuItem("1. Transform"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::TRANSFORM);
+			
+			ImGui::CloseCurrentPopup();
+		}	
+		if (ImGui::MenuItem("2. Collider2D"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::COLLIDER2D) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::COLLIDER2D);
+
+			ImGui::CloseCurrentPopup();
+		}
+		
+		if (ImGui::MenuItem("3. FlipBook"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::FLIPBOOKCOMPONENT) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::FLIPBOOKCOMPONENT);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		if (ImGui::MenuItem("4. FSM"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::FSM) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::FSM);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		if (ImGui::MenuItem("5. RigidBody"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::RIGIDBODY) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::RIGIDBODY);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		if (ImGui::MenuItem("6. Camera"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::CAMERA) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::CAMERA);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		if (ImGui::MenuItem("7. Light2D"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::LIGHT2D) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::LIGHT2D);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::SeparatorText("Render Component");
+
+		if (ImGui::MenuItem("MeshRender"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::MESHRENDER) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::MESHRENDER);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		if (ImGui::MenuItem("TileMap"))
+		{
+			if (pObject->GetComponent(COMPONENT_TYPE::TILEMAP) != nullptr)
+				pObject->DeleteComponent(COMPONENT_TYPE::TILEMAP);
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		Inspector* inspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+		inspector->SetTargetObject(pObject);
+
+		ImGui::EndMenu();
+	}
+
 	ImGui::EndPopup();
 }
 
