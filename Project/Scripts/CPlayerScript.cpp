@@ -12,6 +12,9 @@
 #include "States/CFallState.h"
 #include "States/CDoubleJumpState.h"
 #include "States/CDashState.h"
+#include "States/CAttackLight0State.h"
+#include "States/CAttackLight1State.h"
+#include "States/CAttackLight2State.h"
 
 
 CPlayerScript::CPlayerScript()
@@ -50,6 +53,9 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"Fall", new CFallState);
 	FSM()->AddState(L"DoubleJump", new CDoubleJumpState);
 	FSM()->AddState(L"Dash", new CDashState);
+	FSM()->AddState(L"AttackLight0", new CAttackLight0State);
+	FSM()->AddState(L"AttackLight1", new CAttackLight1State);
+	FSM()->AddState(L"AttackLight2", new CAttackLight2State);
 
 	FSM()->SetState();
 

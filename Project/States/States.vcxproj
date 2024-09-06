@@ -158,6 +158,13 @@ call StatesHeaderCopy.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAttackHeavy0State.h" />
+    <ClInclude Include="CAttackHeavy1State.h" />
+    <ClInclude Include="CAttackLight0State.h" />
+    <ClInclude Include="CAttackLight1State.h" />
+    <ClInclude Include="CAttackLight2State.h" />
+    <ClInclude Include="CAttackSmashState.h" />
+    <ClInclude Include="CAttackUppercutState.h" />
     <ClInclude Include="CCameraState.h" />
     <ClInclude Include="CChasingPlayerState.h" />
     <ClInclude Include="CDashState.h" />
@@ -172,6 +179,13 @@ call StatesHeaderCopy.bat</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAttackHeavy0State.cpp" />
+    <ClCompile Include="CAttackHeavy1State.cpp" />
+    <ClCompile Include="CAttackLight0State.cpp" />
+    <ClCompile Include="CAttackLight1State.cpp" />
+    <ClCompile Include="CAttackLight2State.cpp" />
+    <ClCompile Include="CAttackSmashState.cpp" />
+    <ClCompile Include="CAttackUppercutState.cpp" />
     <ClCompile Include="CCameraState.cpp" />
     <ClCompile Include="CChasingPlayerState.cpp" />
     <ClCompile Include="CDashState.cpp" />

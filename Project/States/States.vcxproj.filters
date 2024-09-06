@@ -38,6 +38,30 @@
     <Filter Include="States\PlayerState\CDashState">
       <UniqueIdentifier>{40e8f71d-b8d8-40b4-9ccd-4bc9113c6a33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\PlayerState\AttackState">
+      <UniqueIdentifier>{2bd7b1c6-8c37-4fcc-bf2c-51bc9fb8db14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackLight0State">
+      <UniqueIdentifier>{cbc27f8d-e0d6-44cf-9f32-19f1af67103f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackLight1State">
+      <UniqueIdentifier>{4ff4fc0e-ab3b-4161-af90-67e931861560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackLight2State">
+      <UniqueIdentifier>{fb8897db-6041-45ea-8c16-7e69b2a74aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackHeavy0State">
+      <UniqueIdentifier>{bf7782cd-c4c0-40ea-a724-50a10327120b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackHeavy1State">
+      <UniqueIdentifier>{9b9b560c-79b7-4f9c-b467-985b7e9cfb7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackUppercutState">
+      <UniqueIdentifier>{1a09d597-9ece-4016-8120-7da032d1eced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\PlayerState\AttackState\CAttackSmashState">
+      <UniqueIdentifier>{342c6a67-f3d5-443b-94ff-156d889bb5e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -76,6 +100,27 @@
     <ClInclude Include="CDashState.h">
       <Filter>States\PlayerState\CDashState</Filter>
     </ClInclude>
+    <ClInclude Include="CAttackLight0State.h">
+      <Filter>States\PlayerState\AttackState\CAttackLight0State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackLight1State.h">
+      <Filter>States\PlayerState\AttackState\CAttackLight1State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackLight2State.h">
+      <Filter>States\PlayerState\AttackState\CAttackLight2State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackHeavy0State.h">
+      <Filter>States\PlayerState\AttackState\CAttackHeavy0State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackHeavy1State.h">
+      <Filter>States\PlayerState\AttackState\CAttackHeavy1State</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackUppercutState.h">
+      <Filter>States\PlayerState\AttackState\CAttackUppercutState</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackSmashState.h">
+      <Filter>States\PlayerState\AttackState\CAttackSmashState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -113,6 +158,27 @@
     </ClCompile>
     <ClCompile Include="CDashState.cpp">
       <Filter>States\PlayerState\CDashState</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackLight0State.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackLight0State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackLight1State.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackLight1State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackLight2State.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackLight2State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackHeavy0State.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackHeavy0State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackHeavy1State.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackHeavy1State</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackUppercutState.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackUppercutState</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackSmashState.cpp">
+      <Filter>States\PlayerState\AttackState\CAttackSmashState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -28,12 +28,17 @@ void CIdleState::FinalTick()
 {
 	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");
 
+	if (KEY_TAP(KEY::A))
+	{
+		m_Player->FSM()->ChangeState(L"AttackLight0");
+	}
+
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		m_Dir = UNITVEC_TYPE::LEFT;
-		GetTargetObject()->FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
-		GetTargetObject()->Transform()->SetRelativeRotation(Vec3(XMConvertToRadians(180.f), 0.f, XMConvertToRadians(180.f)));
-		GetTargetObject()->FSM()->ChangeState(L"Run");
+		m_Player->FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
+		m_Player->Transform()->SetRelativeRotation(Vec3(XMConvertToRadians(180.f), 0.f, XMConvertToRadians(180.f)));
+		m_Player->FSM()->ChangeState(L"Run");
 	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
