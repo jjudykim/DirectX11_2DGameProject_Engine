@@ -54,7 +54,7 @@ void CJumpState::FinalTick()
 
 	if (KEY_TAP(KEY::D))
 	{
-		m_Player->FSM()->ChangeState(L"AttackHeavy0");
+		m_Player->FSM()->ChangeState(L"AttackSmash");
 	}
 
 	m_ReachNoPlatformCol = GetBlackboardData<INT>(L"ReachNoPlatformCollider");

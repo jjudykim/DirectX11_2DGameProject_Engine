@@ -32,6 +32,11 @@ void CDoubleJumpState::Enter()
 
 void CDoubleJumpState::FinalTick()
 {
+	if (m_Player->RigidBody()->GetVelocityByGravity().y <= 0)
+	{
+		m_Owner->ChangeState(L"Fall");
+	}
+
 	if (KEY_TAP(KEY::A))
 	{
 		m_Player->FSM()->ChangeState(L"AttackLight0");
@@ -39,17 +44,12 @@ void CDoubleJumpState::FinalTick()
 
 	if (KEY_TAP(KEY::D))
 	{
-		m_Player->FSM()->ChangeState(L"AttackHeavy0");
+		m_Player->FSM()->ChangeState(L"AttackSmash");
 	}
 
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		GetFSM()->ChangeState(L"Dash");
-	}
-
-	if (m_Player->RigidBody()->GetVelocityByGravity().y <= 0)
-	{
-		m_Owner->ChangeState(L"Fall");
 	}
 
 	m_ReachNoPlatformCol = GetBlackboardData<INT>(L"ReachNoPlatformCollider");
