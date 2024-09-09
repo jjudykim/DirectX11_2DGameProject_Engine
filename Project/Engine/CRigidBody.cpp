@@ -53,6 +53,31 @@ void CRigidBody::Jump()
 	m_VelocityByGravity += Vec3(0.f, 1.f, 0.f) * m_JumpSpeed;
 }
 
+void CRigidBody::CurvedJump(bool _Replay, UNITVEC_TYPE _Dir, float _Time)
+{
+	static float angle = 0.0f;          // 각도가 시간에 따라 변화
+
+	if (_Replay)
+		angle = 0.0f;
+
+	float radius = 1.0f;                
+	float angularSpeed = 3.7f;
+
+	angle += angularSpeed * _Time;
+
+	if (_Dir == UNITVEC_TYPE::RIGHT)
+		m_Velocity.x = cos(angle) * radius * m_JumpSpeed * 0.075f;
+	else
+		m_Velocity.x = cos(angle) * radius * m_JumpSpeed * 0.075f * -1.f;
+
+	m_VelocityByGravity.y = sin(angle) * radius * m_JumpSpeed * 0.15f;
+
+	// 점프가 완료되었을 때 각도 초기화
+	//if (angle >= 125.0f * PI / 180.0f) // 90도 도달 시 점프 종료 (원하는 높이에 도달했을 때)
+	//{
+	//	angle = 0.0f; // 각도 초기화
+	//}
+}
 void CRigidBody::FinalTick()
 {
 	Vec3 vObjectPos = GetOwner()->Transform()->GetRelativePos();

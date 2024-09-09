@@ -35,6 +35,20 @@ void CAttackLight0State::FinalTick()
 	Vec3 vGravityVelocity = m_Player->RigidBody()->GetVelocityByGravity();
 	m_Player->RigidBody()->SetVelocityByGravity(vGravityVelocity * 0.5f);
 
+	Vec3 WeaponPos = m_Player->Transform()->GetRelativePos();
+
+	m_Weapon->Transform()->SetRelativeRotation(m_Player->Transform()->GetRelativeRotation());
+	if (m_Player->Transform()->GetRelativeRotation().z > 0)
+	{
+		m_Weapon->Transform()->SetRelativePos(Vec3(WeaponPos.x - 80.f, WeaponPos.y - 10.f, WeaponPos.z));
+		m_Player->RigidBody()->AddForce(Vec3(-50.f, 0.f, 0.f));
+	}
+	else
+	{
+		m_Weapon->Transform()->SetRelativePos(Vec3(WeaponPos.x + 80.f, WeaponPos.y - 10.f, WeaponPos.z));
+		m_Player->RigidBody()->AddForce(Vec3(50.f, 0.f, 0.f));
+	}
+
 	if (KEY_TAP(KEY::A))
 	{
 		m_ConnectNextAttack = true;
@@ -42,7 +56,7 @@ void CAttackLight0State::FinalTick()
 
 	if (KEY_TAP(KEY::D))
 	{
-		//m_Player->FSM()->ChangeState(L"AttackUppercut");
+		m_Player->FSM()->ChangeState(L"AttackUppercut");
 	}
 
 	if (m_FBCom->GetFinish())
@@ -54,21 +68,6 @@ void CAttackLight0State::FinalTick()
 				m_Player->FSM()->ChangeState(L"Fall");
 			else
 				m_Player->FSM()->ChangeState(L"Idle");
-	}
-
-	Vec3 WeaponPos = m_Player->Transform()->GetRelativePos();
-
-	m_Weapon->Transform()->SetRelativeRotation(m_Player->Transform()->GetRelativeRotation());
-	if (m_Player->Transform()->GetRelativeRotation().z > 0)
-	{
-		m_Weapon->Transform()->SetRelativePos(Vec3(WeaponPos.x - 80.f, WeaponPos.y - 10.f, WeaponPos.z));
-		m_Player->RigidBody()->AddForce(Vec3(-50.f, 0.f, 0.f));
-	}
-		
-	else
-	{
-		m_Weapon->Transform()->SetRelativePos(Vec3(WeaponPos.x + 80.f, WeaponPos.y - 10.f, WeaponPos.z));
-		m_Player->RigidBody()->AddForce(Vec3(50.f, 0.f, 0.f));
 	}
 }
 

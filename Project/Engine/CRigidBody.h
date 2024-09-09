@@ -42,6 +42,7 @@ private:
 
 public:
     void Jump();
+    void CurvedJump(bool _Replay, UNITVEC_TYPE _Dir, float _Time);
 
 public:
     void SetVelocity(Vec3 _Velocity) { m_Velocity = _Velocity; }

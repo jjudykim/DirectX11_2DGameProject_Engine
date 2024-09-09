@@ -11,6 +11,8 @@
 
 #define MAX_LAYER 32
 
+#define PI 3.1415926535f
+
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 #define EngineDT CTimeMgr::GetInst()->GetEngineDeltaTime()
 

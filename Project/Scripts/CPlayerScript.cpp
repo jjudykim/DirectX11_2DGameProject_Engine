@@ -17,6 +17,7 @@
 #include "States/CAttackLight2State.h"
 #include "States/CAttackHeavy0State.h"
 #include "States/CAttackHeavy1State.h"
+#include "States/CAttackUppercutState.h"
 
 
 CPlayerScript::CPlayerScript()
@@ -61,6 +62,7 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"AttackLight2", new CAttackLight2State);
 	FSM()->AddState(L"AttackHeavy0", new CAttackHeavy0State);
 	FSM()->AddState(L"AttackHeavy1", new CAttackHeavy1State);
+	FSM()->AddState(L"AttackUppercut", new CAttackUppercutState);
 
 	FSM()->SetState();
 

@@ -4,6 +4,9 @@
 class CAttackUppercutState :
     public CPlayerState
 {
+private:
+    float     m_OriginJumpSpeed;
+
     virtual void Set() override;
     virtual void Enter() override;
     virtual void FinalTick() override;
