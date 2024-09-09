@@ -102,16 +102,70 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
 
 float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
 {
+    //float4 vColor = float4(0.f, 0.f, 0.f, 1.f);
+    //
+    //if (g_btex_0)
+    //{
+    //    vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+    //}
+    //else
+    //{
+    //    vColor = float4(1.f, 0.f, 1.f, 1.f);
+    //}
+    //
+    //return vColor;
+    
     float4 vColor = float4(0.f, 0.f, 0.f, 1.f);
-
-    if (g_btex_0)
+    
+    // FlipBook을 사용하는 경우
+    if (UseFlipbook)
     {
-        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+        // _in.vUV : 스프라이트를 참조할 위치를 비율로 환산한 값
+        float2 BackGroundLeftTop = LeftTopUV - ((BackGroundUV - SliceUV) / 2.f);
+        float2 vSpriteUV = BackGroundLeftTop + (_in.vUV * BackGroundUV);
+        vSpriteUV -= OffsetUV;
+        
+        if (LeftTopUV.x <= vSpriteUV.x && vSpriteUV.x <= LeftTopUV.x + SliceUV.x
+            && LeftTopUV.y <= vSpriteUV.y && vSpriteUV.y <= LeftTopUV.y + SliceUV.y)
+        {
+            if (g_int_0 > -1)
+            {
+                vColor = SelectTexture(g_int_0, g_sam_0, vSpriteUV);
+            }
+            else
+            {
+                vColor = g_AtalsTex.Sample(g_sam_0, vSpriteUV);
+            }
+        }
+        else
+        {
+            discard;
+        }
     }
+    // FlipBook을 사용하지 않는 경우
     else
     {
-        vColor = float4(1.f, 0.f, 1.f, 1.f);
+        if (g_btex_0)
+        {
+            vColor = SelectTexture(g_int_0, g_sam_0, _in.vUV);
+        }
+        else
+        {
+            vColor = float4(1.f, 0.f, 1.f, 1.f);
+        }
     }
+    
+    
+    // Light2D 적용
+    tLight Light = (tLight) 0.f;
+    
+    for (int i = 0; i < g_Light2DCount; ++i)
+    {
+        CalculateLight2D(i, _in.vWorldPos, Light);
+    }
+    
+    vColor.rgb = vColor.rgb * Light.Color.rgb
+                + vColor.rgb * Light.Ambient.rgb;
     
     return vColor;
 }

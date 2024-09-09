@@ -38,6 +38,16 @@ void CFallState::FinalTick()
 		GetFSM()->ChangeState(L"Dash");
 	}
 
+	if (KEY_TAP(KEY::A))
+	{
+		m_Player->FSM()->ChangeState(L"AttackLight0");
+	}
+
+	if (KEY_TAP(KEY::D))
+	{
+		m_Player->FSM()->ChangeState(L"AttackHeavy0");
+	}
+
 	if (m_Player->RigidBody()->IsGround())
 		m_Owner->ChangeState(L"Idle");
 

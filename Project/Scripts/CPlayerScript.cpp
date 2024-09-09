@@ -15,6 +15,8 @@
 #include "States/CAttackLight0State.h"
 #include "States/CAttackLight1State.h"
 #include "States/CAttackLight2State.h"
+#include "States/CAttackHeavy0State.h"
+#include "States/CAttackHeavy1State.h"
 
 
 CPlayerScript::CPlayerScript()
@@ -31,6 +33,7 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::Begin()
 {
+	m_Weapon = CLevelMgr::GetInst()->FindObjectByName(L"PlayerWeapon");
 	m_GravityAccel = RigidBody()->GetGravityAccel();
 	m_JumpSpeed = RigidBody()->GetJumpSpeed();
 	m_Friction = RigidBody()->GetFriction();
@@ -56,6 +59,8 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"AttackLight0", new CAttackLight0State);
 	FSM()->AddState(L"AttackLight1", new CAttackLight1State);
 	FSM()->AddState(L"AttackLight2", new CAttackLight2State);
+	FSM()->AddState(L"AttackHeavy0", new CAttackHeavy0State);
+	FSM()->AddState(L"AttackHeavy1", new CAttackHeavy1State);
 
 	FSM()->SetState();
 
@@ -117,9 +122,9 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		float fPlatformHeight = OtherColScale.y * 0.5f;
 
 		// 플레이어가 플랫폼의 윗부분에 있는지 확인
-		bool isAbovePlatform = fRelativeY > fPlatformHeight;
+		bool isAbovePlatform = fRelativeY > fPlatformHeight - 10.f;
 
-		// 플레이어가 플랫폼의 아래쪽에서 충돌했는지 확인
+		// 플레이어가 플랫폼의 아래쪽에서 충돌했는지 확인 
 		bool isBelowPlatform = fRelativeY < -fPlatformHeight;
 
 		// 입사각을 기준으로 충돌 처리
@@ -127,7 +132,7 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		if (Vec3(0, 0, 0) != _OtherObject->Transform()->GetRelativeRotation())
 			maxAngle = XMConvertToRadians(90.f);
 		else
-			maxAngle = XMConvertToRadians(45.f);
+			maxAngle = XMConvertToRadians(85.f);
 
 		if (isBelowPlatform)
 		{

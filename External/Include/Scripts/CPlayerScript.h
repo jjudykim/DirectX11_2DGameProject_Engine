@@ -5,6 +5,8 @@ class CPlayerScript :
     public CScript
 {
 private:
+    CGameObject*         m_Weapon;
+
     float                m_Speed;
     float                m_GravityAccel;
     UNITVEC_TYPE         m_Dir;

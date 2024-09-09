@@ -54,6 +54,8 @@ void CChasingPlayerState::FinalTick()
 		vPlayerVelocity.x += correctionVelocityX;
 	}
 
+	m_Camera->RigidBody()->SetVelocity(vPlayerVelocity);
+
 	if (fabs(distanceY) > threshold / 2.f)
 	{
 		// 차이에 비례한 보정 속도 계산
@@ -61,9 +63,11 @@ void CChasingPlayerState::FinalTick()
 
 		// 카메라의 기존 속도에 보정 속도 추가 (X 축만 보정)
 		vPlayerGravityVelocity.y += correctionVelocityY;
+
+		m_Camera->RigidBody()->SetVelocityByGravity(vPlayerGravityVelocity * 0.85f);
+		return;
 	}
 
-	m_Camera->RigidBody()->SetVelocity(vPlayerVelocity);
 	m_Camera->RigidBody()->SetVelocityByGravity(vPlayerGravityVelocity * 0.7f);
 }
 

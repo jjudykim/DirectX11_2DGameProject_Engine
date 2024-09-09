@@ -34,6 +34,10 @@ void CRunState::FinalTick()
 	Vec3 vVelocity = m_Player->RigidBody()->GetVelocity();
 	float velocityMagnitude = vVelocity.Length();
 
+	if (KEY_TAP(KEY::A))
+	{
+		m_Player->FSM()->ChangeState(L"AttackLight0");
+	}
 	if (KEY_TAP(KEY::LSHIFT))
 	{
 		GetFSM()->ChangeState(L"Dash");

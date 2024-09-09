@@ -47,6 +47,16 @@ void CJumpState::FinalTick()
 		m_Owner->ChangeState(L"Fall");
 	}
 
+	if (KEY_TAP(KEY::A))
+	{
+		m_Player->FSM()->ChangeState(L"AttackLight0");
+	}
+
+	if (KEY_TAP(KEY::D))
+	{
+		m_Player->FSM()->ChangeState(L"AttackHeavy0");
+	}
+
 	m_ReachNoPlatformCol = GetBlackboardData<INT>(L"ReachNoPlatformCollider");
 	m_ReachMapLimit = GetBlackboardData<INT>(L"ReachMapLimit");
 	m_Dir = GetBlackboardData<UNITVEC_TYPE>(L"Dir");

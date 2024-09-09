@@ -163,8 +163,7 @@ void CFlipBookComponent::Play(int _FlipBookIdx, bool _Repeat)
 		return;
 	}
 
-	m_CurFrmIdx = 0;
-	m_AccTime = 0.f;
+	Reset();
 	m_Repeat = _Repeat;
 }
 

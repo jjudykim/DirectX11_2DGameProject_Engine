@@ -33,6 +33,11 @@ void CIdleState::FinalTick()
 		m_Player->FSM()->ChangeState(L"AttackLight0");
 	}
 
+	if (KEY_TAP(KEY::D))
+	{
+		m_Player->FSM()->ChangeState(L"AttackHeavy0");
+	}
+
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		m_Dir = UNITVEC_TYPE::LEFT;

@@ -8,6 +8,7 @@ class CPlayerState :
 {
 protected:
     CGameObject*         m_Player;
+    CGameObject*         m_Weapon;
 
     float                m_Speed;
     UNITVEC_TYPE         m_Dir;
@@ -17,6 +18,7 @@ protected:
     CFlipBookComponent*  m_FBCom;
     Ptr<CFlipBook>       m_CurFB;
     int                  m_FBIdx;
+    int                  m_WeaponFBIdx;
 
     int                  m_JumpCount;
 
