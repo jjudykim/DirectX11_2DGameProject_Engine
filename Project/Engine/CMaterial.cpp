@@ -66,6 +66,11 @@ void CMaterial::Binding(int _index)
 
 	m_Const.iArr[0] = _index;
 
+	if (m_UseBlinkEffect)
+		m_Const.iArr[3] = 1;
+	else
+		m_Const.iArr[3] = 0;
+
 	for (int i = 0; i < TEX_PARAM::END; ++i)
 	{
 		if (m_arrSprite[i] == nullptr)
@@ -96,6 +101,12 @@ void CMaterial::Binding()
 		return;
 
 	m_Const.iArr[0] = -1;
+
+	if (m_UseBlinkEffect)
+		m_Const.iArr[3] = 1;
+	else
+		m_Const.iArr[3] = 0;
+		
 
 	for (int i = 0; i < TEX_PARAM::END; ++i)
 	{

@@ -19,6 +19,8 @@ private:
     int                  m_OverlapPLTCount;
     int                  m_ReachMapLimit;
     int                  m_ReachNoPltCol;
+    int                  m_GodMode;
+
     float                m_JumpSpeed;
     float                m_Friction;
     float                m_MaxWalkSpeed;
@@ -29,6 +31,9 @@ public:
 
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
+
+public:
+    void SetGodMode(bool _Mode) { _Mode == true ? m_GodMode = 1 : m_GodMode = 0; }
 
 private:
     void GroundLogic();

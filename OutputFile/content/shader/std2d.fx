@@ -4,6 +4,10 @@
 #include "value.fx"
 #include "func.fx"
 
+// 깜빡임 이벤트
+static float TotalElapsedTime = 0.0f;         // 이벤트 시작 후 누적 시간
+static float BlinkAlpha = 1.0f;               // 알파 값 조절
+
 // Vertex Shader
 struct VTX_IN
 {
@@ -84,7 +88,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
     {
         discard;
     }
-    
+   
     
     // Light2D 적용
     tLight Light = (tLight) 0.f;
@@ -101,20 +105,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
 }
 
 float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
-{
-    //float4 vColor = float4(0.f, 0.f, 0.f, 1.f);
-    //
-    //if (g_btex_0)
-    //{
-    //    vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
-    //}
-    //else
-    //{
-    //    vColor = float4(1.f, 0.f, 1.f, 1.f);
-    //}
-    //
-    //return vColor;
-    
+{   
     float4 vColor = float4(0.f, 0.f, 0.f, 1.f);
     
     // FlipBook을 사용하는 경우
@@ -155,7 +146,16 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
         }
     }
     
-    
+    if (g_int_3)
+    {
+        BlinkEvent(BlinkAlpha, 1.5f, vColor);
+    }
+    else
+    {
+        TotalElapsedTime = 0.0f;
+        BlinkAlpha = 1.0f;
+    }
+ 
     // Light2D 적용
     tLight Light = (tLight) 0.f;
     
@@ -166,7 +166,7 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
     
     vColor.rgb = vColor.rgb * Light.Color.rgb
                 + vColor.rgb * Light.Ambient.rgb;
-    
+     
     return vColor;
 }
 

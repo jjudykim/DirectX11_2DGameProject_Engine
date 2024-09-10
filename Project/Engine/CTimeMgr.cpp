@@ -74,4 +74,27 @@ void CTimeMgr::Tick()
 	g_GlobalData.g_EngineDT = m_E_DeltaTime;
 	g_GlobalData.g_Time = m_Time;
 	g_GlobalData.g_EngineTime = m_E_Time;
+
+	TimerUpdate();
+}
+
+void CTimeMgr::TimerUpdate()
+{
+	for (size_t i = 0; i < m_VecTimers.size(); ++i)
+	{
+		m_VecTimers[i].CurrentTime += DT;
+		if (m_VecTimers[i].Duration <= m_VecTimers[i].CurrentTime)
+		{
+			m_VecTimers[i].Callback();
+			if (m_VecTimers[i].Repeat)
+			{
+				m_VecTimers[i].CurrentTime = 0.0f;
+			}
+			else
+			{
+				m_VecTimers.erase(m_VecTimers.begin() + i);
+				continue;
+			}
+		}
+	}
 }

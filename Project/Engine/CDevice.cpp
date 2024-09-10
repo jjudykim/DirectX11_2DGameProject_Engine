@@ -300,6 +300,7 @@ int CDevice::CreateBlendState()
 	// Default
 	m_BSState[(UINT)BS_TYPE::DEFAULT] = nullptr;
 
+
 	// Alpha Blend
 	Desc.AlphaToCoverageEnable = true;
 	Desc.IndependentBlendEnable = false;
@@ -321,6 +322,7 @@ int CDevice::CreateBlendState()
 		return E_FAIL;
 	}
 
+
 	// One - One Blend
 	Desc.AlphaToCoverageEnable = false;
 	Desc.IndependentBlendEnable = false;
@@ -338,6 +340,28 @@ int CDevice::CreateBlendState()
 	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
 	if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::ONE_ONE].GetAddressOf())))
+	{
+		return E_FAIL;
+	}
+
+
+	// CustomBlend
+	Desc.AlphaToCoverageEnable = false;
+	Desc.IndependentBlendEnable = false;
+
+	Desc.RenderTarget[0].BlendEnable = true;
+	Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA; // 기존 알파 값 반대 방향 적용
+
+	// 알파 블렌딩의 강도를 줄이기 위한 설정
+	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;     // 알파 채널 블렌딩을 줄임
+
+	if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::CUSTOM_BLEND].GetAddressOf())))
 	{
 		return E_FAIL;
 	}

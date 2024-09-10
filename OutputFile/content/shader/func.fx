@@ -53,6 +53,14 @@ void CalculateLight2D(int _LightIdx, float3 _WorldPos, inout tLight _Light)
     }
 }
 
+void BlinkEvent(inout float _BlinkAlpha, float _BlinkSpeed, inout float4 _vColor)
+{   
+    float cycle = g_Time * _BlinkSpeed;
+    _BlinkAlpha = 0.7f * abs(sin(cycle * PI)) + 0.3f;
+    
+    _vColor.a *= _BlinkAlpha;
+}
+
 float4 SelectTexture(int _g_int_0, SamplerState _sampler, float2 _UV)
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 1.f);

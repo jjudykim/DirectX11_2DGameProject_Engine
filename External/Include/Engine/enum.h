@@ -133,6 +133,7 @@ enum class BS_TYPE
 	DEFAULT,
 	ALPHABLEND,
 	ONE_ONE,
+	CUSTOM_BLEND,
 
 	END,
 };

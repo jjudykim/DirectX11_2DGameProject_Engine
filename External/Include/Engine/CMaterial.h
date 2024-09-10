@@ -15,6 +15,7 @@ private:
     Ptr<CTexture>           m_arrTex[TEX_PARAM::END];
 
     bool                    m_UseSpriteAsTex;                 // Sprite를 Texture로써 사용할지에 대한 여부
+    bool                    m_UseBlinkEffect;
     Ptr<CSprite>            m_arrSprite[TEX_PARAM::END];
 
 public:
@@ -22,11 +23,13 @@ public:
     void SetScalarParam(SCALAR_PARAM _Param, const T& Data);
     void SetTexParam(TEX_PARAM _Param, Ptr<CTexture> _Tex) { m_arrTex[_Param] = _Tex; }
     void SetUseSpriteAsTex(bool _Use) { m_UseSpriteAsTex = _Use; }
+    void SetUseBlinkEffect(bool _Use) { m_UseBlinkEffect = _Use; }
     void SetSprite(TEX_PARAM _Param, Ptr<CSprite> _Sprite) { m_arrSprite[_Param] = _Sprite; }
 
     void* GetScalarParam(SCALAR_PARAM _Param);
     Ptr<CTexture> GetTexParam(TEX_PARAM _Param) { return m_arrTex[(UINT)_Param]; }
     bool GetUseSpriteAsTex() { return m_UseSpriteAsTex; }
+    bool GetUseBlinkEffect() { return m_UseBlinkEffect; }
     Ptr<CSprite> GetSprite(TEX_PARAM _Param) { return m_arrSprite[(UINT)_Param]; }
 
 public:

@@ -20,6 +20,14 @@ struct tDebugShapeInfo
 	bool            DepthTest;
 };
 
+struct tTimer
+{
+	float                   Duration;
+	float                   CurrentTime;
+	std::function<void()>   Callback;
+	bool                    Repeat;
+};
+
 struct tTask
 {
 	TASK_TYPE    Type;

@@ -6,6 +6,7 @@ class CMeshRender :
 {
 private:
     bool        m_UseSpriteAsTex;
+    bool        m_UseBlinkEffect;
     int         m_ParamIdx;
 
 public:

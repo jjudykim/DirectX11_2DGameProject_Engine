@@ -158,95 +158,98 @@ void MaterialUI::ShaderParameter()
 	}
 	else
 	{
-		Ptr<CSprite> pCurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
-
-		// Current Asset
-		string TexKey;
-		if (pCurSprite == nullptr) TexKey = "";
-		else TexKey = string(pCurSprite->GetKey().begin(), pCurSprite->GetKey().end());
-		ImGui::Text("Setted Asset");
-		ImGui::SameLine(0.f, 10.f);
-		ImGui::SetNextItemWidth(250.f);
-		ImGui::InputText("##SettedAssetKey", TexKey.data(), ImGuiInputTextFlags_ReadOnly);
-
-		ImVec2 frameSize = ImVec2(200.f, 200.f);
-		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-		ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 0.7f);
-
-		if (pCurSprite != nullptr)
+		if (vecTexParam.size() > 0)
 		{
-			Ptr<CTexture> CurTex = pCurSprite->GetAtlasTexture();
+			Ptr<CSprite> pCurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
 
-			string Name = string(pCurSprite->GetName().begin(), pCurSprite->GetName().end());
+			// Current Asset
+			string TexKey;
+			if (pCurSprite == nullptr) TexKey = "";
+			else TexKey = string(pCurSprite->GetKey().begin(), pCurSprite->GetKey().end());
+			ImGui::Text("Setted Asset");
+			ImGui::SameLine(0.f, 10.f);
+			ImGui::SetNextItemWidth(250.f);
+			ImGui::InputText("##SettedAssetKey", TexKey.data(), ImGuiInputTextFlags_ReadOnly);
 
-			ImGui::Text(Name.c_str());
-			ImGui::SameLine(120);
+			ImVec2 frameSize = ImVec2(200.f, 200.f);
+			ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+			ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 0.7f);
 
-			ImVec2 crop = ImVec2(pCurSprite->GetBackgroundUV().x * CurTex->Width()
-							   , pCurSprite->GetBackgroundUV().y * CurTex->Height());
-
-			if (frameSize.x < crop.x || frameSize.y < crop.y)
+			if (pCurSprite != nullptr)
 			{
-				float ratio = crop.x / frameSize.x;
-				ratio = 1 / ratio;
+				Ptr<CTexture> CurTex = pCurSprite->GetAtlasTexture();
 
-				crop.x *= ratio;
-				crop.y *= ratio;
-			}
+				string Name = string(pCurSprite->GetName().begin(), pCurSprite->GetName().end());
 
-			ImVec2 uv_min = ImVec2(pCurSprite->GetLeftTopUV().x, pCurSprite->GetLeftTopUV().y);
-			ImVec2 uv_max = ImVec2(pCurSprite->GetLeftTopUV().x + pCurSprite->GetSliceUV().x
-				                 , pCurSprite->GetLeftTopUV().y + pCurSprite->GetSliceUV().y);
+				ImGui::Text(Name.c_str());
+				ImGui::SameLine(120);
 
-			ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
-			ImGui::Image(CurTex->GetSRV().Get(), crop, uv_min, uv_max, tint_col, border_col);
-		}
-		else
-		{
-			ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
-			ImGui::Image(nullptr, frameSize, ImVec2(0.f, 0.f), ImVec2(1.f, 1.f), tint_col, border_col);
-		}
+				ImVec2 crop = ImVec2(pCurSprite->GetBackgroundUV().x * CurTex->Width()
+					, pCurSprite->GetBackgroundUV().y * CurTex->Height());
 
-		if (ImGui::BeginDragDropTarget())
-		{
-			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
-			if (payload)
-			{
-				TreeNode** ppNode = (TreeNode**)payload->Data;
-				TreeNode* pNode = *ppNode;
-
-				Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
-				if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+				if (frameSize.x < crop.x || frameSize.y < crop.y)
 				{
-					pCurSprite = ((CSprite*)pAsset.Get());
+					float ratio = crop.x / frameSize.x;
+					ratio = 1 / ratio;
+
+					crop.x *= ratio;
+					crop.y *= ratio;
 				}
+
+				ImVec2 uv_min = ImVec2(pCurSprite->GetLeftTopUV().x, pCurSprite->GetLeftTopUV().y);
+				ImVec2 uv_max = ImVec2(pCurSprite->GetLeftTopUV().x + pCurSprite->GetSliceUV().x
+					, pCurSprite->GetLeftTopUV().y + pCurSprite->GetSliceUV().y);
+
+				ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
+				ImGui::Image(CurTex->GetSRV().Get(), crop, uv_min, uv_max, tint_col, border_col);
 			}
-			ImGui::EndDragDropTarget();
-		}
+			else
+			{
+				ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
+				ImGui::Image(nullptr, frameSize, ImVec2(0.f, 0.f), ImVec2(1.f, 1.f), tint_col, border_col);
+			}
 
-		// DragDrop으로 원본 텍스쳐가 바뀐 경우
-		if (pCurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
-		{
-			pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, pCurSprite);
-			SaveMaterialToFile();
-			return;
-		}
-		
-		// List Button
-		if (this == nullptr && (DELEGATE_1)&MaterialUI::ChangeSprite == nullptr)
-			return;
+			if (ImGui::BeginDragDropTarget())
+			{
+				const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+				if (payload)
+				{
+					TreeNode** ppNode = (TreeNode**)payload->Data;
+					TreeNode* pNode = *ppNode;
 
-		ImGui::SameLine();
-		if (ImGui::Button("##SpriteChangeButton", ImVec2(18.f, 18.f)))
-		{
-			ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("ListUI");
-			pListUI->SetName("Sprite");
+					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+					if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+					{
+						pCurSprite = ((CSprite*)pAsset.Get());
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
 
-			vector<string> vecSpriteNames;
-			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecSpriteNames);
-			pListUI->AddList(vecSpriteNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&MaterialUI::ChangeSprite);
-			pListUI->SetActive(true);
+			// DragDrop으로 원본 텍스쳐가 바뀐 경우
+			if (pCurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
+			{
+				pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, pCurSprite);
+				SaveMaterialToFile();
+				return;
+			}
+
+			// List Button
+			if (this == nullptr && (DELEGATE_1)&MaterialUI::ChangeSprite == nullptr)
+				return;
+
+			ImGui::SameLine();
+			if (ImGui::Button("##SpriteChangeButton", ImVec2(18.f, 18.f)))
+			{
+				ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("ListUI");
+				pListUI->SetName("Sprite");
+
+				vector<string> vecSpriteNames;
+				CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecSpriteNames);
+				pListUI->AddList(vecSpriteNames);
+				pListUI->AddDelegate(this, (DELEGATE_1)&MaterialUI::ChangeSprite);
+				pListUI->SetActive(true);
+			}
 		}
 	}
 }
@@ -271,6 +274,8 @@ void MaterialUI::SelectShader(DWORD_PTR _ListUI)
 	assert(pShader.Get());
 
 	pMtrl->SetShader(pShader);
+
+	SaveMaterialToFile();
 }
 
 void MaterialUI::ChangeTexture(DWORD_PTR Param)

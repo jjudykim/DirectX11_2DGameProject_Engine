@@ -167,6 +167,7 @@ call StatesHeaderCopy.bat</Command>
     <ClInclude Include="CAttackUppercutState.h" />
     <ClInclude Include="CCameraState.h" />
     <ClInclude Include="CChasingPlayerState.h" />
+    <ClInclude Include="CDamageState.h" />
     <ClInclude Include="CDashState.h" />
     <ClInclude Include="CDoubleJumpState.h" />
     <ClInclude Include="CFallState.h" />
@@ -188,6 +189,7 @@ call StatesHeaderCopy.bat</Command>
     <ClCompile Include="CAttackUppercutState.cpp" />
     <ClCompile Include="CCameraState.cpp" />
     <ClCompile Include="CChasingPlayerState.cpp" />
+    <ClCompile Include="CDamageState.cpp" />
     <ClCompile Include="CDashState.cpp" />
     <ClCompile Include="CDoubleJumpState.cpp" />
     <ClCompile Include="CFallState.cpp" />

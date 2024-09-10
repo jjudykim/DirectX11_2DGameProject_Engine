@@ -80,6 +80,17 @@ bool IsMapLimitObject(CGameObject* _Object)
 		return false;
 }
 
+//bool IsAttackableObject(CGameObject* _Object)          // Player -> Object 공격 가능한 대상인지에 대한 여부
+//{
+//}
+//
+//bool IsDamageableObject(CGameObject* _Object)         // Object -> Player 데미지를 받을 수 있는 대상인지에 대한 여부
+//{
+//	UINT layer = _Object->GetLayerIdx();
+//
+//
+//}
+
 void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};

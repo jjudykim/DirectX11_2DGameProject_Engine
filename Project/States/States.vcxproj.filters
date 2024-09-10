@@ -62,6 +62,9 @@
     <Filter Include="States\PlayerState\AttackState\CAttackSmashState">
       <UniqueIdentifier>{342c6a67-f3d5-443b-94ff-156d889bb5e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\PlayerState\CDamageState">
+      <UniqueIdentifier>{42acafdb-448f-4c85-8a29-674ebcd1005a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -121,6 +124,9 @@
     <ClInclude Include="CAttackSmashState.h">
       <Filter>States\PlayerState\AttackState\CAttackSmashState</Filter>
     </ClInclude>
+    <ClInclude Include="CDamageState.h">
+      <Filter>States\PlayerState\CDamageState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -179,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="CAttackSmashState.cpp">
       <Filter>States\PlayerState\AttackState\CAttackSmashState</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageState.cpp">
+      <Filter>States\PlayerState\CDamageState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

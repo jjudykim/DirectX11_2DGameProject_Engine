@@ -19,9 +19,12 @@ private:
     float            m_E_DeltaTime;
     float            m_E_Time;
 
+    vector<tTimer>   m_VecTimers;
+
 public:
     void Init();
     void Tick();
+    void TimerUpdate();
 
 public:
     float GetDeltaTime() { return m_DeltaTime; }
@@ -31,5 +34,12 @@ public:
     float GetEngineTime() { return m_E_Time; }
 
     UINT GetFPS() { return m_FPS; }
+
+public:
+    void AddTimer(float _Duration, std::function<void()> _Callback, bool _Repeat = false)
+    {
+        m_VecTimers.push_back({ _Duration, 0.0f, _Callback, _Repeat });
+    }
+
 };
 

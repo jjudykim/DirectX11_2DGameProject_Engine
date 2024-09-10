@@ -12,6 +12,7 @@
 #include "States/CFallState.h"
 #include "States/CDoubleJumpState.h"
 #include "States/CDashState.h"
+#include "States/CDamageState.h"
 #include "States/CAttackLight0State.h"
 #include "States/CAttackLight1State.h"
 #include "States/CAttackLight2State.h"
@@ -50,6 +51,7 @@ void CPlayerScript::Begin()
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
 	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 	FSM()->SetBlackboardData(L"ReachNoPlatformCollider", DATA_TYPE::INT, &m_ReachNoPltCol);
+	FSM()->SetBlackboardData(L"PlayerGodMode", DATA_TYPE::INT, &m_GodMode);
 
 	// FSM State
 	FSM()->AddState(L"Idle", new CIdleState);
@@ -58,6 +60,7 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"Fall", new CFallState);
 	FSM()->AddState(L"DoubleJump", new CDoubleJumpState);
 	FSM()->AddState(L"Dash", new CDashState);
+	FSM()->AddState(L"Damage", new CDamageState);
 	FSM()->AddState(L"AttackLight0", new CAttackLight0State);
 	FSM()->AddState(L"AttackLight1", new CAttackLight1State);
 	FSM()->AddState(L"AttackLight2", new CAttackLight2State);
@@ -65,6 +68,7 @@ void CPlayerScript::Begin()
 	FSM()->AddState(L"AttackHeavy1", new CAttackHeavy1State);
 	FSM()->AddState(L"AttackUppercut", new CAttackUppercutState);
 	FSM()->AddState(L"AttackSmash", new CAttackSmashState);
+	
 
 	FSM()->SetState();
 
@@ -73,13 +77,28 @@ void CPlayerScript::Begin()
 
 void CPlayerScript::Tick()
 {
-	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
-	// m_ReachMapLimit (0 : ¸Ê ³¡ µµ´Þ X, 1 : ¿ÞÂÊ ¸Ê ³¡ µµ´Þ, 2 : ¿À¸¥ÂÊ ¸Ê ³¡ µµ´Þ)
+	// Update By Blackboard
+	m_GodMode = FSM()->GetBlackboardData<int>(L"PlayerGodMode");
 
 	if (m_OverlapPLTCount > 0)
 		RigidBody()->SetGround(true);
 	else
 		RigidBody()->SetGround(false);
+
+	if (m_GodMode)
+	{
+		MeshRender()->GetMaterial()->SetUseBlinkEffect(true);
+		CTimeMgr::GetInst()->AddTimer(3.f, [this]() { SetGodMode(false); }, false);
+	}
+	else
+	{
+		MeshRender()->GetMaterial()->SetUseBlinkEffect(false);
+	}
+
+	// m_ReachMapLimit (0 : ¸Ê ³¡ µµ´Þ X, 1 : ¿ÞÂÊ ¸Ê ³¡ µµ´Þ, 2 : ¿À¸¥ÂÊ ¸Ê ³¡ µµ´Þ)
+	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
+
+	FSM()->SetBlackboardData(L"PlayerGodMode", DATA_TYPE::INT, &m_GodMode);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
