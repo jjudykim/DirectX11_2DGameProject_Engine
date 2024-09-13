@@ -65,6 +65,24 @@
     <Filter Include="States\PlayerState\CDamageState">
       <UniqueIdentifier>{42acafdb-448f-4c85-8a29-674ebcd1005a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\MonsterState">
+      <UniqueIdentifier>{5b5c5b2d-bdcb-4b53-ad3d-17cafea0b091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\MonsterState\ZombieState">
+      <UniqueIdentifier>{fd035d22-d3e3-4e73-8511-0da587d49afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\MonsterState\ZombieState\CZombieIldeState">
+      <UniqueIdentifier>{dc9d36ef-5226-4a59-9c90-427f4f00fa05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\MonsterState\ZombieState\CZombieChaseState">
+      <UniqueIdentifier>{ff7de897-4267-449b-b776-8020f183b9b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\MonsterState\ZombieState\CZombieAttackState">
+      <UniqueIdentifier>{d0516ed5-b8db-4725-9000-ad923b5a8fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\MonsterState\ZombieState\CZombieDamageState">
+      <UniqueIdentifier>{9168485a-1c6e-4d8d-a638-213b4e9be43e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -127,6 +145,21 @@
     <ClInclude Include="CDamageState.h">
       <Filter>States\PlayerState\CDamageState</Filter>
     </ClInclude>
+    <ClInclude Include="CMonsterState.h">
+      <Filter>States\MonsterState</Filter>
+    </ClInclude>
+    <ClInclude Include="CZombieIdleState.h">
+      <Filter>States\MonsterState\ZombieState\CZombieIldeState</Filter>
+    </ClInclude>
+    <ClInclude Include="CZombieChaseState.h">
+      <Filter>States\MonsterState\ZombieState\CZombieChaseState</Filter>
+    </ClInclude>
+    <ClInclude Include="CZombieAttackState.h">
+      <Filter>States\MonsterState\ZombieState\CZombieAttackState</Filter>
+    </ClInclude>
+    <ClInclude Include="CZombieDamageState.h">
+      <Filter>States\MonsterState\ZombieState\CZombieDamageState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -188,6 +221,21 @@
     </ClCompile>
     <ClCompile Include="CDamageState.cpp">
       <Filter>States\PlayerState\CDamageState</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterState.cpp">
+      <Filter>States\MonsterState</Filter>
+    </ClCompile>
+    <ClCompile Include="CZombieIdleState.cpp">
+      <Filter>States\MonsterState\ZombieState\CZombieIldeState</Filter>
+    </ClCompile>
+    <ClCompile Include="CZombieChaseState.cpp">
+      <Filter>States\MonsterState\ZombieState\CZombieChaseState</Filter>
+    </ClCompile>
+    <ClCompile Include="CZombieAttackState.cpp">
+      <Filter>States\MonsterState\ZombieState\CZombieAttackState</Filter>
+    </ClCompile>
+    <ClCompile Include="CZombieDamageState.cpp">
+      <Filter>States\MonsterState\ZombieState\CZombieDamageState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

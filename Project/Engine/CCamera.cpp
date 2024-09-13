@@ -182,7 +182,7 @@ void CCamera::Render()
 	// Transparent
 	for (size_t i = 0; i < m_vecTransparent.size(); ++i)
 	{
-		m_vecTransparent[i]->Render();
+  		m_vecTransparent[i]->Render();
 	}
 
 	// Particles

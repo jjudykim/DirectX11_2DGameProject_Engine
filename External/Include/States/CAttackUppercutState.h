@@ -15,6 +15,9 @@ private:
     CLONE_DISABLE(CAttackUppercutState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CAttackUppercutState();
     ~CAttackUppercutState();
 };

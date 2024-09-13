@@ -1,3 +1,5 @@
 CCameraMoveScript
 CMissileScript
+CMonsterScript
 CPlayerScript
+CZombieScript

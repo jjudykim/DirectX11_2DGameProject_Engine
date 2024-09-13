@@ -17,6 +17,7 @@ private:
     map<UINT, UNITVEC_TYPE> m_mapNonePlatform;
 
     int                  m_OverlapPLTCount;
+    int                  m_JumpCount;
     int                  m_ReachMapLimit;
     int                  m_ReachNoPltCol;
     int                  m_GodMode;

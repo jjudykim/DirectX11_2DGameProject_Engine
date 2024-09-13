@@ -16,6 +16,9 @@ private:
     CLONE_DISABLE(CAttackSmashState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CAttackSmashState();
     ~CAttackSmashState();
 };

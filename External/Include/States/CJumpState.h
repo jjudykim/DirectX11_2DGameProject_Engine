@@ -10,6 +10,10 @@ class CJumpState :
     virtual void Exit() override;
 
     CLONE_DISABLE(CJumpState);
+
+public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
 public:
     CJumpState();
     ~CJumpState();

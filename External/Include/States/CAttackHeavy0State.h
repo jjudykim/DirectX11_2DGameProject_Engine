@@ -16,6 +16,9 @@ private:
     CLONE_DISABLE(CAttackHeavy0State);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CAttackHeavy0State();
     ~CAttackHeavy0State();
 };

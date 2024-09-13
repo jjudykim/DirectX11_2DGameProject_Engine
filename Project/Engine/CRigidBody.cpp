@@ -129,7 +129,7 @@ void CRigidBody::FinalTick()
 	{
 		m_VelocityByGravity += Vec3(0.f, -1.f, 0.f) * m_GravityAccel * DT;
 
-		if (m_MaxGravitySpeed != 0.f && m_MaxGravitySpeed < m_VelocityByGravity.Length())
+		if (m_VelocityByGravity.y < 0.f && m_MaxGravitySpeed != 0.f && m_MaxGravitySpeed < m_VelocityByGravity.Length())
 		{
 			m_VelocityByGravity.Normalize();
 			m_VelocityByGravity *= m_MaxGravitySpeed;

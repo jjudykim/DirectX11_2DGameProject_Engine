@@ -15,6 +15,9 @@ private:
     CLONE_DISABLE(CDashState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CDashState();
     ~CDashState();
 };

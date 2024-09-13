@@ -49,9 +49,11 @@ void CPlayerScript::Begin()
 	FSM()->SetBlackboardData(L"Friction", DATA_TYPE::FLOAT, &m_Friction);
 	FSM()->SetBlackboardData(L"MaxWalkSpeed", DATA_TYPE::FLOAT, &m_MaxWalkSpeed);
 	FSM()->SetBlackboardData(L"Dir", DATA_TYPE::UNITVEC_TYPE, &m_Dir);
+	FSM()->SetBlackboardData(L"JumpCount", DATA_TYPE::INT, &m_JumpCount);
 	FSM()->SetBlackboardData(L"ReachMapLimit", DATA_TYPE::INT, &m_ReachMapLimit);
 	FSM()->SetBlackboardData(L"ReachNoPlatformCollider", DATA_TYPE::INT, &m_ReachNoPltCol);
 	FSM()->SetBlackboardData(L"PlayerGodMode", DATA_TYPE::INT, &m_GodMode);
+	// + AttackPower<int>
 
 	// FSM State
 	FSM()->AddState(L"Idle", new CIdleState);
@@ -81,14 +83,17 @@ void CPlayerScript::Tick()
 	m_GodMode = FSM()->GetBlackboardData<int>(L"PlayerGodMode");
 
 	if (m_OverlapPLTCount > 0)
+	{
 		RigidBody()->SetGround(true);
+		m_JumpCount = 0;
+		FSM()->SetBlackboardData(L"JumpCount", DATA_TYPE::INT, &m_JumpCount);
+	}
 	else
 		RigidBody()->SetGround(false);
 
 	if (m_GodMode)
 	{
 		MeshRender()->GetMaterial()->SetUseBlinkEffect(true);
-		CTimeMgr::GetInst()->AddTimer(3.f, [this]() { SetGodMode(false); }, false);
 	}
 	else
 	{
@@ -173,6 +178,29 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		{
 			CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
  			m_OverlapPLTCount++;
+		}
+	}
+
+	if (_OtherObject->GetLayerIdx() == (int)LAYER_TYPE::MONSTER)
+	{
+		if (FSM()->GetCurState() == FSM()->FindState(L"Damage"))
+			return;
+
+		if (_OtherObject->FSM()->GetBlackboardData<int>(L"IsMonsterAttackState") > 0)
+		{
+			int iDamage = _OtherObject->FSM()->GetBlackboardData<int>(L"MonsterAttackPower");
+
+			if (_OtherObject->Transform()->GetRelativePos().x - Transform()->GetRelativePos().x > 0)
+			{
+				// 몬스터가 더 오른쪽에 있으므로 왼쪽으로 힘 가하기
+				RigidBody()->AddVelocity(Vec3(iDamage * -50000.f, 0.f, 0.f));
+			}
+			else
+			{
+				RigidBody()->AddVelocity(Vec3(iDamage * 50000.f, 0.f, 0.f));
+			}
+			RigidBody()->AddVelocityByGravity(Vec3(0.f, iDamage * 13.f, 0.f));
+			FSM()->ChangeState(L"Damage");
 		}
 	}
 }

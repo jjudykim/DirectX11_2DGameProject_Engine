@@ -48,9 +48,9 @@ void CCollider2D::FinalTick()
 
 	// Debug 렌더링을 통해 충돌체의 위치를 표시
 	if (m_OverlapCount)
-		DrawDebugRect(m_matColWorld, Vec4(1.f, 0.f, 0.f, 1.f), 0.f, false);
+		DrawDebugRect(m_matColWorld, Vec4(1.f, 0.f, 0.f, 1.f), 0.f, true);
 	else
-		DrawDebugRect(m_matColWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f, false);
+		DrawDebugRect(m_matColWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
 }
 
 void CCollider2D::SaveToFile(FILE* _File)

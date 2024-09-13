@@ -20,6 +20,9 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{2cb0b0f7-f668-461e-887f-21a43305c83f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\MonsterScript">
+      <UniqueIdentifier>{9c1d6d00-3355-4c0f-90df-f249b2f55895}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -40,6 +43,9 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CMonsterScript.h">
+      <Filter>Scripts\MonsterScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterScript.cpp">
+      <Filter>Scripts\MonsterScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

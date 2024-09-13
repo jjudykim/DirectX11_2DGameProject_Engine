@@ -13,6 +13,9 @@ private:
     CLONE_DISABLE(CAttackLight2State);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CAttackLight2State();
     ~CAttackLight2State();
 };

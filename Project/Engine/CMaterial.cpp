@@ -7,6 +7,7 @@
 CMaterial::CMaterial(bool _IsEngine)
 	: CAsset(ASSET_TYPE::MATERIAL)
 	, m_UseSpriteAsTex(false)
+	, m_EffectElapsedTime(0)
 {
 	if (_IsEngine)
 	{
@@ -66,10 +67,31 @@ void CMaterial::Binding(int _index)
 
 	m_Const.iArr[0] = _index;
 
-	if (m_UseBlinkEffect)
-		m_Const.iArr[3] = 1;
+	if (m_UseDeadEffect)
+	{
+		m_Const.iArr[2] = 1;
+		m_Const.fArr[2] = m_EffectElapsedTime;
+		m_Shader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+
+		m_EffectElapsedTime += DT;
+	}
 	else
+	{
+		m_Const.iArr[2] = 0;
+		m_Const.fArr[2] = 0;
+		m_EffectElapsedTime = 0.f;
+	}
+	
+	if (m_UseBlinkEffect)
+	{
+		m_Const.iArr[3] = 1;
+		m_Shader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	}
+	else
+	{
 		m_Const.iArr[3] = 0;
+		m_Shader->SetDSType(DS_TYPE::LESS_EQUAL);
+	}
 
 	for (int i = 0; i < TEX_PARAM::END; ++i)
 	{
@@ -102,12 +124,32 @@ void CMaterial::Binding()
 
 	m_Const.iArr[0] = -1;
 
-	if (m_UseBlinkEffect)
-		m_Const.iArr[3] = 1;
-	else
-		m_Const.iArr[3] = 0;
-		
+	if (m_UseDeadEffect)
+	{
+		m_Const.iArr[2] = 1;
+		m_Const.fArr[2] = m_EffectElapsedTime;
+		m_Shader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 
+		m_EffectElapsedTime += DT;
+	}
+	else
+	{
+		m_Const.iArr[2] = 0;
+		m_Const.fArr[2] = 0;
+		m_EffectElapsedTime = 0;
+	}
+
+	if (m_UseBlinkEffect)
+	{
+		m_Const.iArr[3] = 1;
+		m_Shader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	}
+	else
+	{
+		m_Const.iArr[3] = 0;
+		m_Shader->SetDSType(DS_TYPE::LESS_EQUAL);
+	}
+		
 	for (int i = 0; i < TEX_PARAM::END; ++i)
 	{
 		if (m_arrTex[i] == nullptr)

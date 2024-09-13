@@ -48,6 +48,8 @@ public:
     void SetVelocity(Vec3 _Velocity) { m_Velocity = _Velocity; }
     void SetVelocityByGravity(Vec3 _Velocity) { m_VelocityByGravity = _Velocity; }
     void AddForce(Vec3 _vForce) { m_Force += _vForce; }
+    void AddVelocity(Vec3 _vVelocity) { m_Velocity += _vVelocity; }
+    void AddVelocityByGravity(Vec3 _Velocity) { m_VelocityByGravity = _Velocity; }
     void SetMass(float _Mass) { m_Mass = _Mass; }
     void SetInitialWalkSpeed(float _Speed) { m_InitWalkSpeed = _Speed; }
     void SetMaxWalkSpeed(float _Speed) { m_MaxWalkSpeed = _Speed; }

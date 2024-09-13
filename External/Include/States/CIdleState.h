@@ -14,6 +14,9 @@ private:
     CLONE_DISABLE(CIdleState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CIdleState();
     ~CIdleState();
 };

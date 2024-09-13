@@ -14,6 +14,9 @@ class CDamageState :
     CLONE_DISABLE(CDamageState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CDamageState();
     ~CDamageState();
 };

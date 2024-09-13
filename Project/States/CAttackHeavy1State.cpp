@@ -17,6 +17,9 @@ void CAttackHeavy1State::Set()
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Attack_Heavy1.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Attack_Heavy1.flip");
 	m_WeaponFBIdx = m_Weapon->FlipBookComponent()->FindFlipBookIndex(L"animation\\Scary_Weapon_Heavy1.flip");
+	
+	m_AttackPower = 40;
+	m_IsAttackState = true;
 }
 
 void CAttackHeavy1State::Enter()
@@ -28,6 +31,8 @@ void CAttackHeavy1State::Enter()
 	m_Weapon->Collider2D()->SetScale(Vec3(0.55f, 0.4f, 0.f));
 	m_Weapon->Collider2D()->SetOffset(Vec3(0.f, -0.06f, 0.f));
 	m_Weapon->FlipBookComponent()->Play(m_WeaponFBIdx, false);
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CAttackHeavy1State::FinalTick()

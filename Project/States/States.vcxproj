@@ -173,9 +173,14 @@ call StatesHeaderCopy.bat</Command>
     <ClInclude Include="CFallState.h" />
     <ClInclude Include="CIdleState.h" />
     <ClInclude Include="CJumpState.h" />
+    <ClInclude Include="CMonsterState.h" />
     <ClInclude Include="CPlayerState.h" />
     <ClInclude Include="CReachLimitState.h" />
     <ClInclude Include="CRunState.h" />
+    <ClInclude Include="CZombieAttackState.h" />
+    <ClInclude Include="CZombieChaseState.h" />
+    <ClInclude Include="CZombieDamageState.h" />
+    <ClInclude Include="CZombieIdleState.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -195,9 +200,14 @@ call StatesHeaderCopy.bat</Command>
     <ClCompile Include="CFallState.cpp" />
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CJumpState.cpp" />
+    <ClCompile Include="CMonsterState.cpp" />
     <ClCompile Include="CPlayerState.cpp" />
     <ClCompile Include="CReachLimitState.cpp" />
     <ClCompile Include="CRunState.cpp" />
+    <ClCompile Include="CZombieAttackState.cpp" />
+    <ClCompile Include="CZombieChaseState.cpp" />
+    <ClCompile Include="CZombieDamageState.cpp" />
+    <ClCompile Include="CZombieIdleState.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

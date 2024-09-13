@@ -4,9 +4,8 @@
 #include "value.fx"
 #include "func.fx"
 
-// 깜빡임 이벤트
-static float TotalElapsedTime = 0.0f;         // 이벤트 시작 후 누적 시간
-static float BlinkAlpha = 1.0f;               // 알파 값 조절
+static float BlinkAlpha = 1.0f; // 깜빡임 이벤트를 위한 알파 값
+//static float DeadAlpha = 1.0f;
 
 // Vertex Shader
 struct VTX_IN
@@ -84,7 +83,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         }
     }
     
-    if (vColor.a < 0.3f)
+    if (vColor.a < 0.2f)
     {
         discard;
     }
@@ -147,15 +146,19 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
     }
     
     if (g_int_3)
-    {
+    { 
         BlinkEvent(BlinkAlpha, 1.5f, vColor);
     }
     else
-    {
-        TotalElapsedTime = 0.0f;
+    {   
         BlinkAlpha = 1.0f;
     }
- 
+    
+    if (g_int_2)
+    {
+        DeadEvent(g_float_2, 2.0f, vColor);
+    }
+    
     // Light2D 적용
     tLight Light = (tLight) 0.f;
     

@@ -15,6 +15,9 @@ private:
     CLONE_DISABLE(CRunState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CRunState();
     ~CRunState();
 };

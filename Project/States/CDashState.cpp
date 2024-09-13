@@ -15,6 +15,9 @@ void CDashState::Set()
 
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Dash.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Dash.flip");
+
+	m_AttackPower = 0;
+	m_IsAttackState = false;
 }
 
 void CDashState::Enter()
@@ -48,6 +51,8 @@ void CDashState::Enter()
 
 		break;
 	}
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CDashState::FinalTick()

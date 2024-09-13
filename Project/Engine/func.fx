@@ -61,6 +61,18 @@ void BlinkEvent(inout float _BlinkAlpha, float _BlinkSpeed, inout float4 _vColor
     _vColor.a *= _BlinkAlpha;
 }
 
+void DeadEvent(float _ElapsedTime, float _Duration, inout float4 _vColor)
+{
+    float _DeadAlpha = max(0.0f, 1.0f - (_ElapsedTime / _Duration));
+    
+    if (_DeadAlpha < 0.0f)
+    {
+        _DeadAlpha = 0.0f;
+    }
+    
+    _vColor.a *= _DeadAlpha;
+}
+
 float4 SelectTexture(int _g_int_0, SamplerState _sampler, float2 _UV)
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 1.f);

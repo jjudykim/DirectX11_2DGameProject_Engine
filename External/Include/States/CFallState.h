@@ -13,6 +13,9 @@ private:
     CLONE_DISABLE(CFallState);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CFallState();
     ~CFallState();
 };

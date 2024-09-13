@@ -16,6 +16,9 @@ void CAttackLight2State::Set()
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Attack_Light2.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Attack_Light2.flip");
 	m_WeaponFBIdx = m_Weapon->FlipBookComponent()->FindFlipBookIndex(L"animation\\Scary_Weapon_Light2.flip");
+	
+	m_AttackPower = 30;
+	m_IsAttackState = true;
 }
 
 void CAttackLight2State::Enter()
@@ -23,8 +26,10 @@ void CAttackLight2State::Enter()
 	m_FBCom->Play(m_FBIdx, false);
 
 	m_Weapon->Transform()->SetRelativeScale(Vec3(400.f, 400.f, 0.f));
-	m_Weapon->Collider2D()->SetScale(Vec3(0.8f, 0.3f, 0.f));
+	m_Weapon->Collider2D()->SetScale(Vec3(0.75f, 0.3f, 0.f));
 	m_Weapon->FlipBookComponent()->Play(m_WeaponFBIdx, false);
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CAttackLight2State::FinalTick()

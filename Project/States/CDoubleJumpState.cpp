@@ -15,6 +15,9 @@ void CDoubleJumpState::Set()
 
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_DoubleJump.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_DoubleJump.flip");
+
+	m_AttackPower = 0;
+	m_IsAttackState = false;
 }
 
 void CDoubleJumpState::Enter()
@@ -22,12 +25,14 @@ void CDoubleJumpState::Enter()
 	if (m_CurFB != m_FBCom->GetCurFlipBook())
 		m_FBCom->Play(m_FBIdx, false);
 
-	m_Player->RigidBody()->SetJumpSpeed(GetBlackboardData<float>(L"JumpSpeed") * 5.f);
+	m_Player->RigidBody()->SetJumpSpeed(GetBlackboardData<float>(L"JumpSpeed"));
 	GetTargetObject()->RigidBody()->Jump();
 
 	m_Speed = GetBlackboardData<float>(L"Speed");
 
 	m_JumpCount += 1;
+	m_Player->FSM()->SetBlackboardData(L"JumpCount", DATA_TYPE::INT, &m_JumpCount);
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CDoubleJumpState::FinalTick()

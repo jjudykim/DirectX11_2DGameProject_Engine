@@ -206,7 +206,8 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_Alphablend");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
+	//pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::CUSTOM_BLEND);                                 // 알파 블렌딩 강도 조절
 	
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);

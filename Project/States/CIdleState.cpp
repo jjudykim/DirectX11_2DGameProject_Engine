@@ -15,6 +15,9 @@ void CIdleState::Set()
 
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Idle.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Idle.flip");
+
+	m_AttackPower = 0;
+	m_IsAttackState = false;
 }
 
 void CIdleState::Enter()
@@ -22,6 +25,8 @@ void CIdleState::Enter()
 	m_FBCom->Play(m_FBIdx, true);
 
 	m_JumpCount = 0;
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CIdleState::FinalTick()
@@ -62,6 +67,11 @@ void CIdleState::FinalTick()
 	if (KEY_TAP(KEY::SPACE))
 	{
 		m_Owner->ChangeState(L"Jump");
+	}
+
+	if (!m_Player->RigidBody()->IsGround())
+	{
+		m_Owner->ChangeState(L"Fall");
 	}
 
 	UNITVEC_TYPE check = GetBlackboardData<UNITVEC_TYPE>(L"Dir");

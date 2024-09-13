@@ -10,6 +10,8 @@ protected:
     CGameObject*         m_Player;
     CGameObject*         m_Weapon;
 
+    int                  m_AttackPower;
+
     float                m_Speed;
     UNITVEC_TYPE         m_Dir;
     int                  m_ReachMapLimit;
@@ -21,6 +23,8 @@ protected:
     int                  m_WeaponFBIdx;
 
     int                  m_JumpCount;
+
+    bool                 m_IsAttackState;
 
 public:
     virtual void Set() override;

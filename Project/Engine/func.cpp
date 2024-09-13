@@ -61,10 +61,10 @@ bool IsValid(CGameObject*& _Object)
 
 bool IsPlatformLayerObject(CGameObject* _Object)
 {
-	UINT layer = _Object->GetLayerIdx();
+	LAYER_TYPE layer = LAYER_TYPE(_Object->GetLayerIdx());
 
-	if (layer >= (UINT)LAYER_TYPE::PLATFORM0 && layer <= (UINT)LAYER_TYPE::PLATFORM3
-		&& layer != (UINT)LAYER_TYPE::LANDMARK0 && layer != (UINT)LAYER_TYPE::LANDMARK1)
+	if (layer == LAYER_TYPE::PLATFORM0 || layer == LAYER_TYPE::PLATFORM1
+	 || layer == LAYER_TYPE::PLATFORM2 || layer == LAYER_TYPE::PLATFORM3)
 		return true;
 	else
 		return false;

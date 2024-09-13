@@ -12,6 +12,9 @@ class CAttackHeavy1State :
     CLONE_DISABLE(CAttackHeavy1State);
 
 public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
+public:
     CAttackHeavy1State();
     ~CAttackHeavy1State();
 };

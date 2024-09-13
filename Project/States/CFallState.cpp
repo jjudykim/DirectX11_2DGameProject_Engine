@@ -15,6 +15,9 @@ void CFallState::Set()
 
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Fall.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Fall.flip");
+
+	m_AttackPower = 0;
+	m_IsAttackState = false;
 }
 
 void CFallState::Enter()
@@ -23,6 +26,9 @@ void CFallState::Enter()
 		m_FBCom->Play(m_FBIdx, true);
 
 	m_Speed = GetBlackboardData<float>(L"Speed");
+	m_JumpCount = GetBlackboardData<int>(L"JumpCount");
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CFallState::FinalTick()

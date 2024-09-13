@@ -15,6 +15,9 @@ void CRunState::Set()
 
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Run.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Run.flip");
+
+	m_AttackPower = 0;
+	m_IsAttackState = false;
 }
 
 void CRunState::Enter()
@@ -24,6 +27,8 @@ void CRunState::Enter()
 
 	m_Speed = GetBlackboardData<float>(L"Speed");
 	m_Friction = GetBlackboardData<float>(L"Friction");
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CRunState::FinalTick()

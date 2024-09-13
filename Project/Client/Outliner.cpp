@@ -99,6 +99,22 @@ void Outliner::PopupMenu(DWORD_PTR _Param)
 	TreeNode* pTargetNode = (TreeNode*)_Param;
 	CGameObject* pObject = (CGameObject*)pTargetNode->GetData();
 
+	if (ImGui::MenuItem("Make To Prefab"))
+	{
+		CGameObject* CloneObj = pObject->Clone();
+		 
+		Ptr<CPrefab> pPrefab = new CPrefab;
+		
+		pPrefab->SetProtoObject(CloneObj);
+		wstring PrefabName = CloneObj->GetName() + L"Pref";
+		pPrefab->SetName(PrefabName);
+
+		CAssetMgr::GetInst()->AddAsset(PrefabName, pPrefab);
+
+		wstring PrefPath = CPathMgr::GetInst()->GetContentPath() + L"prefab\\" + PrefabName + L".pref";
+		pPrefab->Save(PrefPath);
+	}
+
 	if (ImGui::MenuItem("Clone"))
 	{
 		CGameObject* CloneObj = pObject->Clone();

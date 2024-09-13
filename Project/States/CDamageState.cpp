@@ -16,6 +16,9 @@ void CDamageState::Set()
 
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Damage.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Damage.flip");
+
+	m_AttackPower = 0;
+	m_IsAttackState = false;
 }
 
 void CDamageState::Enter()
@@ -25,6 +28,12 @@ void CDamageState::Enter()
 	
 	m_GodMode = true;
 	m_Player->FSM()->SetBlackboardData(L"PlayerGodMode", DATA_TYPE::INT, &m_GodMode);
+	CTimeMgr::GetInst()->AddTimer(3.f, [this]() 
+		{ m_GodMode = false;
+		  m_Player->FSM()->SetBlackboardData(L"PlayerGodMode", DATA_TYPE::INT, &m_GodMode);
+		}, false);
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CDamageState::FinalTick()

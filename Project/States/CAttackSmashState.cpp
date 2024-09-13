@@ -22,6 +22,9 @@ void CAttackSmashState::Set()
 	m_SmashFBIdx[2] = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Attack_Smash2.flip");
 	
 	m_WeaponFBIdx = m_Weapon->FlipBookComponent()->FindFlipBookIndex(L"animation\\Scary_Weapon_Smash.flip");
+	
+	m_AttackPower = 40;
+	m_IsAttackState = true;
 }
 
 void CAttackSmashState::Enter()
@@ -37,6 +40,8 @@ void CAttackSmashState::Enter()
 	m_Weapon->FlipBookComponent()->Play(m_WeaponFBIdx, false);
 
 	m_Player->RigidBody()->SetVelocityByGravity(Vec3(0.f, -500.f, 0.f));
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CAttackSmashState::FinalTick()

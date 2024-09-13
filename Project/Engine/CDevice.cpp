@@ -346,7 +346,7 @@ int CDevice::CreateBlendState()
 
 
 	// CustomBlend
-	Desc.AlphaToCoverageEnable = false;
+	Desc.AlphaToCoverageEnable = true;
 	Desc.IndependentBlendEnable = false;
 
 	Desc.RenderTarget[0].BlendEnable = true;

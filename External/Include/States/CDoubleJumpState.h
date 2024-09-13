@@ -9,6 +9,10 @@ class CDoubleJumpState :
     virtual void Exit() override;
 
     CLONE_DISABLE(CDoubleJumpState);
+
+public:
+    virtual bool IsAttackState() { return m_IsAttackState; }
+
 public:
     CDoubleJumpState();
     ~CDoubleJumpState();

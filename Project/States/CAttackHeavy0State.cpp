@@ -16,6 +16,9 @@ void CAttackHeavy0State::Set()
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Attack_Heavy0.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Attack_Heavy0.flip");
 	m_WeaponFBIdx = m_Weapon->FlipBookComponent()->FindFlipBookIndex(L"animation\\Scary_Weapon_Heavy0.flip");
+	
+	m_AttackPower = 30;
+	m_IsAttackState = true;
 }
 
 void CAttackHeavy0State::Enter()
@@ -35,6 +38,8 @@ void CAttackHeavy0State::Enter()
 		float vGravityVelocityY = m_Player->RigidBody()->GetVelocityByGravity().y;
 		m_Player->RigidBody()->SetVelocityByGravity(Vec3(0.f, vGravityVelocityY - 300.f,  0.f));
 	}
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CAttackHeavy0State::FinalTick()

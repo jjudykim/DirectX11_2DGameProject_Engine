@@ -16,12 +16,15 @@ void CAttackUppercutState::Set()
 	m_CurFB = m_FBCom->FindFlipBook(L"animation\\Scary_Attack_Uppercut.flip");
 	m_FBIdx = m_FBCom->FindFlipBookIndex(L"animation\\Scary_Attack_Uppercut.flip");
 	m_WeaponFBIdx = m_Weapon->FlipBookComponent()->FindFlipBookIndex(L"animation\\Scary_Weapon_Uppercut.flip");
+	
+	m_AttackPower = 45;
+	m_IsAttackState = true;
 }
 
 void CAttackUppercutState::Enter()
 {
 	m_OriginJumpSpeed = m_Player->RigidBody()->GetJumpSpeed();
-	m_Player->RigidBody()->SetJumpSpeed(m_OriginJumpSpeed * 1.2f);
+	m_Player->RigidBody()->SetJumpSpeed(m_OriginJumpSpeed * 6.f);
 	m_FBCom->Play(m_FBIdx, false);
 
 	if (m_Player->Transform()->GetRelativeRotation().z > 0)
@@ -42,6 +45,8 @@ void CAttackUppercutState::Enter()
 	m_Weapon->Collider2D()->SetScale(Vec3(0.5f, 0.5f, 0.f));
 
 	m_Weapon->FlipBookComponent()->Play(m_WeaponFBIdx, false);
+
+	m_Player->FSM()->SetBlackboardData(L"AttackPower", DATA_TYPE::INT, &m_AttackPower);
 }
 
 void CAttackUppercutState::FinalTick()
