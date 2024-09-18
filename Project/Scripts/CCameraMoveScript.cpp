@@ -2,8 +2,10 @@
 #include "CCameraMoveScript.h"
 
 #include "Engine/CLevelMgr.h"
+#include "Engine/CLevel.h"
 #include "States/CChasingPlayerState.h"
 #include "States/CReachLimitState.h"
+#include "States/CBossModeState.h"
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
@@ -28,6 +30,7 @@ void CCameraMoveScript::Begin()
 	// FSM State
 	FSM()->AddState(L"ChasingPlayer", new CChasingPlayerState);
 	FSM()->AddState(L"ReachLimit", new CReachLimitState);
+	FSM()->AddState(L"BossMode", new CBossModeState);
 
 	FSM()->SetState();
 
@@ -36,6 +39,14 @@ void CCameraMoveScript::Begin()
 
 void CCameraMoveScript::Tick()
 {
+	if (FSM()->GetCurState() != FSM()->FindState(L"BossMode"))
+	{
+		if (CLevelMgr::GetInst()->GetCurrentLevel()->GetName() == L"DarkChat_Boss")
+		{
+			FSM()->ChangeState(L"BossMode");
+		}
+	}
+
 	if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
 	{
 		OrthoGraphicMove();

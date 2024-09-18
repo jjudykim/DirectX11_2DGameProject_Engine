@@ -83,6 +83,9 @@
     <Filter Include="States\MonsterState\ZombieState\CZombieDamageState">
       <UniqueIdentifier>{9168485a-1c6e-4d8d-a638-213b4e9be43e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\CameraState\BossMode">
+      <UniqueIdentifier>{031df11b-00cd-4471-b544-e28795e78462}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -160,6 +163,9 @@
     <ClInclude Include="CZombieDamageState.h">
       <Filter>States\MonsterState\ZombieState\CZombieDamageState</Filter>
     </ClInclude>
+    <ClInclude Include="CBossModeState.h">
+      <Filter>States\CameraState\BossMode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -236,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="CZombieDamageState.cpp">
       <Filter>States\MonsterState\ZombieState\CZombieDamageState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossModeState.cpp">
+      <Filter>States\CameraState\BossMode</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

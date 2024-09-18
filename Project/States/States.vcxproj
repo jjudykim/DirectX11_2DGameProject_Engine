@@ -165,6 +165,7 @@ call StatesHeaderCopy.bat</Command>
     <ClInclude Include="CAttackLight2State.h" />
     <ClInclude Include="CAttackSmashState.h" />
     <ClInclude Include="CAttackUppercutState.h" />
+    <ClInclude Include="CBossModeState.h" />
     <ClInclude Include="CCameraState.h" />
     <ClInclude Include="CChasingPlayerState.h" />
     <ClInclude Include="CDamageState.h" />
@@ -192,6 +193,7 @@ call StatesHeaderCopy.bat</Command>
     <ClCompile Include="CAttackLight2State.cpp" />
     <ClCompile Include="CAttackSmashState.cpp" />
     <ClCompile Include="CAttackUppercutState.cpp" />
+    <ClCompile Include="CBossModeState.cpp" />
     <ClCompile Include="CCameraState.cpp" />
     <ClCompile Include="CChasingPlayerState.cpp" />
     <ClCompile Include="CDamageState.cpp" />
