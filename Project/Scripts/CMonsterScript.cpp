@@ -130,8 +130,6 @@ void CMonsterScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Other
 	{
 		DamagedByPlayerWeapon();
 	}
-
-	
 }
 
 void CMonsterScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

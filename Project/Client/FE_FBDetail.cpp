@@ -388,8 +388,17 @@ void FE_FBDetail::SaveFlipBook()
 					{
 						m_CurFlipBook->AddSprite(GetSpriteList()->m_vecAddedSprite[i]);
 					}
+
+					wstring Path;
 					
-					wstring Path = CPathMgr::GetInst()->GetContentPath();
+					for (size_t i = 0; i < m_CurFlipBook->GetVecSprite().size(); ++i)
+					{
+						Path = CPathMgr::GetInst()->GetContentPath();
+						Path += m_CurFlipBook->GetSprite(i)->GetRelativePath();
+						m_CurFlipBook->GetSprite(i)->Save(Path);
+					}
+					
+					Path = CPathMgr::GetInst()->GetContentPath();
 					Path += wstring(L"animation\\") + wstring(m_CurFlipBookName.begin(), m_CurFlipBookName.end());
 					Path += L".flip";
 					m_CurFlipBook->Save(Path);

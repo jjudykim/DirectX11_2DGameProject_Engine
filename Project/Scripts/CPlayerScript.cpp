@@ -21,6 +21,8 @@
 #include "States/CAttackUppercutState.h"
 #include "States/CAttackSmashState.h"
 
+#include "States\CBossState.h"
+
 
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
@@ -183,6 +185,9 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
 	if (_OtherObject->GetLayerIdx() == (int)LAYER_TYPE::MONSTER)
 	{
+		if (dynamic_cast<CBossState*>(FSM()->GetCurState()) == nullptr)
+			return;
+
 		if (FSM()->GetCurState() == FSM()->FindState(L"Damage"))
 			return;
 

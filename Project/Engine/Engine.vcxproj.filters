@@ -304,6 +304,9 @@
     <ClInclude Include="CRigidBody.h">
       <Filter>08. Component\06. RigidBody</Filter>
     </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>06. Asset\06. Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -437,6 +440,9 @@
     </ClCompile>
     <ClCompile Include="CRigidBody.cpp">
       <Filter>08. Component\06. RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>06. Asset\06. Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

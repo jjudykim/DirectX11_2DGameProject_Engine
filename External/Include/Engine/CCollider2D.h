@@ -24,6 +24,8 @@ public:
     const Matrix& GetWorldMat() { return m_matColWorld; }
 
     int GetOverlapCount() { return m_OverlapCount; }
+    void AddOverlapCount() { m_OverlapCount++; }
+    void ResetOverlapCount() { m_OverlapCount = 0; }
 
 public:
     virtual void BeginOverlap(CCollider2D* _Other);

@@ -14,6 +14,8 @@ private:
     map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
     bool                      m_Changed;
 
+    FMOD::System*             m_FMODSystem;
+
 public:
     void Init();
     void Tick();
@@ -37,6 +39,7 @@ public:
     void GetAssetNames(ASSET_TYPE _Type, vector<string>& _vecOut);
     const map<wstring, Ptr<CAsset>>& GetAssets(ASSET_TYPE _Type) { return m_mapAsset[(UINT)_Type]; }
     bool IsChanged() { return m_Changed; }
+    FMOD::System* GetFMODSystem() { return m_FMODSystem; }
         
 private:
     void CreateEngineMesh();

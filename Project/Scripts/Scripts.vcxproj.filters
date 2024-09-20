@@ -23,6 +23,12 @@
     <Filter Include="Scripts\MonsterScript">
       <UniqueIdentifier>{9c1d6d00-3355-4c0f-90df-f249b2f55895}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\BossScript">
+      <UniqueIdentifier>{06fc176d-c1ed-4f4c-a14c-2823a894367c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\BossPuzzleScript">
+      <UniqueIdentifier>{b2e627d1-e7ce-4d7f-8fd1-4b45b77d3319}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -46,6 +52,12 @@
     <ClInclude Include="CMonsterScript.h">
       <Filter>Scripts\MonsterScript</Filter>
     </ClInclude>
+    <ClInclude Include="CBossScript.h">
+      <Filter>Scripts\BossScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossPuzzleScript.h">
+      <Filter>Scripts\BossPuzzleScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -68,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="CMonsterScript.cpp">
       <Filter>Scripts\MonsterScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossScript.cpp">
+      <Filter>Scripts\BossScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossPuzzleScript.cpp">
+      <Filter>Scripts\BossPuzzleScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

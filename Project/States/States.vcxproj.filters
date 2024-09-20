@@ -86,6 +86,30 @@
     <Filter Include="States\CameraState\BossMode">
       <UniqueIdentifier>{031df11b-00cd-4471-b544-e28795e78462}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\BossState">
+      <UniqueIdentifier>{1aea54fe-b1f8-43d5-aa6e-ca932667c979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossIdleState">
+      <UniqueIdentifier>{aef313be-a277-4893-8b0b-d40ce6786f75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossAttackState">
+      <UniqueIdentifier>{d5e93bd3-00a0-4308-b120-e725c4ff021f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossChainState">
+      <UniqueIdentifier>{ba98ca19-5116-4aac-8e06-1fcdf9b8432b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossFallState">
+      <UniqueIdentifier>{c881745b-3214-46e6-9bf1-e5e09f9c31dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossGroggyState">
+      <UniqueIdentifier>{7c8020e5-ae95-4370-aece-96bd39adea6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossJumpBackState">
+      <UniqueIdentifier>{7dd6ad59-8a86-4ae2-a683-0524fba17b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\BossState\CBossDeadState">
+      <UniqueIdentifier>{acde96ad-e439-418a-a7cd-66c9ccb67aa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -166,6 +190,30 @@
     <ClInclude Include="CBossModeState.h">
       <Filter>States\CameraState\BossMode</Filter>
     </ClInclude>
+    <ClInclude Include="CBossState.h">
+      <Filter>States\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossIdleState.h">
+      <Filter>States\BossState\CBossIdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossChainState.h">
+      <Filter>States\BossState\CBossChainState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossAttackState.h">
+      <Filter>States\BossState\CBossAttackState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossFallState.h">
+      <Filter>States\BossState\CBossFallState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossGroggyState.h">
+      <Filter>States\BossState\CBossGroggyState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossJumpBackState.h">
+      <Filter>States\BossState\CBossJumpBackState</Filter>
+    </ClInclude>
+    <ClInclude Include="CBossDeadState.h">
+      <Filter>States\BossState\CBossDeadState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -245,6 +293,30 @@
     </ClCompile>
     <ClCompile Include="CBossModeState.cpp">
       <Filter>States\CameraState\BossMode</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossState.cpp">
+      <Filter>States\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossIdleState.cpp">
+      <Filter>States\BossState\CBossIdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossChainState.cpp">
+      <Filter>States\BossState\CBossChainState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossAttackState.cpp">
+      <Filter>States\BossState\CBossAttackState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossFallState.cpp">
+      <Filter>States\BossState\CBossFallState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossGroggyState.cpp">
+      <Filter>States\BossState\CBossGroggyState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossJumpBackState.cpp">
+      <Filter>States\BossState\CBossJumpBackState</Filter>
+    </ClCompile>
+    <ClCompile Include="CBossDeadState.cpp">
+      <Filter>States\BossState\CBossDeadState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
