@@ -8,6 +8,8 @@ protected:
     CGameObject*            m_Boss;
 
     int                     m_CurPhase;
+    int                     m_PhaseStep;
+    int                     m_MonsterSpawnState;
                             
     CFlipBookComponent*     m_FBCom;
     Ptr<CFlipBook>          m_CurFB;

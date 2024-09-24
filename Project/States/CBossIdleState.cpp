@@ -30,6 +30,44 @@ void CBossIdleState::Enter()
 void CBossIdleState::FinalTick()
 {
 	m_CurPhase = GetBlackboardData<int>(L"CurPhase");
+	m_PhaseStep = GetBlackboardData<int>(L"PhaseStep");
+	m_MonsterSpawnState = GetBlackboardData<int>(L"MonsterSpawnState");
+
+	if (m_PhaseStep == 0 || m_PhaseStep == 1)
+	{
+		if (m_CurPhase == 1)
+		{
+			if (m_Time > 1.5f)
+			{
+				m_Boss->FSM()->ChangeState(L"BossAttack");
+				m_Time = 0.f;
+			}
+		}
+		else if (m_CurPhase == 2)
+		{
+			if (m_Time > 2.5f)
+			{
+				m_Boss->FSM()->ChangeState(L"BossAttack");
+				m_Time = 0.f;
+			}
+		}
+		else if (m_CurPhase == 3)
+		{
+			if (m_Time > 1.5f)
+			{
+				m_Boss->FSM()->ChangeState(L"BossAttack");
+				m_Time = 0.f;
+			}
+		}
+
+		m_Time += DT;
+	}
+
+	if (m_PhaseStep == 2)
+		m_Boss->FSM()->ChangeState(L"BossFall");
+
+	if (m_PhaseStep == 3 && m_MonsterSpawnState < 1)
+		m_Boss->FSM()->ChangeState(L"BossChain");
 }
 
 void CBossIdleState::Exit()

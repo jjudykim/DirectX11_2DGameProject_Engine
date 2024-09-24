@@ -3,6 +3,7 @@
 
 #include "CEngine.h"
 #include "CLevelMgr.h"
+#include "CFontMgr.h"
 #include "CLevel.h"
 
 CTimeMgr::CTimeMgr()
@@ -14,6 +15,7 @@ CTimeMgr::CTimeMgr()
 	, m_Time(0.f)
 	, m_E_DeltaTime(0.f)
 	, m_E_Time(0.f)
+	, m_TimeInfo{}
 {
 }
 
@@ -49,9 +51,8 @@ void CTimeMgr::Tick()
 
 	if (1.f < AccTime)
 	{
-		wchar_t szBuff[255] = {};
-		swprintf_s(szBuff, L"Engine_DeltaTime : %f, FPS : %d", m_E_DeltaTime, m_FPS);
-		SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);
+		swprintf_s(m_TimeInfo, L"Engine_DeltaTime : %f, FPS : %d", m_E_DeltaTime, m_FPS);
+		//SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);
 		AccTime = 0.f;
 		m_FPS = 0;
 	}
@@ -97,4 +98,9 @@ void CTimeMgr::TimerUpdate()
 			}
 		}
 	}
+}
+
+void CTimeMgr::Render()
+{
+	CFontMgr::GetInst()->DrawFont(m_TimeInfo, 10, 20, 16, FONT_RGBA(153, 187, 255, 255));
 }

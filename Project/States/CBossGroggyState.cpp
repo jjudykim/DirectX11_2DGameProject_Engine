@@ -22,7 +22,7 @@ void CBossGroggyState::Enter()
 	m_FBCom->Play(m_FBIdx, true);
 
 	m_Boss->Transform()->SetRelativePos(Vec3(-20.f, 10.f, 0.f));
-	m_Boss->Transform()->SetRelativeScale(Vec3(250.f, 250.f, 0.f));
+	m_Boss->Transform()->SetRelativeScale(Vec3(275.f, 275.f, 0.f));
 	m_Boss->Collider2D()->SetIndependentScale(true);
 	m_Boss->Collider2D()->SetScale(Vec3(0.50f, 0.50f, 0.f));
 	m_Boss->Collider2D()->SetOffset(Vec3(0.f, -0.001f, 0.f));
@@ -30,10 +30,10 @@ void CBossGroggyState::Enter()
 
 void CBossGroggyState::FinalTick()
 {
-	if (KEY_TAP(KEY::ALT))
-	{
+	m_PhaseStep = GetBlackboardData<int>(L"PhaseStep");
+
+	if (m_PhaseStep == 3)
 		m_Boss->FSM()->ChangeState(L"BossJumpBack");
-	}
 }
 
 void CBossGroggyState::Exit()

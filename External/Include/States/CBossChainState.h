@@ -3,6 +3,10 @@
 class CBossChainState :
     public CBossState
 {
+private:
+    int            m_MonsterSpawnState;
+    CGameObject*   m_BossChain;
+
 public:
     virtual void Set() override;
     virtual void Enter() override;

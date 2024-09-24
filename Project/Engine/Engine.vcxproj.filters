@@ -113,9 +113,6 @@
     <Filter Include="08. Component\RenderComponent\01. MeshRender">
       <UniqueIdentifier>{27c8c9fe-277a-4099-9bec-cc14ba01cf89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Manager\08.CollisionMgr">
-      <UniqueIdentifier>{e8bb91af-26dc-4eb9-909c-a8c0c63e283d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Asset\07. Sprite">
       <UniqueIdentifier>{f90b01b4-915d-4e51-81ea-8be026a41284}</UniqueIdentifier>
     </Filter>
@@ -148,6 +145,15 @@
     </Filter>
     <Filter Include="08. Component\09. FSM\State">
       <UniqueIdentifier>{bbb03a8b-844b-43fb-a289-989433afa93a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\09. FontMgr">
+      <UniqueIdentifier>{a84d230d-b363-44bb-8e52-7933b3a1d31e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\08. CollisionMgr">
+      <UniqueIdentifier>{e8bb91af-26dc-4eb9-909c-a8c0c63e283d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\10. LogMgr">
+      <UniqueIdentifier>{f5b86fa3-6d29-488f-9dab-ffcfe95f6221}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -269,7 +275,7 @@
       <Filter>08. Component\02. Collider2D</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionMgr.h">
-      <Filter>04. Manager\08.CollisionMgr</Filter>
+      <Filter>04. Manager\08. CollisionMgr</Filter>
     </ClInclude>
     <ClInclude Include="CTaskMgr.h">
       <Filter>04. Manager\04. TaskMgr</Filter>
@@ -306,6 +312,12 @@
     </ClInclude>
     <ClInclude Include="CSound.h">
       <Filter>06. Asset\06. Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="CFontMgr.h">
+      <Filter>04. Manager\09. FontMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CLogMgr.h">
+      <Filter>04. Manager\10. LogMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -406,7 +418,7 @@
       <Filter>08. Component\02. Collider2D</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
-      <Filter>04. Manager\08.CollisionMgr</Filter>
+      <Filter>04. Manager\08. CollisionMgr</Filter>
     </ClCompile>
     <ClCompile Include="CTaskMgr.cpp">
       <Filter>04. Manager\04. TaskMgr</Filter>
@@ -443,6 +455,12 @@
     </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>06. Asset\06. Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CFontMgr.cpp">
+      <Filter>04. Manager\09. FontMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CLogMgr.cpp">
+      <Filter>04. Manager\10. LogMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

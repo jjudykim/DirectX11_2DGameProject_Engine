@@ -173,6 +173,7 @@ call EngineHeaderCopy.bat</Command>
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CFlipBook.h" />
     <ClInclude Include="CFlipBookComponent.h" />
+    <ClInclude Include="CFontMgr.h" />
     <ClInclude Include="CFSM.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicShader.h" />
@@ -181,6 +182,7 @@ call EngineHeaderCopy.bat</Command>
     <ClInclude Include="CLevel.h" />
     <ClInclude Include="CLevelMgr.h" />
     <ClInclude Include="CLight2D.h" />
+    <ClInclude Include="CLogMgr.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CMeshRender.h" />
@@ -227,6 +229,7 @@ call EngineHeaderCopy.bat</Command>
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CFlipBook.cpp" />
     <ClCompile Include="CFlipBookComponent.cpp" />
+    <ClCompile Include="CFontMgr.cpp" />
     <ClCompile Include="CFSM.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicShader.cpp" />
@@ -235,6 +238,7 @@ call EngineHeaderCopy.bat</Command>
     <ClCompile Include="CLevel.cpp" />
     <ClCompile Include="CLevelMgr.cpp" />
     <ClCompile Include="CLight2D.cpp" />
+    <ClCompile Include="CLogMgr.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CMeshRender.cpp" />

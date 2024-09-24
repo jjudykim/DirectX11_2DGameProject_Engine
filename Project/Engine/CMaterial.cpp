@@ -158,7 +158,6 @@ void CMaterial::Binding()
 			CTexture::Clear(i);
 			continue;
 		}
-
 		m_Const.btex[i] = 1;
 		m_arrTex[i]->Binding(i);
 	}

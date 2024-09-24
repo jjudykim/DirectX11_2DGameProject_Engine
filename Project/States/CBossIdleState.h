@@ -4,6 +4,8 @@
 class CBossIdleState :
     public CBossState
 {
+    float       m_Time;
+
 public:
     virtual void Set() override;
     virtual void Enter() override;

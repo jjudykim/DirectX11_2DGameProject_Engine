@@ -25,6 +25,10 @@ void CAttackLight0State::Enter()
 {
 	m_FBCom->Play(m_FBIdx, false);
 
+
+	Vec3 WeaponPos = m_Player->Transform()->GetRelativePos();
+	m_Weapon->Transform()->SetRelativeRotation(m_Player->Transform()->GetRelativeRotation());
+
 	m_Weapon->Transform()->SetRelativeScale(Vec3(400.f, 400.f, 0.f));
 	m_Weapon->Collider2D()->SetIndependentScale(true);
 	m_Weapon->Collider2D()->SetScale(Vec3(0.3f, 0.15f, 0.f));
@@ -79,6 +83,10 @@ void CAttackLight0State::FinalTick()
 void CAttackLight0State::Exit()
 {
 	m_Weapon->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
+
+	m_Weapon->Transform()->SetRelativePos(m_Player->Transform()->GetRelativePos());
+	m_Weapon->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
+	m_Weapon->Collider2D()->SetScale(Vec3(0.f, 0.f, 0.f));
 }
 
 

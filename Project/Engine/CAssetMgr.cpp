@@ -9,7 +9,6 @@ CAssetMgr::CAssetMgr()
 
 CAssetMgr::~CAssetMgr()
 {
-
 }
 
 Ptr<CAsset> CAssetMgr::FindAsset(ASSET_TYPE _Type, const wstring& _Key)

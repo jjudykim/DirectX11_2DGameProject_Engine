@@ -19,12 +19,15 @@ private:
     float            m_E_DeltaTime;
     float            m_E_Time;
 
+    wchar_t          m_TimeInfo[255];
+
     vector<tTimer>   m_VecTimers;
 
 public:
     void Init();
     void Tick();
     void TimerUpdate();
+    void Render();
 
 public:
     float GetDeltaTime() { return m_DeltaTime; }

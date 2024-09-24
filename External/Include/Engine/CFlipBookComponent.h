@@ -32,7 +32,9 @@ public:
 
     void EraseFlipBook(int _index) { m_vecFlipBook.erase(m_vecFlipBook.begin() + _index); }
     void SetCurFlipBook(Ptr<CFlipBook> _FlipBook) { m_CurFlipBook = _FlipBook; }
+    void SetCurFrame(int _index) { m_CurFrmSprite = m_CurFlipBook->GetSprite(_index); m_CurFrmIdx = _index; }
     void SetRepeat(bool _Repeat) { m_Repeat = _Repeat; }
+    void SetFinish(bool _Finish) { m_Finish = _Finish; }
 
 public:
     void AddFlipBook(int _Idx, Ptr<CFlipBook> _FliPBook);

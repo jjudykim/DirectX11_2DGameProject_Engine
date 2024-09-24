@@ -3,6 +3,8 @@
 class CBossAttackState :
     public CBossState
 {
+    int         m_ShootProjectile;
+
 public:
     virtual void Set() override;
     virtual void Enter() override;

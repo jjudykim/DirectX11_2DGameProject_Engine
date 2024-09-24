@@ -6,6 +6,7 @@
 
 #include "CCamera.h"
 #include "CTimeMgr.h"
+#include "CLogMgr.h"
 #include "CAssetMgr.h"
 
 #include "CGameObject.h"
@@ -91,6 +92,10 @@ void CRenderMgr::Tick()
 
 	// Debug Render
 	RenderDebugShape();
+
+	// Time 정보 출력
+	CTimeMgr::GetInst()->Render();
+	CLogMgr::GetInst()->Render();
 
 	// Clear
 	Clear();

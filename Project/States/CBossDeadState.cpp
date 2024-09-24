@@ -20,6 +20,9 @@ void CBossDeadState::Set()
 void CBossDeadState::Enter()
 {
 	m_FBCom->Play(m_FBIdx, false);
+
+	m_Boss->Transform()->SetRelativePos(Vec3(-15.f, 25.f, 0.f));
+	m_Boss->Transform()->SetRelativeScale(Vec3(620.f, 620.f, 0.f));
 }
 
 void CBossDeadState::FinalTick()

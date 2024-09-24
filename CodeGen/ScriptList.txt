@@ -1,5 +1,6 @@
-CBossPuzzleScript
+CArcProjectileScript
 CBossScript
+CBouncingProjectileScript
 CCameraMoveScript
 CMissileScript
 CMonsterScript

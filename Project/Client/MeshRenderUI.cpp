@@ -319,17 +319,26 @@ void MeshRenderUI::ShaderParameter()
 	// Texture Parameter 대응
 	if (!m_UseSprite)
 	{
-		Ptr<CTexture> pCurTex = pMtrl->GetTexParam(vecTexParam[m_ParamIdx].ParamType);
+		Ptr<CTexture> pCurTex = nullptr;
 
-		if (ParamUI::InputTexture(pCurTex, vecTexParam[m_ParamIdx].strDesc, this, (DELEGATE_1)&MeshRenderUI::ChangeTexture))
+		if (vecTexParam.size() > 0)
+			pCurTex = pMtrl->GetTexParam(vecTexParam[m_ParamIdx].ParamType);
+
+		if (pCurTex != nullptr)
 		{
-			pMtrl->SetTexParam(vecTexParam[m_ParamIdx].ParamType, pCurTex);
-			m_SelectTexParam = vecTexParam[m_ParamIdx].ParamType;
+			if (ParamUI::InputTexture(pCurTex, vecTexParam[m_ParamIdx].strDesc, this, (DELEGATE_1)&MeshRenderUI::ChangeTexture))
+			{
+				pMtrl->SetTexParam(vecTexParam[m_ParamIdx].ParamType, pCurTex);
+				m_SelectTexParam = vecTexParam[m_ParamIdx].ParamType;
+			}
 		}
 	}
 	else
 	{
-		Ptr<CSprite> CurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
+		Ptr<CSprite> CurSprite = nullptr;
+		
+		if (vecTexParam.size() > 0)
+			CurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
 
 		ImVec2 frameSize = ImVec2(200.f, 200.f);
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -388,12 +397,15 @@ void MeshRenderUI::ShaderParameter()
 		}
 
 		// DragDrop으로 원본 텍스쳐가 바뀐 경우
-		if (CurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
+		if (vecTexParam.size() > 0)
 		{
-			pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, CurSprite);
-			return;
+			if (CurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
+			{
+				pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, CurSprite);
+				return;
+			}
 		}
-
+		
 		// List Button
 		if (this == nullptr && (DELEGATE_1)&MeshRenderUI::ChangeSprite == nullptr)
 			return;

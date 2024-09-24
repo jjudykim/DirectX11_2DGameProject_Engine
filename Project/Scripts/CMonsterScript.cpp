@@ -25,6 +25,7 @@ CMonsterScript::CMonsterScript()
 	AddScriptParam(SCRIPT_PARAM::INT, "MonsterType", &m_MonsterType);
 	AddScriptParam(SCRIPT_PARAM::INT, "MonsterHP", &m_MonsterHP);
 	AddScriptParam(SCRIPT_PARAM::INT, "MonsterAttackPower", &m_MonsterAttackPower);
+	AddScriptParam(SCRIPT_PARAM::BOOL, "MonsterAlive", &m_Alive);
 }
 
 CMonsterScript::~CMonsterScript()
@@ -174,7 +175,6 @@ void CMonsterScript::DamagedByPlayerWeapon()
 		CTimeMgr::GetInst()->AddTimer(2.0f, [this]()
 			{
 				CTaskMgr::GetInst()->AddTask({ TASK_TYPE::DELETE_OBJECT, (DWORD_PTR)GetOwner() });
-				//MeshRender()->GetMaterial()->SetUseDeadEffect(true);
 			}, false);
 		FSM()->ChangeState(L"ZombieDamage");
 	}

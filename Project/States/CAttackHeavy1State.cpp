@@ -61,6 +61,7 @@ void CAttackHeavy1State::FinalTick()
 void CAttackHeavy1State::Exit()
 {
 	m_Weapon->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
+
 	m_Weapon->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
 }
 

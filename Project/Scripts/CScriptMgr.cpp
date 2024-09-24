@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
-#include "CBossPuzzleScript.h"
+#include "CArcProjectileScript.h"
 #include "CBossScript.h"
+#include "CBouncingProjectileScript.h"
 #include "CCameraMoveScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
@@ -10,8 +11,9 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
-	_vec.push_back(L"CBossPuzzleScript");
+	_vec.push_back(L"CArcProjectileScript");
 	_vec.push_back(L"CBossScript");
+	_vec.push_back(L"CBouncingProjectileScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
@@ -20,10 +22,12 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
-	if (L"CBossPuzzleScript" == _strScriptName)
-		return new CBossPuzzleScript;
+	if (L"CArcProjectileScript" == _strScriptName)
+		return new CArcProjectileScript;
 	if (L"CBossScript" == _strScriptName)
 		return new CBossScript;
+	if (L"CBouncingProjectileScript" == _strScriptName)
+		return new CBouncingProjectileScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CMissileScript" == _strScriptName)
@@ -39,11 +43,14 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
-	case (UINT)SCRIPT_TYPE::BOSSPUZZLESCRIPT:
-		return new CBossPuzzleScript;
+	case (UINT)SCRIPT_TYPE::ARCPROJECTILESCRIPT:
+		return new CArcProjectileScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BOSSSCRIPT:
 		return new CBossScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BOUNCINGPROJECTILESCRIPT:
+		return new CBouncingProjectileScript;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -65,12 +72,16 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
-	case SCRIPT_TYPE::BOSSPUZZLESCRIPT:
-		return L"CBossPuzzleScript";
+	case SCRIPT_TYPE::ARCPROJECTILESCRIPT:
+		return L"CArcProjectileScript";
 		break;
 
 	case SCRIPT_TYPE::BOSSSCRIPT:
 		return L"CBossScript";
+		break;
+
+	case SCRIPT_TYPE::BOUNCINGPROJECTILESCRIPT:
+		return L"CBouncingProjectileScript";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:

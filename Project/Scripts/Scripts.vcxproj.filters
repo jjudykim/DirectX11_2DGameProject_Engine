@@ -26,8 +26,11 @@
     <Filter Include="Scripts\BossScript">
       <UniqueIdentifier>{06fc176d-c1ed-4f4c-a14c-2823a894367c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\BossPuzzleScript">
-      <UniqueIdentifier>{b2e627d1-e7ce-4d7f-8fd1-4b45b77d3319}</UniqueIdentifier>
+    <Filter Include="Scripts\ArcProjectileScript">
+      <UniqueIdentifier>{7d05e749-086c-4598-9407-591913663b83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\BouncingProjectileScript">
+      <UniqueIdentifier>{a95d2315-87ad-4285-b9de-d173b15837b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,8 +58,11 @@
     <ClInclude Include="CBossScript.h">
       <Filter>Scripts\BossScript</Filter>
     </ClInclude>
-    <ClInclude Include="CBossPuzzleScript.h">
-      <Filter>Scripts\BossPuzzleScript</Filter>
+    <ClInclude Include="CArcProjectileScript.h">
+      <Filter>Scripts\ArcProjectileScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CBouncingProjectileScript.h">
+      <Filter>Scripts\BouncingProjectileScript</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,8 +90,11 @@
     <ClCompile Include="CBossScript.cpp">
       <Filter>Scripts\BossScript</Filter>
     </ClCompile>
-    <ClCompile Include="CBossPuzzleScript.cpp">
-      <Filter>Scripts\BossPuzzleScript</Filter>
+    <ClCompile Include="CArcProjectileScript.cpp">
+      <Filter>Scripts\ArcProjectileScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CBouncingProjectileScript.cpp">
+      <Filter>Scripts\BouncingProjectileScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

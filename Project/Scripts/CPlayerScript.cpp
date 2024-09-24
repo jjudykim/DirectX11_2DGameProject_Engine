@@ -185,7 +185,7 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
 	if (_OtherObject->GetLayerIdx() == (int)LAYER_TYPE::MONSTER)
 	{
-		if (dynamic_cast<CBossState*>(FSM()->GetCurState()) == nullptr)
+		if (dynamic_cast<CBossState*>(_OtherObject->FSM()->GetCurState()) != nullptr)
 			return;
 
 		if (FSM()->GetCurState() == FSM()->FindState(L"Damage"))
@@ -207,6 +207,25 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 			RigidBody()->AddVelocityByGravity(Vec3(0.f, iDamage * 13.f, 0.f));
 			FSM()->ChangeState(L"Damage");
 		}
+	}
+
+	if (_OtherObject->GetLayerIdx() == (int)LAYER_TYPE::MONSTER_PROJECTTILE)
+	{
+		if (FSM()->GetCurState() == FSM()->FindState(L"Damage"))
+			return;
+
+		int iDamage = 100;
+
+		if (_OtherObject->Transform()->GetRelativePos().x - Transform()->GetRelativePos().x > 0)
+		{
+			RigidBody()->AddVelocity(Vec3(iDamage * -50000.f, 0.f, 0.f));
+		}
+		else
+		{
+			RigidBody()->AddVelocity(Vec3(iDamage * 50000.f, 0.f, 0.f));
+		}
+		RigidBody()->AddVelocityByGravity(Vec3(0.f, iDamage * 5.f, 0.f));
+		FSM()->ChangeState(L"Damage");
 	}
 }
 
