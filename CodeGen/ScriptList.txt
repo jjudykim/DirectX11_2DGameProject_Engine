@@ -1,4 +1,5 @@
 CArcProjectileScript
+CBackgroundMoveScript
 CBossScript
 CBouncingProjectileScript
 CCameraMoveScript

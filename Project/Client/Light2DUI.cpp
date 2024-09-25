@@ -54,6 +54,10 @@ void Light2DUI::Update()
 
 	ImGui::Text("LightColor");
 	ImGui::SameLine(100);
+	ImGui::ColorEdit3("##LightColor", info.light.Color);
+
+	ImGui::Text("Light Ambient");
+	ImGui::SameLine(100);
 	ImGui::ColorEdit3("##LightAmbient", info.light.Ambient);
 
 

@@ -24,8 +24,8 @@ int CParticleTickCS::Binding()
 	m_ParticleBuffer->Binding_CS_UAV(0);
 	m_SpawnCountBuffer->Binding_CS_UAV(1);
 
-	m_NoiseTex->Binding_CS_SRV(20);
-	m_ModuleBuffer->Binding_CS_SRV(21);
+	m_NoiseTex->Binding_CS_SRV(30);
+	m_ModuleBuffer->Binding_CS_SRV(31);
 
 	m_Const.iArr[0] = m_ParticleBuffer->GetElementCount();
 	m_Const.v4Arr[0] = m_ParticleWorldPos;

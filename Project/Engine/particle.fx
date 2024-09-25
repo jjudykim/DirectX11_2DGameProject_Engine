@@ -4,8 +4,8 @@
 #include "value.fx"
 #include "struct.fx"
  
-StructuredBuffer<tParticle>         ParticleBuffer : register(t20);
-StructuredBuffer<tParticleModule>   ModuleBuffer : register(t21);
+StructuredBuffer<tParticle>         ParticleBuffer : register(t30);
+StructuredBuffer<tParticleModule>   ModuleBuffer : register(t31);
 
 #define Module ModuleBuffer[0]
 

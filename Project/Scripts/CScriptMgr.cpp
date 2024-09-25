@@ -2,6 +2,7 @@
 #include "CScriptMgr.h"
 
 #include "CArcProjectileScript.h"
+#include "CBackgroundMoveScript.h"
 #include "CBossScript.h"
 #include "CBouncingProjectileScript.h"
 #include "CCameraMoveScript.h"
@@ -12,6 +13,7 @@
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CArcProjectileScript");
+	_vec.push_back(L"CBackgroundMoveScript");
 	_vec.push_back(L"CBossScript");
 	_vec.push_back(L"CBouncingProjectileScript");
 	_vec.push_back(L"CCameraMoveScript");
@@ -24,6 +26,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
 	if (L"CArcProjectileScript" == _strScriptName)
 		return new CArcProjectileScript;
+	if (L"CBackgroundMoveScript" == _strScriptName)
+		return new CBackgroundMoveScript;
 	if (L"CBossScript" == _strScriptName)
 		return new CBossScript;
 	if (L"CBouncingProjectileScript" == _strScriptName)
@@ -45,6 +49,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	{
 	case (UINT)SCRIPT_TYPE::ARCPROJECTILESCRIPT:
 		return new CArcProjectileScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BACKGROUNDMOVESCRIPT:
+		return new CBackgroundMoveScript;
 		break;
 	case (UINT)SCRIPT_TYPE::BOSSSCRIPT:
 		return new CBossScript;
@@ -74,6 +81,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 	{
 	case SCRIPT_TYPE::ARCPROJECTILESCRIPT:
 		return L"CArcProjectileScript";
+		break;
+
+	case SCRIPT_TYPE::BACKGROUNDMOVESCRIPT:
+		return L"CBackgroundMoveScript";
 		break;
 
 	case SCRIPT_TYPE::BOSSSCRIPT:

@@ -119,11 +119,24 @@ void CCamera::Render_Effect()
 		m_vecEffect[i]->Render();
 	}
 
+	// BlurTarget 으로 변경
+	Ptr<CTexture> pEffectBlurTarget = CAssetMgr::GetInst()->FindAsset<CTexture>(L"EffectBlurTargetTex");
+	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl2");
+	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
+
+	CONTEXT->ClearRenderTargetView(pEffectBlurTarget->GetRTV().Get(), Vec4(0.f, 0.f, 0.f, 0.f));
+
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pEffectBlurTarget->GetRTV().GetAddressOf(), nullptr);
+
+	pBlurMtrl->SetTexParam(TEX_0, pEffectTarget);
+	pBlurMtrl->Binding();
+	pRectMesh->Render_Particle(2);
+
 	// 원래 렌더타겟으로 변경
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
-	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
-	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl2");
+	Ptr<CMaterial> pEffectMergeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"EffectMergeMtrl");
 
 	viewport.Width = pRTTex->Width();
 	viewport.Height = pRTTex->Height();
@@ -133,8 +146,9 @@ void CCamera::Render_Effect()
 	CONTEXT->RSSetViewports(1, &viewport);
 	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
 
-	pBlurMtrl->SetTexParam(TEX_0, pEffectTarget);
-	pBlurMtrl->Binding();
+	pEffectMergeMtrl->SetTexParam(TEX_0, pEffectTarget);
+	pEffectMergeMtrl->SetTexParam(TEX_1, pEffectBlurTarget);
+	pEffectMergeMtrl->Binding();
 	pRectMesh->Render();
 }
 

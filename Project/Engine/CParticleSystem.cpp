@@ -135,18 +135,18 @@ void CParticleSystem::Render()
 	Transform()->Binding();
 
 	// 파티클 버퍼 바인딩
-	m_ParticleBuffer->Binding(20);
+	m_ParticleBuffer->Binding(30);
 
 	// 모듈 버퍼 바인딩
-	m_ModuleBuffer->Binding(21);
+	m_ModuleBuffer->Binding(31);
 
 	GetMaterial()->SetTexParam(TEX_0, m_ParticleTex);
 	GetMaterial()->Binding();
 
 	GetMesh()->Render_Particle(m_MaxParticleCount);
 
-	m_ParticleBuffer->Clear(20);
-	m_ModuleBuffer->Clear(21);
+	m_ParticleBuffer->Clear(30);
+	m_ModuleBuffer->Clear(31);
 }
 
 void CParticleSystem::CalculateSpawnCount()
