@@ -36,7 +36,7 @@ public:
 
     void PostProcessCopy();
 
-    void Blur();
+    void Blur(BLUR_STRENGTH _Strength);
 
 private:
     void RenderStart();

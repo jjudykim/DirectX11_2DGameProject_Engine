@@ -123,7 +123,7 @@ void CCamera::Render_Effect()
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
 	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
-	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl");
+	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl2");
 
 	viewport.Width = pRTTex->Width();
 	viewport.Height = pRTTex->Height();
@@ -232,6 +232,23 @@ void CCamera::Render()
 	for (size_t i = 0; i < m_vecTransparent.size(); ++i)
 	{
   		m_vecTransparent[i]->Render();
+
+		int index = m_vecTransparent[i]->GetLayerIdx();
+		if (1 < index && index < 5)
+		{
+			switch (index)
+			{
+			case 2:         // LAYER_TYPE::BACKGROUND3;
+				CRenderMgr::GetInst()->Blur(BLUR_STRENGTH::QUARTER);
+				break;
+			case 3:         // LAYER_TYPE::BACKGROUND2;
+				CRenderMgr::GetInst()->Blur(BLUR_STRENGTH::HALF);
+				break;
+			case 4:
+				CRenderMgr::GetInst()->Blur(BLUR_STRENGTH::THREE_QUARTERS);
+				break;
+			}
+		}
 	}
 
 	// Particles
@@ -247,6 +264,8 @@ void CCamera::Render()
 	{
 		CRenderMgr::GetInst()->PostProcessCopy();
 		m_vecPostProcess[i]->Render();
+
+		CRenderMgr::GetInst()->Blur(BLUR_STRENGTH::HALF);
 	}
 
 	// UI

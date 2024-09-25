@@ -140,10 +140,25 @@ void CAssetMgr::CreateEngineTexture()
 	Ptr<CTexture> pPostProcessTex = CreateTexture(L"PostProcessTex"
 												, (UINT)Resolution.x, (UINT)Resolution.y
 												, DXGI_FORMAT_R8G8B8A8_UNORM, D3D10_BIND_SHADER_RESOURCE);
+	
+	// Blur 용도 Texture 생성
 
-	Ptr<CTexture> pDownScaleTex = CreateTexture(
-		L"DownScaleTex"
-		, (UINT)(Resolution.x * 0.2f), (UINT)(Resolution.y * 0.2f)
+	// 0.25
+	Ptr<CTexture> pDownScaleTex1 = CreateTexture(
+		L"DownScaleTex_1" 
+		, (UINT)(Resolution.x * 0.25f), (UINT)(Resolution.y * 0.25f)
+		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	
+	// 0.5
+	Ptr<CTexture> pDownScaleTex2 = CreateTexture(
+		L"DownScaleTex_2" 
+		, (UINT)(Resolution.x * 0.5f), (UINT)(Resolution.y * 0.5f)
+		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	
+	// 0.75
+	Ptr<CTexture> pDownScaleTex3 = CreateTexture(
+		L"DownScaleTex_3" 
+		, (UINT)(Resolution.x * 0.75f), (UINT)(Resolution.y * 0.75f)
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 
 
@@ -468,11 +483,23 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"TileMapShader"));
 	AddAsset(L"TileMapMtrl", pMtrl);
 
-	// BlurMtrl
+	// BlurMtrl1
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"BlurShader"));
-	pMtrl->SetScalarParam(FLOAT_0, g_Scale);
-	AddAsset(L"BlurMtrl", pMtrl);
+	pMtrl->SetScalarParam(FLOAT_0, 0.25f);
+	AddAsset(L"BlurMtrl1", pMtrl);
+
+	// BlurMtrl2
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"BlurShader"));
+	pMtrl->SetScalarParam(FLOAT_0, 0.5f);
+	AddAsset(L"BlurMtrl2", pMtrl);
+
+	// BlurMtrl3
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"BlurShader"));
+	pMtrl->SetScalarParam(FLOAT_0, 0.75f);
+	AddAsset(L"BlurMtrl3", pMtrl);
 
 	// PostProcess - GrayFilterMtrl
 	pMtrl = new CMaterial(true);

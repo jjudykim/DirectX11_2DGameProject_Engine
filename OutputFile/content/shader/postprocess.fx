@@ -315,7 +315,7 @@ float4 PS_Blur(VS_OUT _in) : SV_Target
         }
     }
     //vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
-    vColor = pow(abs(vColor) + float4(1.f, 0.2f, 0.2f, 0.f), 2.2f);
+    //vColor = pow(abs(vColor) + float4(1.f, 0.2f, 0.2f, 0.f), 2.2f);
     
     if (vColor.a == 0.f)
         discard;

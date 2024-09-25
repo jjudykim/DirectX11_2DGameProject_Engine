@@ -43,7 +43,7 @@ void CRenderMgr::Init()
 	// 만들어둔 PostProcess용 Texture를 참조
 	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
 
-	m_DownScaleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DownScaleTex");
+	m_DownScaleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DownScaleTex_2");
 
 	// Debug Render를 위한 Game Object
 	m_DebugObject = new CGameObject;
@@ -94,7 +94,7 @@ void CRenderMgr::Tick()
 
 	if (KEY_PRESSED(KEY::B))
 	{
-		Blur();
+		Blur(BLUR_STRENGTH::HALF);
 	}
 
 	// Debug Render
@@ -123,10 +123,27 @@ void CRenderMgr::PostProcessCopy()
 	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
 }
 
-void CRenderMgr::Blur()
+void CRenderMgr::Blur(BLUR_STRENGTH _Strength)
 {
 	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
-	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl");
+
+	Ptr<CMaterial> pBlurMtrl = nullptr;
+
+	if (_Strength == BLUR_STRENGTH::QUARTER)
+	{
+		pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl1");
+		m_DownScaleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DownScaleTex_1");
+	}
+	else if (_Strength == BLUR_STRENGTH::HALF)
+	{
+		pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl2");
+		m_DownScaleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DownScaleTex_2");
+	}
+	else if (_Strength == BLUR_STRENGTH::THREE_QUARTERS)
+	{
+		pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl3");
+		m_DownScaleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DownScaleTex_3");
+	}
 
 	CRenderMgr::PostProcessCopy();
 

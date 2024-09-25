@@ -285,3 +285,11 @@ enum MONSTER_TYPE
 	FRANKEN,
 	BOOMER,
 };
+
+enum BLUR_STRENGTH
+{
+	NONE_BLUR,
+	QUARTER,             // 0.25 배율로 블러처리 (Strongest)
+	HALF,                // 0.5  배율로 블러처리
+	THREE_QUARTERS,      // 0.75  배율로 블러처리 (Weakest)
+};
