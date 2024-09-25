@@ -8,6 +8,7 @@
 #include "CLevelMgr.h"
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
+#include "CAssetMgr.h"
 
 #include "CLevel.h"
 #include "CLayer.h"
@@ -15,6 +16,8 @@
 #include "CRenderComponent.h"
 
 #include "CTransform.h"
+
+
 
 CCamera::CCamera()
 	: CComponent(COMPONENT_TYPE::CAMERA)
@@ -78,6 +81,9 @@ void CCamera::SortGameObject()
 			case DOMAIN_PARTICLE:
 				m_vecParticles.push_back(vecObjects[j]);
 				break;
+			case DOMAIN_EFFECT:
+				m_vecEffect.push_back(vecObjects[j]);
+				break;
 			case DOMAIN_POSTPROCESS:
 				m_vecPostProcess.push_back(vecObjects[j]);
 				break;
@@ -87,6 +93,49 @@ void CCamera::SortGameObject()
 			}
 		}
 	}
+}
+
+void CCamera::Render_Effect()
+{
+	// ∑ª¥ı≈∏∞Ÿ ∫Ø∞Ê
+	Ptr<CTexture> pEffectTarget = CAssetMgr::GetInst()->FindAsset<CTexture>(L"EffectTargetTex");
+	Ptr<CTexture> pEffectDepth = CAssetMgr::GetInst()->FindAsset<CTexture>(L"EffectDepthStencilTex");
+
+	// Clear
+	CONTEXT->ClearRenderTargetView(pEffectTarget->GetRTV().Get(), Vec4(0.f, 0.f, 0.f, 0.f));
+	CONTEXT->ClearDepthStencilView(pEffectDepth->GetDSV().Get(), D3D11_CLEAR_STENCIL | D3D11_CLEAR_DEPTH, 1.f, 0);
+
+	D3D11_VIEWPORT viewport = {};
+	viewport.Width = pEffectTarget->Width();
+	viewport.Height = pEffectTarget->Height();
+	viewport.MaxDepth = 1.f;
+
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pEffectTarget->GetRTV().GetAddressOf(), pEffectDepth->GetDSV().Get());
+
+	// Effect
+	for (size_t i = 0; i < m_vecEffect.size(); ++i)
+	{
+		m_vecEffect[i]->Render();
+	}
+
+	// ø¯∑° ∑ª¥ı≈∏∞Ÿ¿∏∑Œ ∫Ø∞Ê
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
+	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl");
+
+	viewport.Width = pRTTex->Width();
+	viewport.Height = pRTTex->Height();
+	viewport.MinDepth = 0.f;
+	viewport.MaxDepth = 1.f;
+
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+
+	pBlurMtrl->SetTexParam(TEX_0, pEffectTarget);
+	pBlurMtrl->Binding();
+	pRectMesh->Render();
 }
 
 void CCamera::Begin()
@@ -191,6 +240,8 @@ void CCamera::Render()
 		m_vecParticles[i]->Render();
 	}
 
+	Render_Effect();
+
 	// PostProcess
 	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
 	{
@@ -207,6 +258,7 @@ void CCamera::Render()
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
 	m_vecTransparent.clear();
+	m_vecEffect.clear();
 	m_vecParticles.clear();
 	m_vecPostProcess.clear();
 	m_vecUI.clear();

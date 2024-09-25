@@ -43,6 +43,8 @@ void CRenderMgr::Init()
 	// 만들어둔 PostProcess용 Texture를 참조
 	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
 
+	m_DownScaleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DownScaleTex");
+
 	// Debug Render를 위한 Game Object
 	m_DebugObject = new CGameObject;
 	m_DebugObject->AddComponent(new CTransform);
@@ -90,6 +92,11 @@ void CRenderMgr::Tick()
 		}
 	}
 
+	if (KEY_PRESSED(KEY::B))
+	{
+		Blur();
+	}
+
 	// Debug Render
 	RenderDebugShape();
 
@@ -114,6 +121,43 @@ void CRenderMgr::PostProcessCopy()
 	// RenderTarget->PostProcessTex
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+}
+
+void CRenderMgr::Blur()
+{
+	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
+	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl");
+
+	CRenderMgr::PostProcessCopy();
+
+	D3D11_VIEWPORT viewport = {};
+	viewport.Width = m_DownScaleTex->Width();
+	viewport.Height = m_DownScaleTex->Height();
+	viewport.MinDepth = 0.f;
+	viewport.MaxDepth = 1.f;
+
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, m_DownScaleTex->GetRTV().GetAddressOf(), nullptr);
+
+	pBlurMtrl->SetTexParam(TEX_0, CRenderMgr::m_PostProcessTex);
+	pBlurMtrl->Binding();
+	pRectMesh->Render();
+
+	// 렌더타겟 지정
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+
+	viewport.Width = pRTTex->Width();
+	viewport.Height = pRTTex->Height();
+	viewport.MinDepth = 0.f;
+	viewport.MaxDepth = 1.f;
+
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+
+	pBlurMtrl->SetTexParam(TEX_0, m_DownScaleTex);
+	pBlurMtrl->Binding();
+	pRectMesh->Render();
 }
 
 void CRenderMgr::RenderStart()

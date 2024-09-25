@@ -271,4 +271,56 @@ float4 PS_AnalogTV(VS_OUT _in) : SV_Target
     return vColor4;
 }
 
+
+// ====================================
+// Blur Shader
+// Mesh     : RectMesh
+// DSTYPE   : NO_TEST_NO_WRITE
+// g_tex_0  : Target
+// ====================================
+
+static float GaussianFilter[5][5] =
+{
+    0.003f, 0.0133f, 0.0219f, 0.0133f, 0.003f,
+    0.0133f, 0.0596f, 0.0983f, 0.0596f, 0.0133f,
+    0.0219f, 0.0983f, 0.1621f, 0.0983f, 0.0219f,
+    0.0133f, 0.0596f, 0.0983f, 0.0596f, 0.0133f,
+    0.003f, 0.0133f, 0.0219f, 0.0133f, 0.003f,
+};
+
+VS_OUT VS_Blur(VS_IN _in)
+{
+    VS_OUT output = (VS_OUT) 0.f;
+    
+    output.vPosition = float4(_in.vPos * 2.f, 1.f);
+    output.vUV = _in.vUV;
+    
+    return output;
+}
+
+float4 PS_Blur(VS_OUT _in) : SV_Target
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    float2 vResoultion = g_Resolution * g_float_0;
+    
+    float2 vUVStep = 1.f / vResoultion;
+    
+    for (int row = 0; row < 5; ++row)
+    {
+        for (int col = 0; col < 5; ++col)
+        {
+            float2 vUV = _in.vUV + vUVStep * float2(-2 + row, -2 + col);
+            vColor += g_tex_0.Sample(g_sam_0, vUV) * GaussianFilter[row][col];
+        }
+    }
+    //vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
+    vColor = pow(abs(vColor) + float4(1.f, 0.2f, 0.2f, 0.f), 2.2f);
+    
+    if (vColor.a == 0.f)
+        discard;
+    
+    return vColor;
+}
+
 #endif

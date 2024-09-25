@@ -25,6 +25,9 @@ private:
     // PostProcess
     Ptr<CTexture>           m_PostProcessTex;
 
+    // DownScale
+    Ptr<CTexture>           m_DownScaleTex;
+
 public:
     void RegisterCamera(CCamera* _Cam, int _CamPriority);
     void RegisterEditorCamera(CCamera* _Cam) { m_EditorCamera = _Cam; }
@@ -32,6 +35,8 @@ public:
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
 
     void PostProcessCopy();
+
+    void Blur();
 
 private:
     void RenderStart();

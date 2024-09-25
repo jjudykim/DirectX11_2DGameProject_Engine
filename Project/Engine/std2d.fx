@@ -173,8 +173,6 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
     return vColor;
 }
 
-
-
 // =========================
 //       Effect Shader
 // =========================
@@ -186,5 +184,23 @@ VTX_OUT VS_Effect(VTX_IN _in)
     // float3 x float 4x4(matrix)
     // flaot3를 float4로 차수를 맞춰주기
     // 동차좌표를 1로 설정, 상태행렬 4행에 들어있는 이동을 적용
+    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV = _in.vUV;
+    
+    return output;
+}
+
+float4 PS_Effect(VTX_OUT _in) : SV_Target
+{
+    if (!g_btex_0)
+        discard;
+    
+    float4 vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    if (0.f == vColor.a)
+        discard;
+    
+    vColor.rgb = g_vec4_0.xyz;
+    
+    return vColor;
 }
 #endif
