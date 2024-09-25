@@ -4,14 +4,17 @@
 #include "CAsset.h"
 #include "CDevice.h"
 
+#include "CSetColorCS.h"
+#include "CStructuredBuffer.h"
+
 void CAssetMgr::Init()
 {
 	CreateEngineMesh();
-	CreateEngineTexture();
 	CreateEngineSprite();
 	CreateEngineGraphicShader();
 	CreateEngineComputeShader();
 	CreateEngineMaterial();
+	CreateEngineTexture();
 }
 
 void CAssetMgr::Tick()
@@ -23,6 +26,17 @@ void CAssetMgr::Tick()
 void CAssetMgr::CreateEngineMesh()
 {
 	Ptr<CMesh> pMesh = nullptr;
+	Vtx v;
+
+	// PointMesh
+	pMesh = new CMesh;
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
+
+	UINT i = 0;
+	pMesh->Create(&v, 1, &i, 1);
+	AddAsset(L"PointMesh", pMesh);
 
 	// Rect Mesh 持失
 	Vtx arrVtx[4] = {};
@@ -68,7 +82,6 @@ void CAssetMgr::CreateEngineMesh()
 	// CircleMesh 持失
 	vector<Vtx> vecVtx;
 	vector<UINT> vecIdx;
-	Vtx v;
 
 	int Slice = 40;
 	float fTheta = XM_2PI / Slice;
@@ -125,11 +138,10 @@ void CAssetMgr::CreateEngineTexture()
 	Ptr<CTexture> pPostProcessTex = CreateTexture(L"PostProcessTex"
 												, (UINT)Resolution.x, (UINT)Resolution.y
 												, DXGI_FORMAT_R8G8B8A8_UNORM, D3D10_BIND_SHADER_RESOURCE);
-
 	// Noise Texture
-	// Load<CTexture>(L"texture\\noise\\noise_01.png", L"texture\\noise\\noise_01.png");
-	// Load<CTexture>(L"texture\\noise\\noise_02.png", L"texture\\noise\\noise_02.png");
-	// Load<CTexture>(L"texture\\noise\\noise_03.jpg", L"texture\\noise\\noise_03.jpg");
+	Load<CTexture>(L"texture\\noise\\noise_01.png", L"texture\\noise\\noise_01.png");
+	Load<CTexture>(L"texture\\noise\\noise_02.png", L"texture\\noise\\noise_02.png");
+	Load<CTexture>(L"texture\\noise\\noise_03.jpg", L"texture\\noise\\noise_03.jpg");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -280,6 +292,20 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	AddAsset(L"TileMapShader", pShader);
 
+	//ParticleShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\particle.fx", "VS_Particle");
+	pShader->CreateGeometryShader(L"shader\\particle.fx", "GS_Particle");
+	pShader->CreatePixelShader(L"shader\\particle.fx", "PS_Particle");
+
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
+
+	AddAsset(L"ParticleRenderShader", pShader);
+
 
 	// PostProcess - GrayFilterShader
 	pShader = new CGraphicShader;
@@ -344,8 +370,15 @@ void CAssetMgr::CreateEngineGraphicShader()
 	AddAsset(L"AnalogTVShader", pShader);
 }
 
+#include "CParticleSystem.h"
+
 void CAssetMgr::CreateEngineComputeShader()
 {
+	// ParticleTick
+	Ptr<CComputeShader> pCS = nullptr;
+
+	pCS = new CParticleTickCS;
+	AddAsset<CComputeShader>(L"ParticleTickCS", pCS);
 }
 
 void CAssetMgr::CreateEngineMaterial()

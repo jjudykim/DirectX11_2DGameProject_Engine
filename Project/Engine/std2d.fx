@@ -173,4 +173,18 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
     return vColor;
 }
 
+
+
+// =========================
+//       Effect Shader
+// =========================
+VTX_OUT VS_Effect(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f;
+    
+    // LocalSpace -> WorldSpace
+    // float3 x float 4x4(matrix)
+    // flaot3를 float4로 차수를 맞춰주기
+    // 동차좌표를 1로 설정, 상태행렬 4행에 들어있는 이동을 적용
+}
 #endif

@@ -37,6 +37,7 @@ public:
     GET_OTHER_COMPONENT(FSM);
     GET_OTHER_COMPONENT(TileMap);
     GET_OTHER_COMPONENT(Light2D);
+    GET_OTHER_COMPONENT(ParticleSystem);
 
 public:
     virtual CComponent* Clone() = 0;

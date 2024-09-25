@@ -290,6 +290,17 @@ int CDevice::CreateDepthStencilState()
 		return E_FAIL;
 	}
 
+	// NO_WRITE
+	Desc.DepthEnable = true;
+	Desc.DepthFunc = D3D11_COMPARISON_LESS;
+	Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	Desc.StencilEnable = false;
+
+	if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::NO_WRITE].GetAddressOf())))
+	{
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -301,7 +312,7 @@ int CDevice::CreateBlendState()
 	m_BSState[(UINT)BS_TYPE::DEFAULT] = nullptr;
 
 
-	// Alpha Blend
+	// Alpha Blend - Coverage
 	Desc.AlphaToCoverageEnable = true;
 	Desc.IndependentBlendEnable = false;
 
@@ -311,7 +322,27 @@ int CDevice::CreateBlendState()
 	// Src(Pixel RGB) * A           +         Dest(RenderTarget RGB) * (1 - A)
 	Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_SRC_ALPHA;
+	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+	if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::ALPHABLEND_COVERAGE].GetAddressOf())))
+	{
+		return E_FAIL;
+	}
+
+	// AlphaBlend
+	Desc.AlphaToCoverageEnable = false;
+	Desc.IndependentBlendEnable = false;
+
+	Desc.RenderTarget[0].BlendEnable = true;
+	Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 
 	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
@@ -321,6 +352,8 @@ int CDevice::CreateBlendState()
 	{
 		return E_FAIL;
 	}
+
+
 
 
 	// One - One Blend

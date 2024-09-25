@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CTimeMgr.h"
 
+#include "CKeyMgr.h"
+
 #include "CEngine.h"
 #include "CLevelMgr.h"
 #include "CFontMgr.h"

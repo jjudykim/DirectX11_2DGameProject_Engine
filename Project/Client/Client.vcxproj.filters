@@ -69,9 +69,6 @@
     <Filter Include="EditorUI\01. Inspector\ComponentUI\RenderComponent\TileMapUI">
       <UniqueIdentifier>{30953651-08a5-4eb9-8d8e-056c7e8537df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EditorUI\01. Inspector\ComponentUI\ParticleSystem">
-      <UniqueIdentifier>{76ef6e61-72e3-4e2c-99b3-55994de7cc16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EditorUI\01. Inspector\ComponentUI\08. Light2DUI">
       <UniqueIdentifier>{b879c866-7d20-4a9e-98a3-b1adac7d1a99}</UniqueIdentifier>
     </Filter>
@@ -156,6 +153,9 @@
     <Filter Include="EditorUI\01. Inspector\ComponentUI\09. FSMUI">
       <UniqueIdentifier>{d5edf923-d5e7-49ef-a2e4-184e76000e3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorUI\01. Inspector\ComponentUI\10. ParticleSystemUI">
+      <UniqueIdentifier>{76ef6e61-72e3-4e2c-99b3-55994de7cc16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -213,7 +213,7 @@
       <Filter>EditorUI\01. Inspector\ComponentUI\RenderComponent\MeshRenderUI</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystemUI.h">
-      <Filter>EditorUI\01. Inspector\ComponentUI\ParticleSystem</Filter>
+      <Filter>EditorUI\01. Inspector\ComponentUI\10. ParticleSystemUI</Filter>
     </ClInclude>
     <ClInclude Include="FlipBookComUI.h">
       <Filter>EditorUI\01. Inspector\ComponentUI\04. FlipBookComUI</Filter>
@@ -406,7 +406,7 @@
       <Filter>EditorUI\01. Inspector\ComponentUI\RenderComponent\TileMapUI</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystemUI.cpp">
-      <Filter>EditorUI\01. Inspector\ComponentUI\ParticleSystem</Filter>
+      <Filter>EditorUI\01. Inspector\ComponentUI\10. ParticleSystemUI</Filter>
     </ClCompile>
     <ClCompile Include="Light2DUI.cpp">
       <Filter>EditorUI\01. Inspector\ComponentUI\08. Light2DUI</Filter>

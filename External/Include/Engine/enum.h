@@ -42,7 +42,7 @@ enum class COMPONENT_TYPE
 	// Render Component
 	MESHRENDER,
 	TILEMAP,
-	PARTICLE_SYSTEM,
+	PARTICLESYSTEM,
 	DECAL,
 	SKYBOX,
 	LANDSCAPE,
@@ -124,6 +124,7 @@ enum class DS_TYPE
 	GREATER,
 
 	NO_TEST,
+	NO_WRITE,
 	NO_TEST_NO_WRITE,
 
 	END,
@@ -132,6 +133,7 @@ enum class DS_TYPE
 enum class BS_TYPE
 {
 	DEFAULT,
+	ALPHABLEND_COVERAGE,
 	ALPHABLEND,
 	ONE_ONE,
 	CUSTOM_BLEND,
@@ -208,6 +210,7 @@ enum SHADER_DOMAIN
 	DOMAIN_UI,              // UI
 
 	DOMAIN_DEBUG,           // 디버그
+	DOMAIN_NONE,            // 미설정
 };
 
 enum class DEBUG_SHAPE
@@ -256,6 +259,19 @@ enum class LIGHT_TYPE
 	DIRECTIONAL,
 	POINT,
 	SPOT,
+};
+
+enum class PARTICLE_MODULE
+{
+	SPAWN,
+	SPAWN_BURST,
+	ADD_VELOCITY,
+	SCALE,
+	DRAG,
+	NOISE_FORCE,
+	RENDER,
+
+	END,
 };
 
 enum MONSTER_TYPE

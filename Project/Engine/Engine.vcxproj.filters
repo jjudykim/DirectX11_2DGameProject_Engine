@@ -155,6 +155,18 @@
     <Filter Include="04. Manager\10. LogMgr">
       <UniqueIdentifier>{f5b86fa3-6d29-488f-9dab-ffcfe95f6221}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08. Component\RenderComponent\03. ParticleSystem">
+      <UniqueIdentifier>{0f0e84b0-7754-424f-ac98-eba2b18ab3fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\03. Compute">
+      <UniqueIdentifier>{53bb7730-48cd-4eaa-a2ce-9b5a2f6be0ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\03. Compute\02. ParticleTick">
+      <UniqueIdentifier>{83a135fc-527d-4dfb-a6bf-d6036a76bb9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\03. Compute\01. SetColorShader">
+      <UniqueIdentifier>{c488e702-036d-4346-921c-8a13bd41da39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -319,6 +331,15 @@
     <ClInclude Include="CLogMgr.h">
       <Filter>04. Manager\10. LogMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CParticleSystem.h">
+      <Filter>08. Component\RenderComponent\03. ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CSetColorCS.h">
+      <Filter>HLSL\03. Compute\01. SetColorShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleTickCS.h">
+      <Filter>HLSL\03. Compute\02. ParticleTick</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -462,6 +483,15 @@
     <ClCompile Include="CLogMgr.cpp">
       <Filter>04. Manager\10. LogMgr</Filter>
     </ClCompile>
+    <ClCompile Include="CParticleSystem.cpp">
+      <Filter>08. Component\RenderComponent\03. ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CSetColorCS.cpp">
+      <Filter>HLSL\03. Compute\01. SetColorShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleTickCS.cpp">
+      <Filter>HLSL\03. Compute\02. ParticleTick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -489,6 +519,15 @@
     </FxCompile>
     <FxCompile Include="postprocess.fx">
       <Filter>HLSL\02. Render</Filter>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
+      <Filter>HLSL\02. Render</Filter>
+    </FxCompile>
+    <FxCompile Include="setcolor.fx">
+      <Filter>HLSL\03. Compute\01. SetColorShader</Filter>
+    </FxCompile>
+    <FxCompile Include="particletick.fx">
+      <Filter>HLSL\03. Compute\02. ParticleTick</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

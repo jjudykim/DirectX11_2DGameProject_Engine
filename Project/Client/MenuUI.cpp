@@ -241,7 +241,7 @@ void MenuUI::GameObject()
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
 					pObject->AddComponent(new CTransform);
 			}
-				
+
 			if (ImGui::MenuItem("3. FlipBook"))
 				pObject->AddComponent(new CFlipBookComponent);
 
@@ -254,20 +254,27 @@ void MenuUI::GameObject()
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
 					pObject->AddComponent(new CTransform);
 			}
-				
+
 			if (ImGui::MenuItem("6. Camera"))
 			{
 				pObject->AddComponent(new CCamera);
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
 					pObject->AddComponent(new CTransform);
 			}
-				
+
 			if (ImGui::MenuItem("7. Light2D"))
 			{
 				pObject->AddComponent(new CLight2D);
 				if (pObject->GetComponent(COMPONENT_TYPE::TRANSFORM) == nullptr)
 					pObject->AddComponent(new CTransform);
-					
+
+			}
+
+			if (ImGui::MenuItem("8. ParticleSystem"))
+			{
+				pObject->AddComponent(new CParticleSystem);
+				if (pObject->GetComponent(COMPONENT_TYPE::PARTICLESYSTEM) == nullptr)
+					pObject->AddComponent(new CParticleSystem);
 			}
 				
 			ImGui::SeparatorText("Render Component");

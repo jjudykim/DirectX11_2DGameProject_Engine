@@ -37,13 +37,13 @@ int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Ty
 	else
 		m_Desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-	m_Desc.ByteWidth           = m_ElementSize * m_ElementCount;
-	m_Desc.MiscFlags           = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-	m_Desc.StructureByteStride = m_ElementSize;
+	m_Desc.ByteWidth              = m_ElementSize * m_ElementCount;
+	m_Desc.MiscFlags              = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	m_Desc.StructureByteStride    = m_ElementSize;
 
 	m_Desc.Usage = D3D11_USAGE_DEFAULT;
 	m_Desc.CPUAccessFlags = 0;
-	
+
 	HRESULT hr = S_OK;
 	if (_InitData == nullptr)
 	{
@@ -107,7 +107,7 @@ int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Ty
 	}
 
 	// UnOrderedResourceView 생성하기
-	if (SB_TYPE::SRV_UAV == m_Type)
+	if (m_Type == SB_TYPE::SRV_UAV)
 	{
 		D3D11_UNORDERED_ACCESS_VIEW_DESC Desc = {};
 
@@ -131,6 +131,7 @@ void CStructuredBuffer::SetData(void* _pData, UINT _DataSize)
 	{
 		_DataSize = m_Desc.ByteWidth;
 	}
+
 
 	D3D11_MAPPED_SUBRESOURCE tMapSub = {};
 	CONTEXT->Map(m_SB_Write.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tMapSub);

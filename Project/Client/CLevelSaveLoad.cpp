@@ -254,7 +254,7 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::TILEMAP:
 		return  new CTileMap;
 
-	case COMPONENT_TYPE::PARTICLE_SYSTEM:
+	case COMPONENT_TYPE::PARTICLESYSTEM:
 		break;
 
 	case COMPONENT_TYPE::DECAL:

@@ -91,3 +91,10 @@ void CMesh::Render()
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 }
 
+void CMesh::Render_Particle(UINT _Count)
+{
+	Binding();
+
+	CONTEXT->DrawIndexedInstanced(m_IdxCount, _Count, 0, 0, 0);
+}
+

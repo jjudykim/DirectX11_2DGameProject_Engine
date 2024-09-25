@@ -111,60 +111,16 @@ float4 SelectTexture(int _g_int_0, SamplerState _sampler, float2 _UV)
         return vColor = g_tex_15.Sample(g_sam_0, _UV);
     else
         return vColor = float4(1.f, 0.f, 0.f, 1.f);
-    //switch (_g_int_0)
-    //{
-    //    case 0:
-    //        vColor = g_tex_0.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 1:
-    //        vColor = g_tex_1.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 2:
-    //        vColor = g_tex_2.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 3:
-    //        vColor = g_tex_3.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 4:
-    //        vColor = g_tex_4.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 5:
-    //        vColor = g_tex_5.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 6:
-    //        vColor = g_tex_6.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 7:
-    //        vColor = g_tex_7.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 8:
-    //        vColor = g_tex_8.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 9:
-    //        vColor = g_tex_9.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 10:
-    //        vColor = g_tex_10.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 11:
-    //        vColor = g_tex_11.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 12:
-    //        vColor = g_tex_12.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 13:
-    //        vColor = g_tex_13.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 14:
-    //        vColor = g_tex_14.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    case 15:
-    //        vColor = g_tex_15.Sample(g_sam_0, _UV);
-    //        return vColor;
-    //    default:
-    //        vColor = float4(1.f, 0.f, 1.f, 1.f);
-    //        return vColor;
-    //}
+}
+
+float3 GetRandom(in Texture2D _NoiseTexture, uint _ID, uint _maxId)
+{
+    float2 vUV = (float2) 0.f;
+    vUV.x = ((float) _ID / (float) (_maxId - 1)) + g_EngineTime * 0.5f;
+    vUV.y = sin(vUV.x * 20 * PI) * 0.5f + g_EngineTime * 0.1f;
+    float3 vRandom = _NoiseTexture.SampleLevel(g_sam_1, vUV, 0).xyz;
+    
+    return vRandom;
 }
 
 #endif
