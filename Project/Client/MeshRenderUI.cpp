@@ -132,12 +132,12 @@ void MeshRenderUI::Update()
 	}
 	m_UIHeight += (int)ImGui::GetItemRectSize().y;
 
-	if (m_UseFlipBook)
-	{
-		m_UIHeight += 30.f;
-		SetChildSize(ImVec2(0.f, (float)m_UIHeight));
-		return;
-	}
+	//if (m_UseFlipBook)
+	//{
+	//	m_UIHeight += 30.f;
+	//	SetChildSize(ImVec2(0.f, (float)m_UIHeight));
+	//	return;
+	//}
 
 	// Use Sprite As Texture
 	ImGui::Text("Use Sprite as Texture?");
@@ -282,151 +282,159 @@ void MeshRenderUI::ShaderParameter()
 		}
 	}
 
-	if (ImGui::BeginListBox("##TexParamList", ImVec2(-FLT_MIN, 150.f)))
+	if (vecTexParam.size() == 1)
 	{
-		for (size_t i = 0; i < vecTexParam.size(); i++)
+		Ptr<CTexture>pCurTex = pMtrl->GetTexParam(vecTexParam[0].ParamType);
+
+		if (ParamUI::InputTexture(pCurTex, vecTexParam[0].strDesc, this, (DELEGATE_1)&MeshRenderUI::ChangeTexture))
 		{
-			const bool is_selected = (m_ParamIdx == i);
-			ImGui::BeginGroup();
-			// Button
-			string index = std::to_string(i);
-			ImGui::BeginDisabled();
-			ImGui::Button(index.c_str(), ImVec2(18.f, 18.f));
-			ImGui::EndDisabled();
-			// Label
-			string label;
-			label = vecTexParam[i].strDesc;
-
-			ImGui::SameLine(0.f, 10.f);
-			if (ImGui::Selectable(label.c_str(), is_selected))
-			{
-				m_ParamIdx = i;
-				//GetDetail()->SetCurSpriteIndex(i);
-			}
-			ImGui::EndGroup();
-
-			// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-			if (is_selected)
-			{
-				ImGui::SetItemDefaultFocus();
-				m_ParamIdx = i;
-			}
-		}
-		ImGui::EndListBox();
-	}
-	m_UIHeight += (int)ImGui::GetItemRectSize().y;
-
-	// Texture Parameter 대응
-	if (!m_UseSprite)
-	{
-		Ptr<CTexture> pCurTex = nullptr;
-
-		if (vecTexParam.size() > 0)
-			pCurTex = pMtrl->GetTexParam(vecTexParam[m_ParamIdx].ParamType);
-
-		if (pCurTex != nullptr)
-		{
-			if (ParamUI::InputTexture(pCurTex, vecTexParam[m_ParamIdx].strDesc, this, (DELEGATE_1)&MeshRenderUI::ChangeTexture))
-			{
-				pMtrl->SetTexParam(vecTexParam[m_ParamIdx].ParamType, pCurTex);
-				m_SelectTexParam = vecTexParam[m_ParamIdx].ParamType;
-			}
+			pMtrl->SetTexParam(vecTexParam[0].ParamType, pCurTex);
+			m_SelectTexParam = vecTexParam[0].ParamType;
 		}
 	}
 	else
 	{
-		Ptr<CSprite> CurSprite = nullptr;
-		
-		if (vecTexParam.size() > 0)
-			CurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
-
-		ImVec2 frameSize = ImVec2(200.f, 200.f);
-		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-		ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 0.7f);
-
-		if (CurSprite != nullptr)
+		if (ImGui::BeginListBox("##TexParamList", ImVec2(-FLT_MIN, 150.f)))
 		{
-			Ptr<CTexture> CurTex = CurTex = CurSprite->GetAtlasTexture();
-
-			string Name = string(CurSprite->GetName().begin(), CurSprite->GetName().end());
-
-			ImGui::Text(Name.c_str());
-			ImGui::SameLine(120);
-
-			ImVec2 crop = ImVec2(CurSprite->GetBackgroundUV().x * CurTex->Width()
-				, CurSprite->GetBackgroundUV().y * CurTex->Height());
-
-			if (frameSize.x < crop.x || frameSize.y < crop.y)
+			for (size_t i = 0; i < vecTexParam.size(); i++)
 			{
-				float ratio = crop.x / frameSize.x;
-				ratio = 1 / ratio;
+				const bool is_selected = (m_ParamIdx == i);
+				ImGui::BeginGroup();
+				// Button
+				string index = std::to_string(i);
+				ImGui::BeginDisabled();
+				ImGui::Button(index.c_str(), ImVec2(18.f, 18.f));
+				ImGui::EndDisabled();
+				// Label
+				string label;
+				label = vecTexParam[i].strDesc;
 
-				crop.x *= ratio;
-				crop.y *= ratio;
+				ImGui::SameLine(0.f, 10.f);
+				if (ImGui::Selectable(label.c_str(), is_selected))
+				{
+					m_ParamIdx = i;
+					//GetDetail()->SetCurSpriteIndex(i);
+				}
+				ImGui::EndGroup();
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+				{
+					ImGui::SetItemDefaultFocus();
+					m_ParamIdx = i;
+				}
 			}
+			ImGui::EndListBox();
+		}
+		m_UIHeight += (int)ImGui::GetItemRectSize().y;
 
-			ImVec2 uv_min = ImVec2(CurSprite->GetLeftTopUV().x, CurSprite->GetLeftTopUV().y);
-			ImVec2 uv_max = ImVec2(CurSprite->GetLeftTopUV().x + CurSprite->GetSliceUV().x
-				, CurSprite->GetLeftTopUV().y + CurSprite->GetSliceUV().y);
+		// Texture Parameter 대응
+		if (!m_UseSprite)
+		{
+			Ptr<CTexture> pCurTex = nullptr;
 
-			ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
-			ImGui::Image(CurTex->GetSRV().Get(), crop, uv_min, uv_max, tint_col, border_col);
-			m_UIHeight += (int)ImGui::GetItemRectSize().y;
+			if (vecTexParam.size() > 0)
+				pCurTex = pMtrl->GetTexParam(vecTexParam[m_ParamIdx].ParamType);
+
+			if (pCurTex != nullptr)
+			{
+				if (ParamUI::InputTexture(pCurTex, vecTexParam[m_ParamIdx].strDesc, this, (DELEGATE_1)&MeshRenderUI::ChangeTexture))
+				{
+					pMtrl->SetTexParam(vecTexParam[m_ParamIdx].ParamType, pCurTex);
+					m_SelectTexParam = vecTexParam[m_ParamIdx].ParamType;
+				}
+			}
 		}
 		else
 		{
-			ImGui::Image(nullptr, frameSize, ImVec2(0.f, 0.f), ImVec2(1.f, 1.f), tint_col, border_col);
-			m_UIHeight += (int)ImGui::GetItemRectSize().y;
-		}
+			Ptr<CSprite> CurSprite = nullptr;
 
-		if (ImGui::BeginDragDropTarget())
-		{
-			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
-			if (payload)
+			if (vecTexParam.size() > 0)
+				CurSprite = pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType);
+
+			ImVec2 frameSize = ImVec2(200.f, 200.f);
+			ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+			ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 0.7f);
+
+			if (CurSprite != nullptr)
 			{
-				TreeNode** ppNode = (TreeNode**)payload->Data;
-				TreeNode* pNode = *ppNode;
+				Ptr<CTexture> CurTex = CurTex = CurSprite->GetAtlasTexture();
 
-				Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
-				if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+				string Name = string(CurSprite->GetName().begin(), CurSprite->GetName().end());
+
+				ImGui::Text(Name.c_str());
+				ImGui::SameLine(120);
+
+				ImVec2 crop = ImVec2(CurSprite->GetBackgroundUV().x * CurTex->Width()
+					, CurSprite->GetBackgroundUV().y * CurTex->Height());
+
+				if (frameSize.x < crop.x || frameSize.y < crop.y)
 				{
-					CurSprite = ((CSprite*)pAsset.Get());
+					float ratio = crop.x / frameSize.x;
+					ratio = 1 / ratio;
+
+					crop.x *= ratio;
+					crop.y *= ratio;
+				}
+
+				ImVec2 uv_min = ImVec2(CurSprite->GetLeftTopUV().x, CurSprite->GetLeftTopUV().y);
+				ImVec2 uv_max = ImVec2(CurSprite->GetLeftTopUV().x + CurSprite->GetSliceUV().x
+					, CurSprite->GetLeftTopUV().y + CurSprite->GetSliceUV().y);
+
+				ImGui::SetCursorPosX((ImGui::GetWindowSize().x - frameSize.x) * 0.5f);
+				ImGui::Image(CurTex->GetSRV().Get(), crop, uv_min, uv_max, tint_col, border_col);
+				m_UIHeight += (int)ImGui::GetItemRectSize().y;
+			}
+			else
+			{
+				ImGui::Image(nullptr, frameSize, ImVec2(0.f, 0.f), ImVec2(1.f, 1.f), tint_col, border_col);
+				m_UIHeight += (int)ImGui::GetItemRectSize().y;
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+				if (payload)
+				{
+					TreeNode** ppNode = (TreeNode**)payload->Data;
+					TreeNode* pNode = *ppNode;
+
+					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+					if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+					{
+						CurSprite = ((CSprite*)pAsset.Get());
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			// DragDrop으로 원본 텍스쳐가 바뀐 경우
+			if (vecTexParam.size() > 0)
+			{
+				if (CurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
+				{
+					pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, CurSprite);
+					return;
 				}
 			}
-			ImGui::EndDragDropTarget();
-		}
 
-		// DragDrop으로 원본 텍스쳐가 바뀐 경우
-		if (vecTexParam.size() > 0)
-		{
-			if (CurSprite != pMtrl->GetSprite(vecTexParam[m_ParamIdx].ParamType))
-			{
-				pMtrl->SetSprite(vecTexParam[m_ParamIdx].ParamType, CurSprite);
+			// List Button
+			if (this == nullptr && (DELEGATE_1)&MeshRenderUI::ChangeSprite == nullptr)
 				return;
+
+			ImGui::SameLine();
+			if (ImGui::Button("##SpriteChangeButton", ImVec2(18.f, 18.f)))
+			{
+				ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("ListUI");
+				pListUI->SetName("Sprite");
+
+				vector<string> vecSpriteNames;
+				CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecSpriteNames);
+				pListUI->AddList(vecSpriteNames);
+				pListUI->AddDelegate(this, (DELEGATE_1)&MeshRenderUI::ChangeSprite);
+				pListUI->SetActive(true);
 			}
 		}
-		
-		// List Button
-		if (this == nullptr && (DELEGATE_1)&MeshRenderUI::ChangeSprite == nullptr)
-			return;
-
-		ImGui::SameLine();
-		if (ImGui::Button("##SpriteChangeButton", ImVec2(18.f, 18.f)))
-		{
-			ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("ListUI");
-			pListUI->SetName("Sprite");
-
-			vector<string> vecSpriteNames;
-			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecSpriteNames);
-			pListUI->AddList(vecSpriteNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&MeshRenderUI::ChangeSprite);
-			pListUI->SetActive(true);
-		}
-	}
-
-	if (ImGui::Button("Apply", ImVec2(30.f, 18.f)))
-	{
-		m_SelectTexParam = (TEX_PARAM)m_ParamIdx;
 	}
 }
 

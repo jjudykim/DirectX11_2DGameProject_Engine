@@ -26,7 +26,7 @@ void CBackgroundMoveScript::Tick()
 
 	if (m_BackgroundLayer == (int)LAYER_TYPE::BACKGROUND3)
 	{
-		Transform()->SetRelativePos(Vec3(m_OriginPos.x + (fCameraFocusX * 0.04f), m_OriginPos.y, m_OriginPos.z));
+		Transform()->SetRelativePos(Vec3(m_OriginPos.x + (fCameraFocusX * 0.12f), m_OriginPos.y, m_OriginPos.z));
 	}
 	else if (m_BackgroundLayer == (int)LAYER_TYPE::BACKGROUND2)
 	{
@@ -34,7 +34,7 @@ void CBackgroundMoveScript::Tick()
 	}
 	else if (m_BackgroundLayer == (int)LAYER_TYPE::BACKGROUND1)
 	{
-		Transform()->SetRelativePos(Vec3(m_OriginPos.x + (fCameraFocusX * 0.12f), m_OriginPos.y, m_OriginPos.z));
+		Transform()->SetRelativePos(Vec3(m_OriginPos.x + (fCameraFocusX * 0.04f), m_OriginPos.y, m_OriginPos.z));
 	}
 }
 

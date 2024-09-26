@@ -184,7 +184,31 @@ int CMaterial::Save(const wstring& _RelativePath)
 
 	// 쉐이더 참조 정보
 	SaveAssetRef(m_Shader, File);
-
+	
+	//if (m_Shader != nullptr)
+	//{
+	//	vector<tScalarParam> vScalar = m_Shader->GetScalarParam();
+	//	int scalarSize = vScalar.size();
+	//	fwrite(&scalarSize, sizeof(size_t), 1, File);
+	//	for (size_t i = 0; i < vScalar.size(); ++i)
+	//	{
+	//		tScalarParam tScalar = vScalar[i];
+	//		fwrite(&tScalar.ParamType, sizeof(SCALAR_PARAM), 1, File);
+	//		SaveStringToFile(tScalar.strDesc, File);
+	//	}
+	//
+	//	vector<tTexParam> vTex = m_Shader->GetTexParam();
+	//	int texSize = vTex.size();
+	//	fwrite(&texSize, sizeof(size_t), 1, File);
+	//	for (size_t i = 0; i < vTex.size(); ++i)
+	//	{
+	//		tTexParam tTex = vTex[i];
+	//		fwrite(&tTex.ParamType, sizeof(TEX_PARAM), 1, File);
+	//		SaveStringToFile(tTex.strDesc, File);
+	//
+	//	}
+	//}
+	
 	// 상수 데이터 정보
 	fwrite(&m_Const, sizeof(tMtrlConst), 1, File);
 
@@ -218,6 +242,27 @@ int CMaterial::Load(const wstring& _FilePath)
 
 	// 쉐이더 참조 정보
 	LoadAssetRef(m_Shader, File);
+
+	//if (m_Shader != nullptr)
+	//{
+	//	int scalarSize = 0;
+	//	fread(&scalarSize, sizeof(size_t), 1, File);
+	//	for (size_t i = 0; i < scalarSize; ++i)
+	//	{
+	//		tScalarParam tScalar;
+	//		fread(&tScalar, sizeof(tScalarParam), 1, File);
+	//		//m_Shader->AddScalarParam(tScalar.ParamType, tScalar.strDesc);
+	//	}
+	//
+	//	int texSize = 0;
+	//	fread(&texSize, sizeof(size_t), 1, File);
+	//	for (size_t i = 0; i < texSize; ++i)
+	//	{
+	//		tTexParam tTex;
+	//		fread(&tTex, sizeof(tTexParam), 1, File);
+	//		//m_Shader->AddTexParam(tTex.ParamType, tTex.strDesc);
+	//	}
+	//}
 
 	// 상수 데이터 정보
 	fread(&m_Const, sizeof(tMtrlConst), 1, File);

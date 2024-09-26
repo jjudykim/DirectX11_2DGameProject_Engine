@@ -251,6 +251,22 @@ void Content::PopupMenu(DWORD_PTR _Param)
 		}
 	}
 
+	if (pAsset->GetAssetType() == ASSET_TYPE::MATERIAL)
+	{
+		if (ImGui::MenuItem("Clone"))
+		{
+			Ptr<CMaterial> pMtrl = new CMaterial;
+
+			Ptr<CMaterial> CurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(pAsset.Get()->GetKey());
+			pMtrl = CurMtrl->Clone();
+
+			wstring Key = pMtrl->GetKey() + L"C";
+
+			CAssetMgr::GetInst()->AddAsset<CMaterial>(Key, pMtrl);
+			pMtrl->Save(L"material\\" + Key + L".mtrl");
+		}
+	}
+
 	// if (ImGui::Button("Close"))
 	// ImGui::CloseCurrentPopup();
 	ImGui::EndPopup();

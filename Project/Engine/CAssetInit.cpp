@@ -167,10 +167,12 @@ void CAssetMgr::CreateEngineTexture()
 		, (UINT)(Resolution.x), (UINT)(Resolution.y)
 		, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 
+
 	Ptr<CTexture> pEffectDepth = CreateTexture(
 		L"EffectDepthStencilTex"
 		, (UINT)(Resolution.x), (UINT)(Resolution.y)
 		, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
+
 
 	Ptr<CTexture> pEffectBlurTarget = CreateTexture(
 		L"EffectBlurTargetTex"
@@ -314,6 +316,27 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_EFFECT);
 
 	AddAsset(L"EffectShader", pShader);
+
+	pShader->AddScalarParam(VEC4_0, "EffectColor");
+	pShader->AddTexParam(TEX_0, "EffectTexture");
+
+
+	// EffectShader_TransparentDomain
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Effect");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Effect");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	AddAsset(L"EffectShader_TD", pShader);
+
+	pShader->AddScalarParam(VEC4_0, "EffectColor");
+	pShader->AddTexParam(TEX_0, "EffectTexture");
+
 
 
 	// DebugShapeShader
@@ -487,6 +510,9 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectShader"));
 	AddAsset(L"EffectMtrl", pMtrl);
+
+	pMtrl->SetScalarParam(VEC4_0, Vec4(0.f, 0.f, 0.f, 0.f));
+	pMtrl->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\Default_ParticleSystem.png"));
 
 	// DebugShapeMtrl
 	pMtrl = new CMaterial(true);

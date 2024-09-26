@@ -288,7 +288,73 @@ static float GaussianFilter[5][5] =
     0.003f, 0.0133f, 0.0219f, 0.0133f, 0.003f,
 };
 
-VS_OUT VS_Blur(VS_IN _in)
+static float CrossFilter[13] = { 0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.f, 0.9231f, 0.7261f, 0.4868f, 0.278f, 0.1353f, 0.0561f };
+static float Total = 6.2108f;
+
+struct VS_OUT_BLUR
+{
+    float4 vPosition : SV_Position;
+    float2 vUV : TEXCOORD;
+    float InstID : FOG;
+};
+
+VS_OUT_BLUR VS_Blur(VS_IN _in, uint _InstID : SV_InstanceID)
+{
+    VS_OUT_BLUR output = (VS_OUT_BLUR) 0.f;
+    
+    output.vPosition = float4(_in.vPos * 2.f, 1.f);
+    output.vUV = _in.vUV;
+    output.InstID = _InstID;
+    
+    return output;
+}
+
+float4 PS_Blur(VS_OUT_BLUR _in) : SV_Target
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
+    
+    //float2 vUVStep = 1.f / g_Resolution;
+    //vUVStep *= 3.f;
+    //
+    //if (_in.InstID == 0)
+    //{
+    //    for (int i = 0; i < 13; ++i)
+    //    {
+    //        float2 vUV = _in.vUV + float2(vUVStep.x * (-6 + i), 0.f);
+    //        vColor += g_tex_0.Sample(g_sam_2, vUV) * CrossFilter[i];
+    //    }
+    //}
+    //else if (_in.InstID == 1)
+    //{
+    //    for (int j = 0; j < 13; ++j)
+    //    {
+    //        float2 vUV = _in.vUV + float2(0.f, vUVStep.y * (-6 + j));
+    //        vColor += g_tex_0.Sample(g_sam_2, vUV) * CrossFilter[j];
+    //    }
+    //}
+    //vColor /= Total;
+    
+     // UV 스텝 크기 설정
+    float2 vUVStep = 1.f / g_Resolution;
+    vUVStep *= 1.f; // Gaussian 필터에서는 3배 확대 대신 1배로 설정
+    
+    // Gaussian 필터 적용 (5x5 필터)
+    for (int i = -2; i <= 2; ++i)
+    {
+        for (int j = -2; j <= 2; ++j)
+        {
+            // 필터의 현재 위치에 따른 UV 좌표 계산
+            float2 vUV = _in.vUV + float2(vUVStep.x * i, vUVStep.y * j);
+            
+            // 텍스처 샘플링 및 Gaussian 필터 값 적용
+            vColor += g_tex_0.Sample(g_sam_2, vUV) * GaussianFilter[i + 2][j + 2];
+        }
+    }
+    
+    return vColor;
+}
+
+VS_OUT VS_EffectMerge(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
@@ -298,29 +364,16 @@ VS_OUT VS_Blur(VS_IN _in)
     return output;
 }
 
-float4 PS_Blur(VS_OUT _in) : SV_Target
+float4 PS_EffectMerge(VS_OUT _in) : SV_Target
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
-    float2 vResoultion = g_Resolution * g_float_0;
+    float4 vEffect = g_tex_0.Sample(g_sam_0, _in.vUV);
+    float4 vEffectBlur = g_tex_1.Sample(g_sam_0, _in.vUV);
     
-    float2 vUVStep = 1.f / vResoultion;
+    float4 vBloom = pow(abs(pow(vEffect, 2.2f)) + abs(pow(vEffectBlur, 2.2f)), 1.f / 2.2f);
     
-    for (int row = 0; row < 5; ++row)
-    {
-        for (int col = 0; col < 5; ++col)
-        {
-            float2 vUV = _in.vUV + vUVStep * float2(-2 + row, -2 + col);
-            vColor += g_tex_0.Sample(g_sam_0, vUV) * GaussianFilter[row][col];
-        }
-    }
-    //vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
-    //vColor = pow(abs(vColor) + float4(1.f, 0.2f, 0.2f, 0.f), 2.2f);
-    
-    if (vColor.a == 0.f)
-        discard;
-    
-    return vColor;
+    return vBloom;
 }
 
 #endif

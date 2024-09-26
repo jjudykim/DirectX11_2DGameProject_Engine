@@ -313,26 +313,43 @@ float4 PS_Blur(VS_OUT_BLUR _in) : SV_Target
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
-    float2 vUVStep = 1.f / g_Resolution;
-    vUVStep *= 3.f;
+    //float2 vUVStep = 1.f / g_Resolution;
+    //vUVStep *= 3.f;
+    //
+    //if (_in.InstID == 0)
+    //{
+    //    for (int i = 0; i < 13; ++i)
+    //    {
+    //        float2 vUV = _in.vUV + float2(vUVStep.x * (-6 + i), 0.f);
+    //        vColor += g_tex_0.Sample(g_sam_2, vUV) * CrossFilter[i];
+    //    }
+    //}
+    //else if (_in.InstID == 1)
+    //{
+    //    for (int j = 0; j < 13; ++j)
+    //    {
+    //        float2 vUV = _in.vUV + float2(0.f, vUVStep.y * (-6 + j));
+    //        vColor += g_tex_0.Sample(g_sam_2, vUV) * CrossFilter[j];
+    //    }
+    //}
+    //vColor /= Total;
     
-    if (_in.InstID == 0)
+     // UV 스텝 크기 설정
+    float2 vUVStep = 1.f / g_Resolution;
+    vUVStep *= 1.f; // Gaussian 필터에서는 3배 확대 대신 1배로 설정
+    
+    // Gaussian 필터 적용 (5x5 필터)
+    for (int i = -2; i <= 2; ++i)
     {
-        for (int i = 0; i < 13; ++i)
+        for (int j = -2; j <= 2; ++j)
         {
-            float2 vUV = _in.vUV + float2(vUVStep.x * (-6 + i), 0.f);
-            vColor += g_tex_0.Sample(g_sam_2, vUV) * CrossFilter[i];
+            // 필터의 현재 위치에 따른 UV 좌표 계산
+            float2 vUV = _in.vUV + float2(vUVStep.x * i, vUVStep.y * j);
+            
+            // 텍스처 샘플링 및 Gaussian 필터 값 적용
+            vColor += g_tex_0.Sample(g_sam_2, vUV) * GaussianFilter[i + 2][j + 2];
         }
     }
-    else if (_in.InstID == 1)
-    {
-        for (int j = 0; j < 13; ++j)
-        {
-            float2 vUV = _in.vUV + float2(0.f, vUVStep.y * (-6 + j));
-            vColor += g_tex_0.Sample(g_sam_2, vUV) * CrossFilter[j];
-        }
-    }
-    vColor /= Total;
     
     return vColor;
 }

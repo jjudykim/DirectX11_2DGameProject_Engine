@@ -151,6 +151,13 @@ void SaveWString(const wstring& _String, FILE* _File)
 	fwrite(_String.c_str(), sizeof(wchar_t), len, _File);
 }
 
+void SaveStringToFile(const string& _String, FILE* _File)
+{
+	size_t len = _String.length();
+	fwrite(&len, sizeof(size_t), 1, _File);
+	fwrite(_String.c_str(), sizeof(char), len, _File);
+}
+
 void LoadWString(wstring& _String, FILE* _File)
 {
 	size_t len = 0;
@@ -158,4 +165,13 @@ void LoadWString(wstring& _String, FILE* _File)
 
 	_String.resize(len);
 	fread((wchar_t*)_String.c_str(), sizeof(wchar_t), len, _File);
+}
+
+void LoadStringFromFile(string& _String, FILE* _File)
+{
+	size_t len = 0;
+	fread(&len, sizeof(size_t), 1, _File);
+
+	_String.resize(len);
+	fread((char*)_String.c_str(), sizeof(char), len, _File);
 }
