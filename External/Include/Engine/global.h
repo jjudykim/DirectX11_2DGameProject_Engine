@@ -31,7 +31,7 @@ using namespace std::filesystem;
 #ifdef _DEBUG
 #pragma comment(lib, "FMOD/fmodL64_vc.lib")
 #else
-#pragma commnet(lib, "FMOD/fmod64_vc.lib")
+#pragma comment(lib, "FMOD/fmod64_vc.lib")
 #endif
 
 // DirectXTex

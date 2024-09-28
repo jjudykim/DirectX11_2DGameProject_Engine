@@ -514,6 +514,15 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetScalarParam(VEC4_0, Vec4(0.f, 0.f, 0.f, 0.f));
 	pMtrl->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\Default_ParticleSystem.png"));
 
+
+	// Effect_TD
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectShader_TD"));
+	AddAsset(L"EffectTDMtrl", pMtrl);
+
+	pMtrl->SetScalarParam(VEC4_0, Vec4(0.f, 0.f, 0.f, 0.f));
+	pMtrl->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\Default_ParticleSystem.png"));
+
 	// DebugShapeMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DebugShapeShader"));

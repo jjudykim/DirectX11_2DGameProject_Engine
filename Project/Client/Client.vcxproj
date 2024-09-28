@@ -149,6 +149,7 @@
     <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CEditorCameraScript.h" />
     <ClInclude Include="CEditorMgr.h" />
+    <ClInclude Include="CGameLevelMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CLevelSaveLoad.h" />
     <ClInclude Include="Client.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="CEditorMgr.cpp" />
     <ClCompile Include="CEditorMgr_EditorObject.cpp" />
     <ClCompile Include="CEditorMgr_EditorUI.cpp" />
+    <ClCompile Include="CGameLevelMgr.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CLevelSaveLoad.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />

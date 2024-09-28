@@ -18,8 +18,6 @@ public:
     // 0 ~ 1
     void SetVolume(float _f, int _iChannelIdx);
 
-
-
 public:
     virtual int Load(const wstring& _FilePath) override;
     virtual int Save(const wstring& _FilePath) override;

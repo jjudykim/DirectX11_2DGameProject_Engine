@@ -156,6 +156,9 @@
     <Filter Include="EditorUI\01. Inspector\ComponentUI\10. ParticleSystemUI">
       <UniqueIdentifier>{76ef6e61-72e3-4e2c-99b3-55994de7cc16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\04. GameLevelMgr">
+      <UniqueIdentifier>{0cebd8ba-0b25-4c8e-89b6-7972f016955a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEditorMgr.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="FSMUI.h">
       <Filter>EditorUI\01. Inspector\ComponentUI\09. FSMUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameLevelMgr.h">
+      <Filter>Manager\04. GameLevelMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -519,6 +525,9 @@
     </ClCompile>
     <ClCompile Include="FSMUI.cpp">
       <Filter>EditorUI\01. Inspector\ComponentUI\09. FSMUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameLevelMgr.cpp">
+      <Filter>Manager\04. GameLevelMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

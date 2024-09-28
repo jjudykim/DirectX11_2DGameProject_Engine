@@ -4,10 +4,12 @@
 
 #include "CEditorMgr.h"
 #include <Engine/CDevice.h>
+#include <Engine/CLevelMgr.h>
 #include "ImGui/imgui_impl_win32.h"
 
 #include "CLevelSaveLoad.h"
 #include "CTestLevelMgr.h"
+#include "CGameLevelMgr.h"
  
 #define MAX_LOADSTRING 100
 
@@ -54,8 +56,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #ifdef _DEBUG
     // CEditorMgr 초기화
     CEditorMgr::GetInst()->Init();
+#else
+    CGameLevelMgr::GetInst()->Init();
 #endif
-
+    
     // Test용 레벨 초기상태
     //CTestLevelMgr::CreateTestLevel();
 
