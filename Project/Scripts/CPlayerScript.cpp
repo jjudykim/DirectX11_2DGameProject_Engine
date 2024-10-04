@@ -166,6 +166,7 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
 		if (isBelowPlatform)
 		{
+			CorrectionYByFlatform(_OwnCollider, _OtherObject, _OtherCollider);
 			RigidBody()->SetVelocityByGravity(Vec3(0.f, 0.f, 0.f));
 		}
 		

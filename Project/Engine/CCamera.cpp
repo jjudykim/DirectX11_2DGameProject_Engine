@@ -53,9 +53,23 @@ void CCamera::SortGameObject()
 
 		CLayer* pLayer = pLevel->GetLayer(i);
 
+		float stdLeft = Transform()->GetRelativePos().x - (Camera()->GetWidth() / 2.f);
+		float stdRight = Transform()->GetRelativePos().x + (Camera()->GetWidth() / 2.f);
+		float stdTop = Transform()->GetRelativePos().y + (Camera()->GetHeight() / 2.f);
+		float stdBtm = Transform()->GetRelativePos().y - (Camera()->GetHeight() / 2.f);
+
 		const vector<CGameObject*>& vecObjects = pLayer->GetObjects();
 		for (size_t j = 0; j < vecObjects.size(); ++j)
 		{
+			Vec3 objPos = vecObjects[j]->Transform()->GetRelativePos();
+			Vec3 objScaleHalf = vecObjects[j]->Transform()->GetRelativeScale() / 2.f;
+			
+			if (objPos.x + objScaleHalf.x < stdLeft || stdRight < objPos.x - objScaleHalf.x ||
+				stdTop < objPos.y - objScaleHalf.y || objPos.y + objScaleHalf.y < stdBtm)
+			{
+				continue;
+			}
+
 			if (vecObjects[j]->GetRenderComponent() == nullptr
 				|| vecObjects[j]->GetRenderComponent()->GetMesh() == nullptr
 				|| vecObjects[j]->GetRenderComponent()->GetMaterial() == nullptr
