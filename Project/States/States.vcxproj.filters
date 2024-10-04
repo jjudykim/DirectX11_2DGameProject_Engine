@@ -110,6 +110,9 @@
     <Filter Include="States\BossState\CBossDeadState">
       <UniqueIdentifier>{acde96ad-e439-418a-a7cd-66c9ccb67aa8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\CameraState\NoMove">
+      <UniqueIdentifier>{5a35c9c4-83e8-4b1c-b396-9564debe4135}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -214,6 +217,9 @@
     <ClInclude Include="CBossDeadState.h">
       <Filter>States\BossState\CBossDeadState</Filter>
     </ClInclude>
+    <ClInclude Include="CNoMoveState.h">
+      <Filter>States\CameraState\NoMove</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="States.cpp">
@@ -317,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="CBossDeadState.cpp">
       <Filter>States\BossState\CBossDeadState</Filter>
+    </ClCompile>
+    <ClCompile Include="CNoMoveState.cpp">
+      <Filter>States\CameraState\NoMove</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

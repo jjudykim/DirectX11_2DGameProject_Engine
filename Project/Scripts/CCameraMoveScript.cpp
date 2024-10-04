@@ -3,6 +3,8 @@
 
 #include "Engine/CLevelMgr.h"
 #include "Engine/CLevel.h"
+
+#include "States/CNoMoveState.h"
 #include "States/CChasingPlayerState.h"
 #include "States/CReachLimitState.h"
 #include "States/CBossModeState.h"
@@ -28,6 +30,7 @@ void CCameraMoveScript::Begin()
 	FSM()->SetBlackboardData(L"LimitTargetScale", DATA_TYPE::VEC3, &m_LimitTargetScale);
 	
 	// FSM State
+	FSM()->AddState(L"NoMove", new CNoMoveState);
 	FSM()->AddState(L"ChasingPlayer", new CChasingPlayerState);
 	FSM()->AddState(L"ReachLimit", new CReachLimitState);
 	FSM()->AddState(L"BossMode", new CBossModeState);

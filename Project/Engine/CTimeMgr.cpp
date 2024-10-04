@@ -104,5 +104,5 @@ void CTimeMgr::TimerUpdate()
 
 void CTimeMgr::Render()
 {
-	CFontMgr::GetInst()->DrawFont(m_TimeInfo, 10, 20, 16, FONT_RGBA(153, 187, 255, 255));
+	CFontMgr::GetInst()->DrawFontForLog(m_TimeInfo, 10, 20, 16, FONT_RGBA(153, 187, 255, 255));
 }

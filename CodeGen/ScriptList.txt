@@ -6,3 +6,5 @@ CCameraMoveScript
 CMissileScript
 CMonsterScript
 CPlayerScript
+CScriptBoxScript
+CTitleMenuScript

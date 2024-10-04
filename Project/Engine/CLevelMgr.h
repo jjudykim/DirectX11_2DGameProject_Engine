@@ -10,8 +10,10 @@ class CLevelMgr :
     SINGLE(CLevelMgr);
 
 private:
-    CLevel*            m_CurLevel;
-    bool               m_LevelChanged;
+    CLevel*                    m_CurLevel;
+    tLevelChangeInfo           m_LevelChangeInfo;
+
+    bool                       m_LevelChanged;
 
 public:
     CLevel* GetCurrentLevel() { return m_CurLevel; }
@@ -19,6 +21,10 @@ public:
 
     void LevelChanged();
     bool IsLevelChanged() { return m_LevelChanged; }
+    void RegisterChangeLevel(bool _WithLoading, float _Timer, UINT _LevelType);
+
+    const tLevelChangeInfo& GetLevelChangeInfo() { return m_LevelChangeInfo; }
+    void ClearLevelChangeInfo(UINT _LevelEnd) { m_LevelChangeInfo = { 0, 0.f, _LevelEnd }; }
 
 private:
     bool ChangeLevel(CLevel* _NextLevel);

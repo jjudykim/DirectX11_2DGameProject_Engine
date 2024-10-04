@@ -35,6 +35,18 @@
     <Filter Include="Scripts\BackgroundMoveScript">
       <UniqueIdentifier>{3456a236-4ba7-45c1-ab2f-c4e070b752ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Title">
+      <UniqueIdentifier>{2f082168-e308-43a2-a76d-e170804da825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Title\TitleMenuScript">
+      <UniqueIdentifier>{24d7434d-d72b-43fc-9c5e-81bf82afd6ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\InGame">
+      <UniqueIdentifier>{21882221-ecc7-4ed8-b99c-30d6772ede11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\InGame\ScriptBoxScript">
+      <UniqueIdentifier>{c5daf951-7b4a-422c-b927-d8bd2b2da4e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -70,6 +82,12 @@
     <ClInclude Include="CBackgroundMoveScript.h">
       <Filter>Scripts\BackgroundMoveScript</Filter>
     </ClInclude>
+    <ClInclude Include="CTitleMenuScript.h">
+      <Filter>Scripts\Title\TitleMenuScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CScriptBoxScript.h">
+      <Filter>Scripts\InGame\ScriptBoxScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -104,6 +122,12 @@
     </ClCompile>
     <ClCompile Include="CBackgroundMoveScript.cpp">
       <Filter>Scripts\BackgroundMoveScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleMenuScript.cpp">
+      <Filter>Scripts\Title\TitleMenuScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CScriptBoxScript.cpp">
+      <Filter>Scripts\InGame\ScriptBoxScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,10 +11,10 @@ void CAssetMgr::Init()
 {
 	CreateEngineMesh();
 	CreateEngineSprite();
+	CreateEngineTexture();
 	CreateEngineGraphicShader();
 	CreateEngineComputeShader();
 	CreateEngineMaterial();
-	CreateEngineTexture();
 }
 
 void CAssetMgr::Tick()
@@ -304,6 +304,48 @@ void CAssetMgr::CreateEngineGraphicShader()
 	AddAsset(L"Std2DOneOneShader", pShader);
 
 
+	// Std2DForUIShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DForUI");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+
+	// Current Tex Param
+	pShader->AddScalarParam(INT_0, "Cur Tex Param Index");
+
+	for (UINT i = 0; i < 16; ++i)
+	{
+		pShader->AddTexParam((TEX_PARAM)i, "Texture" + std::to_string(i + 1));
+	}
+
+	AddAsset(L"Std2DForUIShader", pShader);
+
+
+	// Std2DCustomBlendForUI
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D_AlphablendForUI");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
+	pShader->SetBSType(BS_TYPE::CUSTOM_BLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+
+	// Current Tex Param
+	pShader->AddScalarParam(INT_0, "Cur Tex Param Index");
+
+	for (UINT i = 0; i < 16; ++i)
+	{
+		pShader->AddTexParam((TEX_PARAM)i, "Texture" + std::to_string(i + 1));
+	}
+
+	AddAsset(L"Std2DCustomBlendForUIShader", pShader);
+
+
 	// EffectShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Effect");
@@ -468,6 +510,19 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 
 	AddAsset(L"AnalogTVShader", pShader);
+
+	// PostProcess - Bokeh Blur
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_BokehBlur");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_BokehBlur");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+
+	AddAsset(L"BokehBlurShader", pShader);
+
 }
 
 #include "CParticleSystem.h"
@@ -588,5 +643,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"AnalogTVShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	AddAsset(L"AnalogTVMtrl", pMtrl);
+
+	// PostProcess - Bokeh Blur
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"BokehBlurShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
+	AddAsset(L"BokehBlurMtrl", pMtrl);
 }
 

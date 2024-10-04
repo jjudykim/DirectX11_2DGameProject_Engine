@@ -271,6 +271,71 @@ float4 PS_AnalogTV(VS_OUT _in) : SV_Target
     return vColor4;
 }
 
+// ==========================
+//     Bokeh Blur Shader 
+// --------------------------
+// Mesh    : RectMesh
+// DSTYPE  : NO_TEST_NO_WRITE
+// g_tex_0 : TargetCopyTex
+// ==========================
+
+static const float GOLDEN_ANGLE = 2.3999632;
+#define ITERATIONS 150
+
+static const float2x2 rot = float2x2(cos(GOLDEN_ANGLE), sin(GOLDEN_ANGLE), -sin(GOLDEN_ANGLE), cos(GOLDEN_ANGLE));
+
+float3 Bokeh(Texture2D tex, float2 uv, float radius)
+{
+    float3 acc = float3(0, 0, 0);
+    float3 div = acc;
+    float r = 1.0;
+    float2 vangle = float2(0.0, radius * 0.005 / sqrt(float(ITERATIONS)));
+
+    for (int j = 0; j < ITERATIONS; j++)
+    {
+        // sqrt(0, 1, 2, 3...) 증가율을 근사적으로 계산
+        r += 1.0 / r;
+        vangle = mul(rot, vangle);
+        
+        float3 col = tex.Sample(g_sam_0, uv + (r - 0.5) * vangle).xyz;
+        
+        col = col * col * 1.8;
+
+        float3 bokeh = pow(col, float3(4, 4, 4));
+        acc += col * bokeh;
+        div += bokeh;
+    }
+
+    return acc / div;
+}
+
+VS_OUT VS_BokehBlur(VS_IN _in)
+{
+    VS_OUT output = (VS_OUT) 0.f;
+    
+    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV = _in.vUV;
+    
+    return output;
+}
+
+float4 PS_BokehBlur(VS_OUT _in) : SV_Target
+{
+    float4 vColor;
+    float2 uv = _in.vPosition.xy / g_Resolution.xy; // 화면 비율에 따른 UV 좌표 계산
+
+    float rad = 0.8;
+
+    // 채널 0에 대해 Bokeh 필터 적용
+    vColor = float4(Bokeh(g_tex_0, uv, rad), 1.0);
+    
+    // 어둡게 처리
+    vColor.rgb *= 0.5;                                         // 전체적으로 밝기를 절반으로 줄임
+    vColor.rgb = lerp(vColor.rgb, float3(0.3, 0.3, 0.3), 0.3); // 채도 조정 (회색 톤으로 약간 변환)
+    
+    return vColor;
+}
+
 
 // ====================================
 // Blur Shader

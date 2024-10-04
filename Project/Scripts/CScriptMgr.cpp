@@ -9,6 +9,8 @@
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
 #include "CPlayerScript.h"
+#include "CScriptBoxScript.h"
+#include "CTitleMenuScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -20,6 +22,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CPlayerScript");
+	_vec.push_back(L"CScriptBoxScript");
+	_vec.push_back(L"CTitleMenuScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -40,6 +44,10 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMonsterScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
+	if (L"CScriptBoxScript" == _strScriptName)
+		return new CScriptBoxScript;
+	if (L"CTitleMenuScript" == _strScriptName)
+		return new CTitleMenuScript;
 	return nullptr;
 }
 
@@ -70,6 +78,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SCRIPTBOXSCRIPT:
+		return new CScriptBoxScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TITLEMENUSCRIPT:
+		return new CTitleMenuScript;
 		break;
 	}
 	return nullptr;
@@ -109,6 +123,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:
 		return L"CPlayerScript";
+		break;
+
+	case SCRIPT_TYPE::SCRIPTBOXSCRIPT:
+		return L"CScriptBoxScript";
+		break;
+
+	case SCRIPT_TYPE::TITLEMENUSCRIPT:
+		return L"CTitleMenuScript";
 		break;
 
 	}

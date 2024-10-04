@@ -278,8 +278,6 @@ void CCamera::Render()
 	{
 		CRenderMgr::GetInst()->PostProcessCopy();
 		m_vecPostProcess[i]->Render();
-
-		CRenderMgr::GetInst()->Blur(BLUR_STRENGTH::HALF);
 	}
 
 	// UI

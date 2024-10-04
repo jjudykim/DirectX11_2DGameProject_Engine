@@ -83,6 +83,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         { 
             CEngine::GetInst()->Progress();
+            CGameLevelMgr::GetInst()->Tick();
 
 #ifdef _DEBUG
              CEditorMgr::GetInst()->Tick();

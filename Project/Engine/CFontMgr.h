@@ -17,12 +17,15 @@ class CFontMgr :
 	public CSingleton<CFontMgr>
 {
 	SINGLE(CFontMgr);
+
 private:
-	IFW1Factory*     m_FW1Factory;
-	IFW1FontWrapper* m_FontWrapper;
+	IFW1Factory*        m_FW1Factory;
+	IFW1FontWrapper*    m_LogFontWrapper;
+	IFW1FontWrapper*    m_UIFontWrapper;
 
 public:
 	void Init();
-	void DrawFont(const wchar_t* _pStr, float fPosX, float _fPosY, float _fFontSize, UINT _Color);
+	void DrawFontForLog(const wchar_t* _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color);
+	void DrawFontForUI(const wchar_t* _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color);
 };
 

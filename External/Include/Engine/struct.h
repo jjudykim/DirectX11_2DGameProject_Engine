@@ -188,3 +188,10 @@ struct tGlobalData
 	int   g_Light3DCount;
 };
 extern tGlobalData g_GlobalData;
+
+struct tLevelChangeInfo
+{
+	bool     WithLoading;
+	float    Timer;
+	UINT	 LevelType;
+};

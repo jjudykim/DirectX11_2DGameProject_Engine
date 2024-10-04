@@ -36,6 +36,7 @@ void CLevelMgr::LevelChanged()
 
 void CLevelMgr::Init()
 {
+	m_LevelChangeInfo = { false, 0.f, 9 };
 }
 
 void CLevelMgr::Progress()
@@ -67,4 +68,9 @@ bool CLevelMgr::ChangeLevel(CLevel* _NextLevel)
 	LevelChanged();
 
 	return true;
+}
+
+void CLevelMgr::RegisterChangeLevel(bool _WithLoading, float _Timer, UINT _LevelType)
+{
+	m_LevelChangeInfo = { _WithLoading, _Timer, _LevelType };
 }

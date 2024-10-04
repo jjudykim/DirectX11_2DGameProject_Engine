@@ -183,6 +183,7 @@ call StatesHeaderCopy.bat</Command>
     <ClInclude Include="CIdleState.h" />
     <ClInclude Include="CJumpState.h" />
     <ClInclude Include="CMonsterState.h" />
+    <ClInclude Include="CNoMoveState.h" />
     <ClInclude Include="CPlayerState.h" />
     <ClInclude Include="CReachLimitState.h" />
     <ClInclude Include="CRunState.h" />
@@ -219,6 +220,7 @@ call StatesHeaderCopy.bat</Command>
     <ClCompile Include="CIdleState.cpp" />
     <ClCompile Include="CJumpState.cpp" />
     <ClCompile Include="CMonsterState.cpp" />
+    <ClCompile Include="CNoMoveState.cpp" />
     <ClCompile Include="CPlayerState.cpp" />
     <ClCompile Include="CReachLimitState.cpp" />
     <ClCompile Include="CRunState.cpp" />
