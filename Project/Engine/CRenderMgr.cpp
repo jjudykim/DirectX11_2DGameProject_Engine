@@ -79,6 +79,8 @@ void CRenderMgr::Tick()
 			if (m_vecCam[i] == nullptr)
 				continue;
 
+			RenderLight(m_vecCam[i]);
+			GlobalCBBinding();
 			m_vecCam[i]->Render();
 		}
 	}
@@ -88,13 +90,10 @@ void CRenderMgr::Tick()
 	{
 		if (m_EditorCamera != nullptr)
 		{
+			RenderLight(m_EditorCamera);
+			GlobalCBBinding();
 			m_EditorCamera->Render();
 		}
-	}
-
-	if (KEY_PRESSED(KEY::B))
-	{
-		Blur(BLUR_STRENGTH::HALF);
 	}
 
 	// Debug Render
@@ -190,14 +189,71 @@ void CRenderMgr::RenderStart()
 	CONTEXT->ClearDepthStencilView(pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
 	g_GlobalData.g_Resolution = Vec2((float)pRTTex->Width(), (float)pRTTex->Height());
-	g_GlobalData.g_Light2DCount = (int)m_vecLight2D.size();
-
-
+	
 	// Light2DInfo Update / Binding
+	//vector<tLightInfo> vecLight2DInfo;
+	//for (size_t i = 0; i < m_vecLight2D.size(); ++i)
+	//{
+	//	vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfo());
+	//}
+	//
+	//if (vecLight2DInfo.size() == 0)
+	//	vecLight2DInfo.push_back(tLightInfo{});
+	//
+	//// TODO : 현재 카메라의 위치와 비교해서 범위 안에 들지않는 빛들은 연산 X
+	//
+	//
+	//if (m_Light2DBuffer->GetElementCount() < vecLight2DInfo.size())
+	//{
+	//	m_Light2DBuffer->Create(sizeof(tLightInfo), (UINT)vecLight2DInfo.size(), SB_TYPE::SRV_ONLY, true);
+	//}
+	//
+	//m_Light2DBuffer->SetData(vecLight2DInfo.data());
+	//m_Light2DBuffer->Binding(21);
+}
+
+void CRenderMgr::RenderLight(CCamera* _Cam)
+{
+	//Light2DInfo Update / Binding
 	vector<tLightInfo> vecLight2DInfo;
+
+	// TODO : 현재 카메라의 위치와 비교해서 범위 안에 들지않는 빛들은 연산 X
+
 	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 	{
-		vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfo());
+		tLightInfo curLight = m_vecLight2D[i]->GetLightInfo();
+
+		if (curLight.Type == LIGHT_TYPE::DIRECTIONAL)
+		{
+			vecLight2DInfo.push_back(curLight);
+			continue;
+		}
+
+		// l, t, r, b
+		RECT CamRound = { _Cam->Transform()->GetRelativePos().x - _Cam->Camera()->GetWidth() / 2.f
+						, _Cam->Transform()->GetRelativePos().y + _Cam->Camera()->GetHeight() / 2.f
+						, _Cam->Transform()->GetRelativePos().x + _Cam->Camera()->GetWidth() / 2.f
+						, _Cam->Transform()->GetRelativePos().y - _Cam->Camera()->GetHeight() / 2.f };
+
+		if (curLight.Type == LIGHT_TYPE::POINT)
+		{
+			Vec3 curLightLT = Vec3(curLight.WorldPos.x - (curLight.Radius / 2.f), curLight.WorldPos.y + (curLight.Radius / 2.f), 0.f);
+			Vec3 curLightRB = Vec3(curLight.WorldPos.x + (curLight.Radius / 2.f), curLight.WorldPos.y - (curLight.Radius / 2.f), 0.f);
+
+			if (curLightLT.x > CamRound.right || curLightLT.y < CamRound.bottom || 
+				curLightRB.x < CamRound.left || curLightRB.y > CamRound.top)
+			{
+				continue;
+			}
+			else
+			{
+				vecLight2DInfo.push_back(curLight);
+			}
+		}
+		else
+		{
+			vecLight2DInfo.push_back(curLight);
+		}
 	}
 
 	if (vecLight2DInfo.size() == 0)
@@ -208,9 +264,13 @@ void CRenderMgr::RenderStart()
 		m_Light2DBuffer->Create(sizeof(tLightInfo), (UINT)vecLight2DInfo.size(), SB_TYPE::SRV_ONLY, true);
 	}
 
+	g_GlobalData.g_Light2DCount = (int)vecLight2DInfo.size();
 	m_Light2DBuffer->SetData(vecLight2DInfo.data());
 	m_Light2DBuffer->Binding(21);
+}
 
+void CRenderMgr::GlobalCBBinding()
+{
 	// GlobalData Binding
 	static CConstBuffer* pGlobalCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
 	pGlobalCB->SetData(&g_GlobalData);

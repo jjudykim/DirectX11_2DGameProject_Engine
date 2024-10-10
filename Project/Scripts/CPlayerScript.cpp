@@ -110,6 +110,9 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::STOP)
+		return;
+
 	if (IsMapLimitObject(_OtherObject))
 	{
 		if (m_Dir == UNITVEC_TYPE::LEFT)
@@ -282,6 +285,7 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 void CPlayerScript::GroundLogic()
 {
 	RigidBody()->SetGravityAccel(0.f);
+	RigidBody()->SetVelocityByGravity(Vec3(0.f, 0.f, 0.f));
 }
 
 void CPlayerScript::AirLogic()
@@ -328,7 +332,7 @@ void CPlayerScript::CorrectionYByFlatform(CCollider2D* _OwnCollider, CGameObject
 		platformYAtPlayerX = platformMinY + (platformMaxY - platformMinY) * xRatio;
 	}
 
-	float platformStandardY = platformYAtPlayerX + (OtherColScale.y / 2.f) - (OtherColScale.y * 0.1f);
+	float platformStandardY = platformYAtPlayerX + (OtherColScale.y / 2.f) - (OtherColScale.y * 0.3f);
 	float playerBottomY = OwnColPos.y - (OwnColScale.y / 2.f);
 
 	if (playerBottomY < platformStandardY) return;

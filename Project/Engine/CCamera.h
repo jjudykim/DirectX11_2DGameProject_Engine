@@ -71,6 +71,7 @@ public:
 
 private:
     void SortGameObject();
+    bool FilterGameObject(RECT CamBound, CGameObject* _Obj);
     void Render_Effect();
 
 public:

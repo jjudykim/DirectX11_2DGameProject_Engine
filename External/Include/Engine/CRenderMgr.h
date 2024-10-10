@@ -40,6 +40,8 @@ public:
 
 private:
     void RenderStart();
+    void RenderLight(CCamera* _Cam);
+    void GlobalCBBinding();
     void Clear();
 
 private:

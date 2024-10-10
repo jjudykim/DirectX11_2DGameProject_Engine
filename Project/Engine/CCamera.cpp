@@ -53,23 +53,14 @@ void CCamera::SortGameObject()
 
 		CLayer* pLayer = pLevel->GetLayer(i);
 
-		float stdLeft = Transform()->GetRelativePos().x - (Camera()->GetWidth() / 2.f);
-		float stdRight = Transform()->GetRelativePos().x + (Camera()->GetWidth() / 2.f);
-		float stdTop = Transform()->GetRelativePos().y + (Camera()->GetHeight() / 2.f);
-		float stdBtm = Transform()->GetRelativePos().y - (Camera()->GetHeight() / 2.f);
+		RECT CamBound = { Transform()->GetRelativePos().x - (Camera()->GetWidth() / 2.f)
+						, Transform()->GetRelativePos().y + (Camera()->GetHeight() / 2.f)
+						, Transform()->GetRelativePos().x + (Camera()->GetWidth() / 2.f)
+						, Transform()->GetRelativePos().y - (Camera()->GetHeight() / 2.f) };
 
 		const vector<CGameObject*>& vecObjects = pLayer->GetObjects();
 		for (size_t j = 0; j < vecObjects.size(); ++j)
 		{
-			Vec3 objPos = vecObjects[j]->Transform()->GetRelativePos();
-			Vec3 objScaleHalf = vecObjects[j]->Transform()->GetRelativeScale() / 2.f;
-			
-			if (objPos.x + objScaleHalf.x < stdLeft || stdRight < objPos.x - objScaleHalf.x ||
-				stdTop < objPos.y - objScaleHalf.y || objPos.y + objScaleHalf.y < stdBtm)
-			{
-				continue;
-			}
-
 			if (vecObjects[j]->GetRenderComponent() == nullptr
 				|| vecObjects[j]->GetRenderComponent()->GetMesh() == nullptr
 				|| vecObjects[j]->GetRenderComponent()->GetMaterial() == nullptr
@@ -77,6 +68,8 @@ void CCamera::SortGameObject()
 			{
 				continue;
 			}
+
+			if (!FilterGameObject(CamBound, vecObjects[j])) continue;
 
 			Ptr<CGraphicShader> pShader = vecObjects[j]->GetRenderComponent()->GetMaterial()->GetShader();
 			SHADER_DOMAIN Domain = pShader->GetDomain();
@@ -107,6 +100,59 @@ void CCamera::SortGameObject()
 			}
 		}
 	}
+}
+
+bool CCamera::FilterGameObject(RECT _CamBound, CGameObject* _Obj)
+{
+	if (_Obj->Transform() == nullptr) return false;
+
+	Vec3 objPos = _Obj->Transform()->GetRelativePos();
+	Vec3 objScale = _Obj->Transform()->GetRelativeScale();
+	Vec3 objRot = _Obj->Transform()->GetRelativeRotation();
+
+	Vec3 curObjLT = Vec3(objPos.x - (objScale.x / 2.f), objPos.y + (objScale.y / 2.f), 0.f);  // Left-Top
+	Vec3 curObjRT = Vec3(objPos.x + (objScale.x / 2.f), objPos.y + (objScale.y / 2.f), 0.f);  // Right-Top
+	Vec3 curObjLB = Vec3(objPos.x - (objScale.x / 2.f), objPos.y - (objScale.y / 2.f), 0.f);  // Left-Bottom
+	Vec3 curObjRB = Vec3(objPos.x + (objScale.x / 2.f), objPos.y - (objScale.y / 2.f), 0.f);  // Right-Bottom
+
+	if (objRot != Vec3(0.f, 0.f, 0.f))
+	{
+		Matrix matRot = Matrix::CreateFromYawPitchRoll(objRot.y, objRot.x, objRot.z);
+
+		curObjLT = Vector3::Transform(curObjLT - objPos, matRot) + objPos;
+		curObjRT = Vector3::Transform(curObjRT - objPos, matRot) + objPos;
+		curObjLB = Vector3::Transform(curObjLB - objPos, matRot) + objPos;
+		curObjRB = Vector3::Transform(curObjRB - objPos, matRot) + objPos;
+
+		// 회전된 좌표들 중에서 가장 좌측 상단과 우측 하단 좌표를 새롭게 계산
+		float minX1 = min(curObjLT.x, curObjRT.x);
+		float minX2 = min(curObjLB.x, curObjRB.x);
+		float minX = min(minX1, minX2);
+
+		float minY1 = min(curObjLT.y, curObjRT.y);
+		float minY2 = min(curObjLB.y, curObjRB.y);
+		float minY = min(minY1, minY2);
+
+		float maxX1 = max(curObjLT.x, curObjRT.x);
+		float maxX2 = max(curObjLB.x, curObjRB.x);
+		float maxX = max(maxX1, maxX2);
+
+		float maxY1 = max(curObjLT.y, curObjRT.y);
+		float maxY2 = max(curObjLB.y, curObjRB.y);
+		float maxY = max(maxY1, maxY2);
+
+		// 새로운 Left-Top과 Right-Bottom 좌표를 설정
+		curObjLT = Vec3(minX, maxY, 0.f);  // Left-Top
+		curObjRB = Vec3(maxX, minY, 0.f);  // Right-Bottom
+	}
+
+	if (curObjLT.x > _CamBound.right || curObjLT.y < _CamBound.bottom ||
+		curObjRB.x < _CamBound.left || curObjRB.y > _CamBound.top)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void CCamera::Render_Effect()
