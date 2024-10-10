@@ -5,6 +5,7 @@ CBouncingProjectileScript
 CCameraMoveScript
 CMissileScript
 CMonsterScript
+CNPCScript
 CPlayerScript
 CScriptBoxScript
 CTitleMenuScript

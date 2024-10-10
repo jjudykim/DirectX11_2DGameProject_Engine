@@ -63,6 +63,7 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _FilePath)
 	wstring LevelName;
 	LoadWString(LevelName, File);
 	pNewLevel->SetName(LevelName);
+	pNewLevel->SetLevelTitle(LevelName);
 
 	UINT arr[MAX_LAYER] = {0};
 	

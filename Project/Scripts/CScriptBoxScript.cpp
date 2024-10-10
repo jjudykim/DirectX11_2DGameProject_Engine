@@ -26,6 +26,9 @@ void CScriptBoxScript::Begin()
 
 	wstring blurKey = L"prefab\\BokehBlurPPPref.pref";
 	Ptr<CPrefab> bokehBlurPref = CAssetMgr::GetInst()->FindAsset<CPrefab>(blurKey);
+	if (bokehBlurPref == nullptr)
+		bokehBlurPref = CAssetMgr::GetInst()->Load<CPrefab>(blurKey, blurKey);
+
 	m_BGPostProcess = bokehBlurPref->Instantiate();
 	CTaskMgr::GetInst()->AddTask({ TASK_TYPE::CREATE_OBJECT, (DWORD_PTR)26, (DWORD_PTR)m_BGPostProcess });
 

@@ -32,6 +32,7 @@ Content::~Content()
 
 void Content::Init()
 {
+	Reload();
 }
 
 void Content::Update()

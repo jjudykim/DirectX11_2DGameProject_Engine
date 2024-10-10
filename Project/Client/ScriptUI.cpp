@@ -62,6 +62,7 @@ void ScriptUI::Update()
 			break;
 
 		case SCRIPT_PARAM::VEC3:
+			ParamUI::InputVec3((Vec3*)vecParam[i].pData, vecParam[i].Desc);
 			break;
 
 		case SCRIPT_PARAM::VEC4:

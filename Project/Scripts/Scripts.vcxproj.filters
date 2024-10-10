@@ -47,6 +47,9 @@
     <Filter Include="Scripts\InGame\ScriptBoxScript">
       <UniqueIdentifier>{c5daf951-7b4a-422c-b927-d8bd2b2da4e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\NPCScript">
+      <UniqueIdentifier>{e80c27e4-ba11-439c-8068-bc154749e17d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -88,6 +91,9 @@
     <ClInclude Include="CScriptBoxScript.h">
       <Filter>Scripts\InGame\ScriptBoxScript</Filter>
     </ClInclude>
+    <ClInclude Include="CNPCScript.h">
+      <Filter>Scripts\NPCScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -128,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="CScriptBoxScript.cpp">
       <Filter>Scripts\InGame\ScriptBoxScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPCScript.cpp">
+      <Filter>Scripts\NPCScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
