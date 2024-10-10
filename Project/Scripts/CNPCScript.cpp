@@ -2,7 +2,11 @@
 #include "CNPCScript.h"
 
 #include "Engine\CLevelMgr.h"
+#include "Engine\CScript.h"
+#include "CScriptBoxScript.h"
 
+static int CurTalkingNPC = 0;
+static bool IsAbleTalk = false;
 
 CNPCScript::CNPCScript()
 	: CScript(SCRIPT_TYPE::NPCSCRIPT)
@@ -19,6 +23,9 @@ CNPCScript::~CNPCScript()
 void CNPCScript::Begin()
 {
 	m_TalkBtn = CLevelMgr::GetInst()->FindObjectByName(L"NPC_BtnE");
+	m_ScriptBox = CLevelMgr::GetInst()->FindObjectByName(L"UI_ScriptBox");
+	m_TalkBtn->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+	m_TalkBtn->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
 }
 
 void CNPCScript::Tick()
@@ -27,11 +34,12 @@ void CNPCScript::Tick()
 	{
 		m_TalkBtn->Transform()->SetRelativePos(m_vTalkBtn);
 		m_TalkBtn->Transform()->SetRelativeScale(Vec3(60.f, 60.f, 0.f));
-	}
-	else
-	{
-		m_TalkBtn->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
-		m_TalkBtn->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
+
+		if (KEY_TAP(KEY::E))
+		{
+			CScriptBoxScript* Script = (CScriptBoxScript*)m_ScriptBox->GetScriptByIndex(0);
+			Script->ActiveScriptBox(CurTalkingNPC);
+		}
 	}
 }
 
@@ -50,6 +58,7 @@ void CNPCScript::LoadFromFile(FILE* _File)
 void CNPCScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	m_IsAbleToTalk = true;
+	CurTalkingNPC = m_NPCType;
 }
 
 void CNPCScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -58,6 +67,14 @@ void CNPCScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, C
 
 void CNPCScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	m_IsAbleToTalk = false;
+	if (CurTalkingNPC != 0)
+	{
+		if (CurTalkingNPC == m_NPCType)
+		{
+			m_IsAbleToTalk = false;
+			m_TalkBtn->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+			m_TalkBtn->Transform()->SetRelativeScale(Vec3(0.f, 0.f, 0.f));
+		}
+	}
 }
 

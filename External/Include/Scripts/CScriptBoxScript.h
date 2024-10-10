@@ -17,10 +17,15 @@ private:
     CGameObject*    m_BGPostProcess;
     CGameObject*    m_ScriptBox;
     CGameObject*    m_NPC;
+    Vec3            m_NPCPos;
 
     CGameObject*    m_BtnE;
 
     bool            m_IsScriptActive;
+    bool            m_IsAbleCloseScript;
+
+public:
+    void ActiveScriptBox(int ScriptContextIdx);
 
 public:
     virtual void Begin() override;

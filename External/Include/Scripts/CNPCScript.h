@@ -11,6 +11,7 @@ private:
     bool            m_IsAbleToTalk;
                     
     CGameObject*    m_TalkBtn;
+    CGameObject*    m_ScriptBox;
 
 public:
     virtual void Begin() override;

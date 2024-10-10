@@ -15,9 +15,20 @@ CScriptBoxScript::~CScriptBoxScript()
 {
 }
 
+void CScriptBoxScript::ActiveScriptBox(int _NPCIdx)
+{
+	if (_NPCIdx == 1) m_ScriptContextIdx = 2;
+	else if (_NPCIdx == 2) m_ScriptContextIdx = 3;
+	else if (_NPCIdx == 3) m_ScriptContextIdx = 4;
+	else if (_NPCIdx == 4) m_ScriptContextIdx = 5;
+
+	Begin();
+}
+
 void CScriptBoxScript::Begin()
 {
 	m_IsScriptActive = true;
+	m_IsAbleCloseScript = false;
 
 	wstring emptyWstr = L"";
 	wcscpy_s(m_FirstLineScript, emptyWstr.c_str());
@@ -43,12 +54,17 @@ void CScriptBoxScript::Begin()
 
 	Vec3 CameraFocus = m_MainCamera->Transform()->GetRelativePos();
 
+	m_NPCPos = Vec3(CameraFocus.x - 440.f, CameraFocus.y - 190.f, 0.f);
+
 	m_BtnE->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 0.f));
 	m_BtnE->Transform()->SetRelativePos(CameraFocus.x + 410.f, CameraFocus.y - 325.f, 0.f);
 
 	m_ScriptBox->Transform()->SetRelativeScale(Vec3(850.f, 500.f, 0.f));
 	m_ScriptBox->Transform()->SetRelativePos(CameraFocus.x + 80.f, CameraFocus.y - 240.f, 0.f);
 
+	m_BGPostProcess->Transform()->SetRelativePos(CameraFocus);
+
+	CTimeMgr::GetInst()->AddTimer(1.0f, [this]() { m_IsAbleCloseScript = true; }, false);
 }
 
 void CScriptBoxScript::Tick()
@@ -60,12 +76,43 @@ void CScriptBoxScript::Tick()
 		if (m_ScriptContextIdx == 1)
 		{
 			m_NPC = CLevelMgr::GetInst()->FindObjectByName(L"Avatar_Marshmallow");
+			m_NPC->Transform()->SetRelativePos(m_NPCPos);
+			m_NPC->Transform()->SetRelativeScale(Vec3(400.f, 400.f, 0.f));
 			wstring scriptWstr = L"마쉬멜로우";
 			wcscpy_s(m_NPCName, scriptWstr.c_str());
 
 			scriptWstr = L"안녕, 드디어 할로우타운에 와줬구나!";
 			wcscpy_s(m_FirstLineScript, scriptWstr.c_str());
 			scriptWstr = L"마을 끝에서 기다리고 있을테니, 준비되면 찾아와줘..";
+			wcscpy_s(m_SecondLineScript, scriptWstr.c_str());
+		}
+		else if (m_ScriptContextIdx == 2)
+		{
+			m_NPC = CLevelMgr::GetInst()->FindObjectByName(L"Avatar_Marshmallow");
+			m_NPC->Transform()->SetRelativePos(m_NPCPos);
+			m_NPC->Transform()->SetRelativeScale(Vec3(400.f, 400.f, 0.f));
+			wstring scriptWstr = L"마쉬멜로우";
+			wcscpy_s(m_NPCName, scriptWstr.c_str());
+
+			scriptWstr = L"오! 이제 모든 준비가 된거야?";
+			wcscpy_s(m_FirstLineScript, scriptWstr.c_str());
+			scriptWstr = L"바로 DarkChat으로 이동하게 될거야!";
+			wcscpy_s(m_SecondLineScript, scriptWstr.c_str());
+			scriptWstr = L"펌킨슈타인 박사의 광기를 부디 막아줘.. 할로우타운을 위해!";
+		}
+		else if (m_ScriptContextIdx == 3)
+		{
+			m_NPC = CLevelMgr::GetInst()->FindObjectByName(L"Avatar_Frank");
+			m_NPC->Transform()->SetRelativePos(m_NPCPos);
+			m_NPC->Transform()->SetRelativeScale(Vec3(400.f, 400.f, 0.f));
+			wstring scriptWstr = L"프랭크";
+			wcscpy_s(m_NPCName, scriptWstr.c_str());
+
+			scriptWstr = L"음, 무기를 업그레이드 할 수 있는 걸 알고 왔나?";
+			wcscpy_s(m_FirstLineScript, scriptWstr.c_str());
+			scriptWstr = L"하지만 아직은 이른걸..";
+			wcscpy_s(m_SecondLineScript, scriptWstr.c_str());
+			scriptWstr = L"지금 무기라도 익숙해져야 하지 않겠어?";
 			wcscpy_s(m_SecondLineScript, scriptWstr.c_str());
 		}
 
@@ -75,7 +122,7 @@ void CScriptBoxScript::Tick()
 		CLogMgr::GetInst()->AddUI({ m_SecondLineScript, CameraFocus.x + 350, CameraFocus.y + 350, 20.f, Vec4(255, 255, 255, 255) });
 		CLogMgr::GetInst()->AddUI({ m_ThirdLineScript, CameraFocus.x + 350, CameraFocus.y + 400, 20.f, Vec4(255, 255, 255, 255) });
 
-		if (KEY_TAP(KEY::E))
+		if (m_IsAbleCloseScript == true && KEY_TAP(KEY::E))
 		{
 			CTaskMgr::GetInst()->AddTask({ TASK_TYPE::DELETE_OBJECT, (DWORD_PTR)m_BGPostProcess });
 
