@@ -26,6 +26,7 @@ private:
 
 public:
     void ActiveScriptBox(int ScriptContextIdx);
+    bool IsScriptActive() { return m_IsScriptActive; }
 
 public:
     virtual void Begin() override;
