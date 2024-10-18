@@ -325,13 +325,13 @@ void CCamera::Render()
 		}
 	}
 
+	Render_Effect();
+
 	// Particles
 	for (size_t i = 0; i < m_vecParticles.size(); ++i)
 	{
 		m_vecParticles[i]->Render();
 	}
-
-	Render_Effect();
 
 	// PostProcess
 	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)

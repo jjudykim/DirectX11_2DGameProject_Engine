@@ -30,6 +30,13 @@ private:
 
 public:
     void SetParticleTexture(Ptr<CTexture> _Texture) { m_ParticleTex = _Texture; }
+    Ptr<CTexture> GetParticleTexture() { return m_ParticleTex; }
+
+    int GetMaxParticleCount() { return m_MaxParticleCount; }
+    void SetMaxParticleCount(int _Count) { m_MaxParticleCount = _Count; }
+
+    const tParticleModule& GetParticleModule() { return m_Module; }
+    void SetParticleModule(const tParticleModule& _Module) { m_Module = _Module; }
 
 public:
     virtual void FinalTick() override;

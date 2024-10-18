@@ -420,7 +420,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
 
@@ -649,5 +649,10 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"BokehBlurShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	AddAsset(L"BokehBlurMtrl", pMtrl);
+
+	// ParticleRenderMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
+	AddAsset(L"ParticleRenderMtrl", pMtrl);
 }
 

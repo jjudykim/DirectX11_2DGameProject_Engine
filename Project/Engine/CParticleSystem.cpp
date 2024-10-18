@@ -131,6 +131,10 @@ void CParticleSystem::FinalTick()
 
 void CParticleSystem::Render()
 {
+	// Module Update
+	if (m_ModuleBuffer != nullptr)
+		m_ModuleBuffer->SetData(&m_Module, sizeof(tParticleModule));
+
 	// 위치 정보 바인딩
 	Transform()->Binding();
 
@@ -196,10 +200,124 @@ void CParticleSystem::CalculateSpawnCount()
 
 void CParticleSystem::SaveToFile(FILE* _File)
 {
+	// Max Particle Count
+	fwrite(&m_MaxParticleCount, sizeof(int), 1, _File);
+
+	// Paticle Texture
+	SaveAssetRef(m_ParticleTex, _File);
+
+	// Module
+	// Spawn
+	fwrite(&m_Module.SpawnRate, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.vSpawnColor, sizeof(Vec4), 1, _File);
+	fwrite(&m_Module.vSpawnMinScale, sizeof(Vec4), 1, _File);
+	fwrite(&m_Module.vSpawnMaxScale, sizeof(Vec4), 1, _File);
+
+	fwrite(&m_Module.MinLife, sizeof(float), 1, _File);
+	fwrite(&m_Module.MaxLife, sizeof(float), 1, _File);
+
+	fwrite(&m_Module.SpawnShape, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.SpawnShapeScale, sizeof(Vec3), 1, _File);
+
+	fwrite(&m_Module.BlockSpawnShape, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.BlockSpawnShapeScale, sizeof(Vec3), 1, _File);
+
+	fwrite(&m_Module.SpaceType, sizeof(UINT), 1, _File);
+
+	// Spawn Burst
+	fwrite(&m_Module.SpawnBurstCount, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.SpawnBurstRepeat, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.SpawnBurstRepeatTime, sizeof(float), 1, _File);
+
+	// Add Velocity
+	fwrite(&m_Module.AddVelocityType, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.AddVelocityFixedDir, sizeof(Vec3), 1, _File);
+	fwrite(&m_Module.AddMinSpeed, sizeof(float), 1, _File);
+	fwrite(&m_Module.AddMaxSpeed, sizeof(float), 1, _File);
+
+	// Scale
+	fwrite(&m_Module.StartScale, sizeof(float), 1, _File);
+	fwrite(&m_Module.EndScale, sizeof(float), 1, _File);
+
+	// Drag
+	fwrite(&m_Module.DestNormalizedAge, sizeof(float), 1, _File);
+	fwrite(&m_Module.LimitSpeed, sizeof(float), 1, _File);
+
+	// Noise Force
+	fwrite(&m_Module.NoiseForceTerm, sizeof(float), 1, _File);
+	fwrite(&m_Module.NoiseForceScale, sizeof(float), 1, _File);
+
+	// Render
+	fwrite(&m_Module.EndColor, sizeof(Vec3), 1, _File);
+	fwrite(&m_Module.FadeOut, sizeof(UINT), 1, _File);
+	fwrite(&m_Module.FadeOutStartRatio, sizeof(float), 1, _File);
+	fwrite(&m_Module.VelocityAlignment, sizeof(UINT), 1, _File);
+
+	for (UINT i = 0; i < (UINT)PARTICLE_MODULE::END; ++i)
+	{
+		fwrite(&m_Module.Module[i], sizeof(int), 1, _File);
+	}
 }
 
 void CParticleSystem::LoadFromFile(FILE* _File)
 {
+	// Max Particle Count
+	fread(&m_MaxParticleCount, sizeof(int), 1, _File);
+	
+	// Paticle Texture
+	LoadAssetRef(m_ParticleTex, _File);
+	
+	// Module
+	// Spawn
+	fread(&m_Module.SpawnRate, sizeof(UINT), 1, _File);
+	fread(&m_Module.vSpawnColor, sizeof(Vec4), 1, _File);
+	fread(&m_Module.vSpawnMinScale, sizeof(Vec4), 1, _File);
+	fread(&m_Module.vSpawnMaxScale, sizeof(Vec4), 1, _File);
+	
+	fread(&m_Module.MinLife, sizeof(float), 1, _File);
+	fread(&m_Module.MaxLife, sizeof(float), 1, _File);
+	
+	fread(&m_Module.SpawnShape, sizeof(UINT), 1, _File);
+	fread(&m_Module.SpawnShapeScale, sizeof(Vec3), 1, _File);
+	
+	fread(&m_Module.BlockSpawnShape, sizeof(UINT), 1, _File);
+	fread(&m_Module.BlockSpawnShapeScale, sizeof(Vec3), 1, _File);
+	
+	fread(&m_Module.SpaceType, sizeof(UINT), 1, _File);
+	
+	// Spawn Burst
+	fread(&m_Module.SpawnBurstCount, sizeof(UINT), 1, _File);
+	fread(&m_Module.SpawnBurstRepeat, sizeof(UINT), 1, _File);
+	fread(&m_Module.SpawnBurstRepeatTime, sizeof(float), 1, _File);
+	
+	// Add Velocity
+	fread(&m_Module.AddVelocityType, sizeof(UINT), 1, _File);
+	fread(&m_Module.AddVelocityFixedDir, sizeof(Vec3), 1, _File);
+	fread(&m_Module.AddMinSpeed, sizeof(float), 1, _File);
+	fread(&m_Module.AddMaxSpeed, sizeof(float), 1, _File);
+	
+	// Scale
+	fread(&m_Module.StartScale, sizeof(float), 1, _File);
+	fread(&m_Module.EndScale, sizeof(float), 1, _File);
+	
+	// Drag
+	fread(&m_Module.DestNormalizedAge, sizeof(float), 1, _File);
+	fread(&m_Module.LimitSpeed, sizeof(float), 1, _File);
+	
+	// Noise Force
+	fread(&m_Module.NoiseForceTerm, sizeof(float), 1, _File);
+	fread(&m_Module.NoiseForceScale, sizeof(float), 1, _File);
+	
+	// Render
+	fread(&m_Module.EndColor, sizeof(Vec3), 1, _File);
+	fread(&m_Module.FadeOut, sizeof(UINT), 1, _File);
+	fread(&m_Module.FadeOutStartRatio, sizeof(float), 1, _File);
+	fread(&m_Module.VelocityAlignment, sizeof(UINT), 1, _File);
+	
+	for (UINT i = 0; i < (UINT)PARTICLE_MODULE::END; ++i)
+	{
+		fread(&m_Module.Module[i], sizeof(int), 1, _File);
+	}
 }
 
 

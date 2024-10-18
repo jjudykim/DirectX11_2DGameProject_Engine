@@ -7,8 +7,8 @@
 
 RWStructuredBuffer<tParticle>      ParticleBuffer       : register(u0);
 RWStructuredBuffer<tSpawnCount>    SpawnCountBuffer     : register(u1);
-Texture2D                          NoiseTex             : register(t20);
-StructuredBuffer<tParticleModule>  Module               : register(t21);
+Texture2D                          NoiseTex             : register(t30);
+StructuredBuffer<tParticleModule>  Module               : register(t31);
 
 #define ParticleObjectPos   g_vec4_0.xyz
 #define MAX_COUNT           g_int_0

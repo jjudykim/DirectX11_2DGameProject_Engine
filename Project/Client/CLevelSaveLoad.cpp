@@ -224,8 +224,8 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 		return new CCollider2D;
 
 	case COMPONENT_TYPE::COLLIDER3D:
-
 		break;
+
 	case COMPONENT_TYPE::LIGHT2D:
 		return  new CLight2D;
 
@@ -240,11 +240,9 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 
 	case COMPONENT_TYPE::FSM:
 		return new CFSM;
-		break;
 
 	case COMPONENT_TYPE::RIGIDBODY:
 		return new CRigidBody;
-		break;
 
 	case COMPONENT_TYPE::CAMERA:
 		return  new CCamera;
@@ -256,7 +254,7 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 		return  new CTileMap;
 
 	case COMPONENT_TYPE::PARTICLESYSTEM:
-		break;
+		return new CParticleSystem;
 
 	case COMPONENT_TYPE::DECAL:
 		break;

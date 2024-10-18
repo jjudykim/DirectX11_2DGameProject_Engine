@@ -77,9 +77,11 @@ struct tParticle
 	float  NoiseForceAccTime;          // Noise Force 텀에 도달하는 누적 시간
 	Vec3   NoiseForceDir;              // Noise Force의 방향
 
-	float  Age;
+	float  Mass;
 	float  Life;
+	float  Age;
 	float  NormalizedAge;
+	
 	int    Active;
 
 	Vec2  Padding;
