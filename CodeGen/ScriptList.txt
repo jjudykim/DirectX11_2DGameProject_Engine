@@ -3,6 +3,7 @@ CBackgroundMoveScript
 CBossScript
 CBouncingProjectileScript
 CCameraMoveScript
+CLoadingIconScript
 CMissileScript
 CMonsterScript
 CNPCScript

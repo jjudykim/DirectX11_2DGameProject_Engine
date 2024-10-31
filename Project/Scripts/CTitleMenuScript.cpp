@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CTitleMenuScript.h"
 
-#include "Engine\CLevelMgr.h"
+#include <Engine\CLevelMgr.h>
 
 CTitleMenuScript::CTitleMenuScript()
 	: CScript(SCRIPT_TYPE::TITLEMENUSCRIPT)

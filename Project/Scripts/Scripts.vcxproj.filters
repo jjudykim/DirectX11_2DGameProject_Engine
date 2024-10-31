@@ -35,12 +35,6 @@
     <Filter Include="Scripts\BackgroundMoveScript">
       <UniqueIdentifier>{3456a236-4ba7-45c1-ab2f-c4e070b752ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Title">
-      <UniqueIdentifier>{2f082168-e308-43a2-a76d-e170804da825}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Title\TitleMenuScript">
-      <UniqueIdentifier>{24d7434d-d72b-43fc-9c5e-81bf82afd6ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts\InGame">
       <UniqueIdentifier>{21882221-ecc7-4ed8-b99c-30d6772ede11}</UniqueIdentifier>
     </Filter>
@@ -49,6 +43,15 @@
     </Filter>
     <Filter Include="Scripts\NPCScript">
       <UniqueIdentifier>{e80c27e4-ba11-439c-8068-bc154749e17d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI">
+      <UniqueIdentifier>{2f082168-e308-43a2-a76d-e170804da825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI\TitleMenuScript">
+      <UniqueIdentifier>{24d7434d-d72b-43fc-9c5e-81bf82afd6ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UI\LoadingIconScript">
+      <UniqueIdentifier>{97d02374-ee10-4f4c-8cb1-dd2470933eec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -86,13 +89,16 @@
       <Filter>Scripts\BackgroundMoveScript</Filter>
     </ClInclude>
     <ClInclude Include="CTitleMenuScript.h">
-      <Filter>Scripts\Title\TitleMenuScript</Filter>
+      <Filter>Scripts\UI\TitleMenuScript</Filter>
     </ClInclude>
     <ClInclude Include="CScriptBoxScript.h">
       <Filter>Scripts\InGame\ScriptBoxScript</Filter>
     </ClInclude>
     <ClInclude Include="CNPCScript.h">
       <Filter>Scripts\NPCScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoadingIconScript.h">
+      <Filter>Scripts\UI\LoadingIconScript</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,13 +136,16 @@
       <Filter>Scripts\BackgroundMoveScript</Filter>
     </ClCompile>
     <ClCompile Include="CTitleMenuScript.cpp">
-      <Filter>Scripts\Title\TitleMenuScript</Filter>
+      <Filter>Scripts\UI\TitleMenuScript</Filter>
     </ClCompile>
     <ClCompile Include="CScriptBoxScript.cpp">
       <Filter>Scripts\InGame\ScriptBoxScript</Filter>
     </ClCompile>
     <ClCompile Include="CNPCScript.cpp">
       <Filter>Scripts\NPCScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoadingIconScript.cpp">
+      <Filter>Scripts\UI\LoadingIconScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

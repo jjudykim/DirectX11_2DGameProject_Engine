@@ -21,6 +21,9 @@ void FSMUI::Update()
 	Title();
 
 	m_FSM = (CFSM*)GetTargetObject()->GetComponent(COMPONENT_TYPE::FSM);
+	
+	if (GetTargetObject()->IsDead())
+		return;
 
 	string CurState = "";
 	if (m_FSM->GetCurState() != nullptr)

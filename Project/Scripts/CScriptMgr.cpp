@@ -6,6 +6,7 @@
 #include "CBossScript.h"
 #include "CBouncingProjectileScript.h"
 #include "CCameraMoveScript.h"
+#include "CLoadingIconScript.h"
 #include "CMissileScript.h"
 #include "CMonsterScript.h"
 #include "CNPCScript.h"
@@ -20,6 +21,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBossScript");
 	_vec.push_back(L"CBouncingProjectileScript");
 	_vec.push_back(L"CCameraMoveScript");
+	_vec.push_back(L"CLoadingIconScript");
 	_vec.push_back(L"CMissileScript");
 	_vec.push_back(L"CMonsterScript");
 	_vec.push_back(L"CNPCScript");
@@ -40,6 +42,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBouncingProjectileScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
+	if (L"CLoadingIconScript" == _strScriptName)
+		return new CLoadingIconScript;
 	if (L"CMissileScript" == _strScriptName)
 		return new CMissileScript;
 	if (L"CMonsterScript" == _strScriptName)
@@ -73,6 +77,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
+		break;
+	case (UINT)SCRIPT_TYPE::LOADINGICONSCRIPT:
+		return new CLoadingIconScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MISSILESCRIPT:
 		return new CMissileScript;
@@ -118,6 +125,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return L"CCameraMoveScript";
+		break;
+
+	case SCRIPT_TYPE::LOADINGICONSCRIPT:
+		return L"CLoadingIconScript";
 		break;
 
 	case SCRIPT_TYPE::MISSILESCRIPT:

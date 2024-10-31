@@ -20,7 +20,7 @@ ScriptUI::~ScriptUI()
 
 void ScriptUI::Update()
 {
-	if (GetTargetScript() == nullptr)
+	if (GetTargetScript() == nullptr || m_Script == nullptr)
 		return;
 
 	m_UIHeight = 0;

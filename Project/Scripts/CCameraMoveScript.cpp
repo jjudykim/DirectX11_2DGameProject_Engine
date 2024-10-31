@@ -22,6 +22,9 @@ CCameraMoveScript::~CCameraMoveScript()
 
 void CCameraMoveScript::Begin()
 {
+	if (FSM() == nullptr)
+		return;
+
 	FSM()->SetBlackboardData(L"PlayerVelocity", DATA_TYPE::VEC3, &m_PlayerVelocity);
 	FSM()->SetBlackboardData(L"PlayerGravityVelocity", DATA_TYPE::VEC3, &m_PlayerGravityVelocity);
 	FSM()->SetBlackboardData(L"PlayerPos", DATA_TYPE::VEC3, &m_PlayerPos);
@@ -42,12 +45,12 @@ void CCameraMoveScript::Begin()
 
 void CCameraMoveScript::Tick()
 {
-	if (FSM()->GetCurState() != FSM()->FindState(L"BossMode"))
+	if (KEY_TAP(KEY::P))
 	{
-		if (CLevelMgr::GetInst()->GetCurrentLevel()->GetName() == L"DarkChat_Boss")
-		{
-			FSM()->ChangeState(L"BossMode");
-		}
+		if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
+			Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+		else
+			Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	}
 
 	if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
@@ -59,18 +62,25 @@ void CCameraMoveScript::Tick()
 		PerspectiveMove();
 	}
 
-	if (KEY_TAP(KEY::P))
+	if (FSM() == nullptr)
+		return;
+
+	if (FSM()->GetCurState() != FSM()->FindState(L"BossMode"))
 	{
-		if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
-			Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-		else
-			Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		if (CLevelMgr::GetInst()->GetCurrentLevel()->GetName() == L"DarkChat_Boss")
+		{
+			FSM()->ChangeState(L"BossMode");
+		}
 	}
+
 }
 
 void CCameraMoveScript::OrthoGraphicMove()
 {	
 	CGameObject* player = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	if (player == nullptr)
+		return;
+
 	m_PlayerVelocity = player->RigidBody()->GetVelocity();
 	m_PlayerGravityVelocity = player->RigidBody()->GetVelocityByGravity();
 	m_PlayerPos = player->Transform()->GetRelativePos();

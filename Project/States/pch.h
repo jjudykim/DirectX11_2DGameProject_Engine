@@ -13,7 +13,7 @@
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_D")
 #else
-#pragma commnet(lib, "Engine\\Engine")
+#pragma comment(lib, "Engine\\Engine")
 #endif
 
 #include <Engine/global.h>
